@@ -1,5 +1,6 @@
 'use strict';
 const { Model } = require('sequelize');
+const { hashPassword } = require('../utils/bycript');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -88,6 +89,10 @@ module.exports = (sequelize, DataTypes) => {
           notEmpty: {
             args: true,
             msg: 'Phone number is not allowed to be empty',
+          },
+          len: {
+            args: [8, 12],
+            msg: 'Invalid phone number',
           },
         },
         unique: {
