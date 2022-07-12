@@ -19,7 +19,7 @@ class UserController {
 
     try {
       await User.create(newUser);
-      res.status(200).json(
+      return res.status(200).json(
         formatResponse(true, successMessages(successMessageTypes.register), {
           email: newUser.email,
           username: newUser.username,
@@ -27,7 +27,7 @@ class UserController {
         })
       );
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 
@@ -50,7 +50,7 @@ class UserController {
             };
             if (checkPassword) {
               const access_token = generateToken(payload);
-              res.status(200).json(
+              return res.status(200).json(
                 formatResponse(
                   true,
                   successMessages(successMessageTypes.login),
@@ -60,19 +60,46 @@ class UserController {
                 )
               );
             } else {
-              next({ name: errors['400_WRONG_PASSWORD'] });
+              return next({ name: errors['400_WRONG_PASSWORD'] });
             }
           } else {
-            next({ name: errors['400_WRONG_EMAIL'] });
+            return next({ name: errors['400_WRONG_EMAIL'] });
           }
         } catch (error) {
-          next(error);
+          return next(error);
         }
       } else {
-        next({ name: errors['400_EMPTY_PASSWORD'] });
+        return next({ name: errors['400_EMPTY_PASSWORD'] });
       }
     } else {
-      next({ name: errors['400_EMPTY_EMAIL'] });
+      return next({ name: errors['400_EMPTY_EMAIL'] });
+    }
+  }
+
+  static async userInfo(req, res, next) {
+    if (!req.currentUser) return next({ name: errors[401] });
+
+    try {
+      const { id, email } = req.currentUser;
+      const opt = {
+        where: {
+          id,
+          email,
+        },
+        attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
+      };
+      const data = await User.findOne(opt);
+      return res
+        .status(200)
+        .json(
+          formatResponse(
+            true,
+            successMessages(successMessageTypes.userInfo),
+            data
+          )
+        );
+    } catch (error) {
+      return next(error);
     }
   }
 }

@@ -8,6 +8,8 @@ const errorMessages = (type, props) => {
       return `${props} cannot be empty!`;
     case errMessageTypes.wrongAuth:
       return `Invalid email or password!`;
+    case errMessageTypes.unauthorized:
+      return `Invalid token!`;
     default:
       return props;
   }
@@ -15,6 +17,8 @@ const errorMessages = (type, props) => {
 
 const successMessages = (type, props) => {
   switch (type) {
+    case successMessageTypes.userInfo:
+      return 'Get user info successfully';
     case successMessageTypes.register:
       return 'Thank you! Your registration form has been successfully sent. We will contact you very soon!';
     case successMessageTypes.login:

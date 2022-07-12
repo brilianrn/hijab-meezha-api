@@ -4,6 +4,10 @@ const errSequelize = {
   constraintError: 'SEQUELIZEUNIQUECONSTRAINTERROR',
 };
 
+const errJwt = {
+  tokenError: 'JSONWEBTOKENERROR',
+};
+
 const errors = {
   401: 'UNAUTHORIZED',
   404: 'NOT_FOUND',
@@ -16,12 +20,20 @@ const errors = {
 const errMessageTypes = {
   notFound: 'NOT_FOUND',
   badRequest: 'BAD_REQUEST',
+  unauthorized: 'UNAUTHORIZED',
   wrongAuth: 'WRONG_AUTH',
 };
 
 const successMessageTypes = {
   register: 'REGISTER',
   login: 'LOGIN',
+  userInfo: 'USER_INFO',
 };
 
-module.exports = { errors, errSequelize, errMessageTypes, successMessageTypes };
+module.exports = {
+  errors,
+  errSequelize,
+  errMessageTypes,
+  successMessageTypes,
+  errJwt,
+};

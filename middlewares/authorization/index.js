@@ -1,33 +1,29 @@
 const { verifyToken } = require('../../utils/jwt');
 const { User } = require('../../models');
+const { errors } = require('../../constants');
 
-const authentication = (req, res, next) => {
+const authentication = async (req, res, next) => {
   try {
-    let { id, email } = verifyToken(req.headers.access_token);
+    const authHeader =
+      req.headers && req.headers.authorization
+        ? req.headers.authorization
+        : null;
 
-    User.findOne({ where: { id, email } })
-      .then((data) => {
-        if (data) {
-          req.currentUser = { id: data.id, email: data.email, role: data.role };
-          next();
-        } else {
-          throw new Error({
-            name: 'wrongAuth',
-            code: 401,
-          });
-        }
-      })
-      .catch((err) => {
-        next({
-          name: 'wrongAuth',
-          code: 401,
-        });
-      });
+    if (!authHeader) {
+      return next({ name: errors[401] });
+    }
+
+    const matchToken = authHeader.split(' ');
+    const { id, email } = verifyToken(matchToken[1]);
+    const opt = {
+      where: { id, email },
+    };
+    const data = await User.findOne(opt);
+    if (!data && !data.is_active) return next({ name: errors[401] });
+    req.currentUser = { id: data.id, email: data.email };
+    next();
   } catch (error) {
-    next({
-      name: 'notLogin',
-      code: 401,
-    });
+    return next(error);
   }
 };
 
