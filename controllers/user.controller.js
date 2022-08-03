@@ -20,11 +20,16 @@ class UserController {
     try {
       await User.create(newUser);
       return res.status(200).json(
-        formatResponse(true, successMessages(successMessageTypes.register), {
-          email: newUser.email,
-          username: newUser.username,
-          fullname: newUser.fullname,
-        })
+        formatResponse(
+          true,
+          200,
+          successMessages(successMessageTypes.register),
+          {
+            email: newUser.email,
+            username: newUser.username,
+            fullname: newUser.fullname,
+          }
+        )
       );
     } catch (error) {
       return next(error);
@@ -53,6 +58,7 @@ class UserController {
               return res.status(200).json(
                 formatResponse(
                   true,
+                  200,
                   successMessages(successMessageTypes.login),
                   {
                     access_token,
@@ -94,6 +100,7 @@ class UserController {
         .json(
           formatResponse(
             true,
+            200,
             successMessages(successMessageTypes.userInfo),
             data
           )

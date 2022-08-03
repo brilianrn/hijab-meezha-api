@@ -18,11 +18,11 @@ const errorHandler = (err, _req, res, _next) => {
     for (let i = 0; i < err.errors.length; i++) {
       arrErrors.push(err.errors[i].message);
     }
-    res.status(400).json(formatResponse(false, arrErrors.toString()));
+    res.status(400).json(formatResponse(false, 400, arrErrors.toString()));
   } else if (
     err.name.toString().toUpperCase() === errSequelize.constraintError
   ) {
-    res.status(400).json(formatResponse(false, err.errors[0].message));
+    res.status(400).json(formatResponse(false, 400, err.errors[0].message));
   } else if (
     err.name.toString().toUpperCase() === errors[401] ||
     err.name.toString().toUpperCase() === errJwt.tokenError
@@ -41,12 +41,14 @@ const errorHandler = (err, _req, res, _next) => {
   ) {
     res
       .status(400)
-      .json(formatResponse(false, errorMessages(errMessageTypes.wrongAuth)));
+      .json(
+        formatResponse(false, 400, errorMessages(errMessageTypes.wrongAuth))
+      );
   } else {
     console.log({ ...err, code: 500 });
     res
       .status(500)
-      .json(err ? err : formatResponse(false, 'Internal server error'));
+      .json(err ? err : formatResponse(false, 500, 'Internal server error'));
   }
 };
 
