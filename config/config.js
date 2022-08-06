@@ -1,6 +1,12 @@
 const env = process.env.NODE_ENV;
 
-if (env === 'development' || env === 'test') require('dotenv').config();
+if (
+  env === 'development' ||
+  env === 'test' ||
+  env === 'sit' ||
+  env === 'staging'
+)
+  require('dotenv').config();
 
 const capsEnv = env.toUpperCase();
 
@@ -13,6 +19,22 @@ const port = process.env['DB_PORT_' + capsEnv];
 
 module.exports = {
   development: {
+    username,
+    password,
+    database,
+    host,
+    dialect,
+    port,
+  },
+  sit: {
+    username,
+    password,
+    database,
+    host,
+    dialect,
+    port,
+  },
+  staging: {
     username,
     password,
     database,

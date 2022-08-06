@@ -3,7 +3,7 @@ const formatResponse = require('../../utils/format-response');
 const { errorMessages } = require('../../utils/messages-generate');
 
 const unauthorizedError = (_, res) => {
-  res
+  return res
     .status(401)
     .json(
       formatResponse(false, 401, errorMessages(errMessageTypes.unauthorized))

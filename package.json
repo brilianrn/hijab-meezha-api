@@ -14,8 +14,22 @@
     "db:migrate:development": "cross-env NODE_ENV=development npx sequelize db:migrate",
     "db:seed:all:development": "cross-env NODE_ENV=development npx sequelize db:seed:all",
     "db:migrate:undo:all:development": "cross-env NODE_ENV=development npx sequelize db:migrate:undo:all",
+    "db:create:sit": "cross-env NODE_ENV=sit npx sequelize db:create",
+    "db:model:generate:sit": "cross-env NODE_ENV=sit npx sequelize model:generate --name User --attributes id:UUID",
+    "db:drop:sit": "cross-env NODE_ENV=sit npx sequelize db:drop",
+    "db:migrate:sit": "cross-env NODE_ENV=sit npx sequelize db:migrate",
+    "db:seed:all:sit": "cross-env NODE_ENV=sit npx sequelize db:seed:all",
+    "db:migrate:undo:all:sit": "cross-env NODE_ENV=sit npx sequelize db:migrate:undo:all",
+    "db:create:staging": "cross-env NODE_ENV=staging npx sequelize db:create",
+    "db:model:generate:staging": "cross-env NODE_ENV=staging npx sequelize model:generate --name User --attributes id:UUID",
+    "db:drop:staging": "cross-env NODE_ENV=staging npx sequelize db:drop",
+    "db:migrate:staging": "cross-env NODE_ENV=staging npx sequelize db:migrate",
+    "db:seed:all:staging": "cross-env NODE_ENV=staging npx sequelize db:seed:all",
+    "db:migrate:undo:all:staging": "cross-env NODE_ENV=staging npx sequelize db:migrate:undo:all",
     "test": "cross-env NODE_ENV=test npx jest --detectOpenHandles --forceExit --coverage",
-    "dev": "cross-env NODE_ENV=development nodemon bin/http.js"
+    "dev": "cross-env NODE_ENV=development nodemon bin/http.js",
+    "sit": "cross-env NODE_ENV=sit nodemon bin/http.js",
+    "staging": "cross-env NODE_ENV=staging nodemon bin/http.js"
   },
   "repository": {
     "type": "git",
@@ -36,6 +50,7 @@
     "dotenv": "^16.0.1",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "nodemailer": "^6.7.7",
     "pg": "^8.7.3",
     "sequelize": "^6.21.2"
   },

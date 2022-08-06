@@ -12,7 +12,7 @@ const {
   badRequestError,
 } = require('./common.error');
 
-const errorHandler = (err, _req, res, _next) => {
+const errorHandler = (err, req, res, _next) => {
   if (err.name.toString().toUpperCase() === errSequelize.validationError) {
     const arrErrors = [];
     for (let i = 0; i < err.errors.length; i++) {
@@ -27,9 +27,9 @@ const errorHandler = (err, _req, res, _next) => {
     err.name.toString().toUpperCase() === errors[401] ||
     err.name.toString().toUpperCase() === errJwt.tokenError
   ) {
-    unauthorizedError(res);
+    unauthorizedError(req, res);
   } else if (err.name.toString().toUpperCase() === errors[404]) {
-    notFoundError(res);
+    notFoundError(req, res);
   } else if (
     err.name.toString().toUpperCase() === errors['400_EMPTY_EMAIL'] ||
     err.name.toString().toUpperCase() === errors['400_EMPTY_PASSWORD']
@@ -45,10 +45,8 @@ const errorHandler = (err, _req, res, _next) => {
         formatResponse(false, 400, errorMessages(errMessageTypes.wrongAuth))
       );
   } else {
-    console.log({ ...err, code: 500 });
-    res
-      .status(500)
-      .json(err ? err : formatResponse(false, 500, 'Internal server error'));
+    console.log({ errors: err, code: 500 });
+    res.status(500).json(formatResponse(false, 500, 'Internal server error!'));
   }
 };
 

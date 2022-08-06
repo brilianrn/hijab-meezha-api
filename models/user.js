@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      User.hasMany(models.OtpCode, { foreignKey: 'user_id' });
     }
   }
   User.init(
@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         unique: {
           args: true,
-          msg: 'Email has already exists',
+          msg: 'Email already exists',
         },
       },
       username: {

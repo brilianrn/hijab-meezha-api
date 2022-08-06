@@ -2,7 +2,7 @@ const { verifyToken } = require('../../utils/jwt');
 const { User } = require('../../models');
 const { errors } = require('../../constants');
 
-const authentication = async (req, res, next) => {
+const authentication = async (req, _, next) => {
   try {
     const authHeader =
       req.headers && req.headers.authorization
@@ -19,7 +19,7 @@ const authentication = async (req, res, next) => {
       where: { id, email },
     };
     const data = await User.findOne(opt);
-    if (!data && !data.is_active) return next({ name: errors[401] });
+    if (!data && !data?.is_active) return next({ name: errors[401] });
     req.currentUser = { id: data.id, email: data.email };
     next();
   } catch (error) {
@@ -27,7 +27,7 @@ const authentication = async (req, res, next) => {
   }
 };
 
-const authorization = (req, res, next) => {
+const authorization = (req, _, next) => {
   User.findByPk(+req.currentUser.id)
     .then((data) => {
       if (data && data.role === 'Admin') {
