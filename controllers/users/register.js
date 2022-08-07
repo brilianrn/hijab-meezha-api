@@ -12,11 +12,8 @@ const CustomerRegister = async (req, res, next) => {
   const newUser = {
     email: req.body.email,
     fullname: req.body.fullname,
-    gender: req.body.gender,
     password: req.body.password,
     phone_number: req.body.phone_number,
-    photo_profile: req.body.photo_profile,
-    username: req.body.username,
   };
 
   if (!newUser.email) {
@@ -25,17 +22,8 @@ const CustomerRegister = async (req, res, next) => {
   if (!newUser.password) {
     return next({ name: errors['400_EMPTY_PASSWORD'] });
   }
-  if (!newUser.gender) {
-    return next({ name: errors['400_EMPTY_GENDER'] });
-  }
   if (!newUser.phone_number) {
     return next({ name: errors['400_EMPTY_PHONE_NUMBER'] });
-  }
-  if (!newUser.photo_profile) {
-    return next({ name: errors['400_EMPTY_PHOTO_PROFILE'] });
-  }
-  if (!newUser.username) {
-    return next({ name: errors['400_EMPTY_USERNAME'] });
   }
   if (!newUser.fullname) {
     return next({ name: errors['400_EMPTY_FULL_NAME'] });
@@ -74,8 +62,9 @@ const CustomerRegister = async (req, res, next) => {
     return res.status(200).json(
       formatResponse(true, 200, successMessages(successMessageTypes.register), {
         email: newUser.email,
-        username: newUser.username,
         fullname: newUser.fullname,
+        phoneNumber: newUser.phone_number,
+        confirmOtpLink: process.env.CONFIRM_OTP_LINK_REGISTER,
       })
     );
   } catch (error) {

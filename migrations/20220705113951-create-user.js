@@ -19,7 +19,6 @@ module.exports = {
       },
       username: {
         type: Sequelize.STRING(50),
-        allowNull: false,
         unique: true,
       },
       password: {
@@ -32,7 +31,6 @@ module.exports = {
       },
       photo_profile: {
         type: Sequelize.STRING,
-        allowNull: false,
       },
       phone_number: {
         type: Sequelize.STRING(15),
@@ -41,7 +39,6 @@ module.exports = {
       },
       gender: {
         type: Sequelize.STRING(10),
-        allowNull: false,
       },
       createdAt: {
         allowNull: false,

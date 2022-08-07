@@ -10,6 +10,8 @@ const errorMessages = (type, props) => {
       return `Invalid email or password!`;
     case errMessageTypes.unauthorized:
       return `Invalid token!`;
+    case errMessageTypes.expiredOtp:
+      return `OTP code was expired!`;
     default:
       return props;
   }
@@ -23,6 +25,8 @@ const successMessages = (type, props) => {
       return 'Thank you! Your registration form has been successfully sent. We will contact you very soon!';
     case successMessageTypes.login:
       return 'You logged in successfully';
+    case successMessageTypes.confirmOtp:
+      return 'Your OTP is successfully confirmed!';
     default:
       return props;
   }

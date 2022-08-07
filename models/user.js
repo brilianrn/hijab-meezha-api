@@ -21,7 +21,15 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         autoIncrement: false,
       },
-      is_active: DataTypes.BOOLEAN,
+      is_active: {
+        type: DataTypes.BOOLEAN,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: 'Status user is not allowed to be empty',
+          },
+        },
+      },
       email: {
         type: DataTypes.STRING,
         validate: {
@@ -41,12 +49,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       username: {
         type: DataTypes.STRING,
-        validate: {
-          notEmpty: {
-            args: true,
-            msg: 'Username is not allowed to be empty',
-          },
-        },
         unique: {
           args: true,
           msg: 'Username has already exists',
@@ -76,12 +78,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       photo_profile: {
         type: DataTypes.STRING,
-        validate: {
-          notEmpty: {
-            args: true,
-            msg: 'Photo profile is not allowed to be empty',
-          },
-        },
       },
       phone_number: {
         type: DataTypes.STRING,
@@ -102,12 +98,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       gender: {
         type: DataTypes.STRING,
-        validate: {
-          notEmpty: {
-            args: true,
-            msg: 'Gender is not allowed to be empty',
-          },
-        },
       },
     },
     {
@@ -116,7 +106,7 @@ module.exports = (sequelize, DataTypes) => {
       hooks: {
         beforeCreate: (user, opt) => {
           user.password = hashPassword(user.password);
-          user.is_active = true;
+          user.is_active = false;
         },
       },
     }
