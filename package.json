@@ -4,6 +4,7 @@
   "description": "hijab meezha web server",
   "main": "index.js",
   "scripts": {
+    "start": "cross-env NODE_ENV=sit nodemon bin/http.js",
     "db:create:test": "cross-env NODE_ENV=test npx sequelize db:create",
     "db:drop:test": "cross-env NODE_ENV=test npx sequelize db:drop",
     "db:migrate:test": "cross-env NODE_ENV=test npx sequelize db:migrate",
