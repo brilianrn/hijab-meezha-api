@@ -2,7 +2,11 @@
   "name": "hijab-meezha-api",
   "version": "1.0.0",
   "description": "hijab meezha web server",
-  "main": "index.js",
+  "main": "bin/http.js",
+  "engines": {
+    "npm": "14.16.1",
+    "node": "8.3.0"
+  },
   "scripts": {
     "start": "cross-env NODE_ENV=sit nodemon bin/http.js",
     "db:create:test": "cross-env NODE_ENV=test npx sequelize db:create",
