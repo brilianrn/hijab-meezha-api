@@ -8,7 +8,7 @@
     "node": "14.16.1"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=sit node bin/http.js",
+    "start": "node bin/http.js",
     "db:create:test": "cross-env NODE_ENV=test npx sequelize db:create",
     "db:drop:test": "cross-env NODE_ENV=test npx sequelize db:drop",
     "db:migrate:test": "cross-env NODE_ENV=test npx sequelize db:migrate",
