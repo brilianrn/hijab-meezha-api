@@ -9,8 +9,6 @@ const { authentication } = require('../middlewares/authorization');
 route.post('/register', CustomerRegister);
 route.post('/login', CustomerLogin);
 
-route.use(authentication);
-
-route.get('/info', UserInfo);
+route.get('/info', authentication, UserInfo);
 
 module.exports = route;
