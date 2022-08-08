@@ -4,6 +4,6 @@ const { authentication } = require('../middlewares/authorization');
 
 route.post('/confirm-otp', ConfirmOtp);
 
-route.use(authentication);
+// route.use(authentication);
 
 module.exports = route;
