@@ -13,6 +13,8 @@ const errorMessages = (type, props) => {
       return `Invalid token!`;
     case errMessageTypes.expiredOtp:
       return `OTP code was expired!`;
+    case errMessageTypes.exist:
+      return `${props}`;
     default:
       return props;
   }
