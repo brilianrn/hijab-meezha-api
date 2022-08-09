@@ -26,6 +26,8 @@ const errors = {
   '400_WRONG_PASSWORD': 'WRONG PASSWORD',
   // ---------------- expired fields ------------------
   '400_EXPIRED_OTP': 'EXPIRED OTP',
+  // ---------------- not found fields ------------------
+  '400_NOT_FOUND_USER': 'USER NOT FOUND',
 };
 
 const errMessageTypes = {
@@ -40,6 +42,7 @@ const successMessageTypes = {
   register: 'REGISTER',
   login: 'LOGIN',
   userInfo: 'USER_INFO',
+  resendOtp: 'RESEND_OTP',
   confirmOtp: 'CONFIRM_OTP',
 };
 

@@ -1,8 +1,9 @@
 const route = require('express').Router();
-const { ConfirmOtp } = require('../controllers/commons/confirm-otp');
+const { ResendOtp, ConfirmOtp } = require('../controllers/commons');
 const { authentication } = require('../middlewares/authorization');
 
 route.post('/confirm-otp', ConfirmOtp);
+route.post('/resend-otp', ResendOtp);
 
 // route.use(authentication);
 
