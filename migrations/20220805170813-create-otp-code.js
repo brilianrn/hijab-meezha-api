@@ -27,6 +27,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      status: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       expired_date: {
         allowNull: false,
         type: Sequelize.DATE,

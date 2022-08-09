@@ -1,3 +1,4 @@
+const { otpStatus } = require('../constants');
 const { OtpCode } = require('../models');
 
 const ChangeOtpStatus = async (req, _res, next) => {
@@ -12,7 +13,7 @@ const ChangeOtpStatus = async (req, _res, next) => {
 
   try {
     return await OtpCode.update(
-      { is_active: false },
+      { is_active: false, status: otpStatus.confirmed },
       { where: { token, type: type.toUpperCase() } }
     );
   } catch (error) {
