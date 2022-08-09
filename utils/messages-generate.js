@@ -5,6 +5,7 @@ const errorMessages = (type, props) => {
     case errMessageTypes.notFound:
       return 'Data not found!';
     case errMessageTypes.badRequest:
+      if (props) return props;
       return `${props} cannot be empty!`;
     case errMessageTypes.wrongAuth:
       return `Invalid email or password!`;

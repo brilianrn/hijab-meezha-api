@@ -6,7 +6,9 @@ const generateOtpByPhone = async (phone) => {
     OTP += phone[Math.floor(Math.random() * 10)];
   }
   try {
-    const findOtp = await OtpCode.findOne({ where: { token: OTP } });
+    const findOtp = await OtpCode.findOne({
+      where: { token: OTP, is_active: true },
+    });
     if (findOtp) generateOtpByPhone(phone);
     else return OTP;
   } catch (error) {
