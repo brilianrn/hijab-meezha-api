@@ -22,8 +22,10 @@ const successMessages = (type, props) => {
   switch (type) {
     case successMessageTypes.userInfo:
       return 'Get user info successfully';
+    case successMessageTypes.resendOtp:
+      return 'Your verification code already sended to Your email';
     case successMessageTypes.register:
-      return 'Thank you! Your registration form has been successfully sent. We will contact you very soon!';
+      return 'Thank you! Your registration form has been successfully. We already sent verification code to Your email!';
     case successMessageTypes.login:
       return 'You logged in successfully';
     case successMessageTypes.confirmOtp:
