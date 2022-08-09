@@ -30,8 +30,26 @@ const CustomerRegister = async (req, res, next) => {
   }
 
   try {
-    const createUser = await User.create(newUser);
-    if (!createUser) return next(createUser);
+    let createUser = null;
+    const findEmail = await FindUser({ email: newUser.email });
+    const findPhoneNumber = await FindUser({
+      phone_number: newUser.phone_number,
+    });
+    if (findEmail && !findPhoneNumber) {
+      await UpdateUser(
+        { id: findEmail.id },
+        { phone_number: newUser.phone_number }
+      );
+    } else if (!findEmail && findPhoneNumber) {
+      return next({ name: errors['400_EXIST_PHONE_NUMBER'] });
+    } else if (findEmail && findPhoneNumber) {
+      if (findEmail.id !== findPhoneNumber.id) {
+        return next({ name: errors['400_EXIST_EMAIL'] });
+      }
+    } else if (!findEmail && !findPhoneNumber) {
+      createUser = await User.create(newUser);
+      if (!createUser) return next(createUser);
+    }
 
     const otpCode = await generateOtpByPhone(newUser.phone_number);
     const minutesToAdd = process.env.TIME_LIMIT;
@@ -52,7 +70,11 @@ const CustomerRegister = async (req, res, next) => {
     );
 
     const newOtp = {
-      user_id: createUser.id,
+      user_id: createUser
+        ? createUser?.id
+        : findEmail
+        ? findEmail.id
+        : findPhoneNumber.id,
       token: otpCode,
       type: otpType.register,
       expired_date: expiredDate,
@@ -69,6 +91,26 @@ const CustomerRegister = async (req, res, next) => {
     );
   } catch (error) {
     return next(error);
+  }
+};
+
+const FindUser = async (payload) => {
+  try {
+    const user = await User.findOne({
+      where: { ...payload, is_active: false },
+    });
+    return user || null;
+  } catch (error) {
+    return error;
+  }
+};
+
+const UpdateUser = async (opt, payload) => {
+  try {
+    const update = await User.update(payload, { where: opt });
+    return update || null;
+  } catch (error) {
+    return error;
   }
 };
 
