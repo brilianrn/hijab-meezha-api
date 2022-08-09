@@ -1,5 +1,6 @@
 'use strict';
 const { Model } = require('sequelize');
+const { otpStatus } = require('../constants');
 module.exports = (sequelize, DataTypes) => {
   class OtpCode extends Model {
     /**
@@ -55,6 +56,19 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
+      status: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: 'OTP status is not allowed to be empty',
+          },
+          len: {
+            args: [2],
+            msg: 'Your otp status too short',
+          },
+        },
+      },
       expired_date: {
         type: DataTypes.DATE,
         validate: {
@@ -80,6 +94,7 @@ module.exports = (sequelize, DataTypes) => {
       hooks: {
         beforeCreate: (otpCode, _opt) => {
           otpCode.is_active = true;
+          otpCode.status = otpStatus.notConfirmed;
         },
       },
     }

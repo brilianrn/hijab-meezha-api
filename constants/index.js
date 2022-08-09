@@ -48,11 +48,17 @@ const successMessageTypes = {
   userInfo: 'USER_INFO',
   resendOtp: 'RESEND_OTP',
   confirmOtp: 'CONFIRM_OTP',
+  forgotPassword: 'FORGOT_PASSWORD',
 };
 
 const otpType = {
   register: 'REGISTER',
   resetPassword: 'RESET_PASSWORD',
+};
+
+const otpStatus = {
+  confirmed: 'CONFIRMED',
+  notConfirmed: 'NOT_CONFIRMED',
 };
 
 module.exports = {
@@ -62,4 +68,5 @@ module.exports = {
   successMessageTypes,
   errJwt,
   otpType,
+  otpStatus,
 };
