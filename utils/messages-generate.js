@@ -32,6 +32,8 @@ const successMessages = (type, props) => {
       return 'You logged in successfully';
     case successMessageTypes.confirmOtp:
       return 'Your OTP is successfully confirmed!';
+    case successMessageTypes.forgotPassword:
+      return 'We already sent verification code to Your email!';
     default:
       return props;
   }
