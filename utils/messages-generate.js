@@ -13,6 +13,8 @@ const errorMessages = (type, props) => {
       return `Invalid token!`;
     case errMessageTypes.expiredOtp:
       return `OTP code was expired!`;
+    case errMessageTypes.invalidToken:
+      return 'Invalid token';
     case errMessageTypes.exist:
       return `${props}`;
     default:
@@ -34,6 +36,8 @@ const successMessages = (type, props) => {
       return 'Your OTP is successfully confirmed!';
     case successMessageTypes.forgotPassword:
       return 'We already sent verification code to Your email!';
+    case successMessageTypes.resetPassword:
+      return 'Your password has been changed successfully!';
     default:
       return props;
   }
