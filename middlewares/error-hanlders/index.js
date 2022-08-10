@@ -42,6 +42,7 @@ const errorHandler = (err, req, res, _next) => {
     err?.name?.toString().toUpperCase() === errors['400_NOT_FOUND_USER'] ||
     err?.name?.toString().toUpperCase() === errors['400_EXIST_EMAIL'] ||
     err?.name?.toString().toUpperCase() === errors['400_EXIST_PHONE_NUMBER'] ||
+    err?.name?.toString().toUpperCase() === errors['400_INVALID_TOKEN'] ||
     err?.name?.toString().toUpperCase() === errors['400_EMPTY_PASSWORD']
   ) {
     badRequestError(err, res);

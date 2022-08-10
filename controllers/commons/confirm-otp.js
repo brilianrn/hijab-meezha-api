@@ -2,10 +2,13 @@ const { errors, successMessageTypes, otpType } = require('../../constants');
 const { OtpCode, User } = require('../../models');
 const { ChangeOtpStatus } = require('../../utils/change-fields');
 const formatResponse = require('../../utils/format-response');
+const { generateDateDisplay } = require('../../utils/generate-items');
+const { generateToken } = require('../../utils/jwt');
 const { successMessages } = require('../../utils/messages-generate');
 
 const ConfirmOtp = async (req, res, next) => {
   const { token, type } = req.body;
+  let payload = { token };
 
   if (!token) {
     return next({ name: errors['400_EMPTY_TOKEN'] });
@@ -22,6 +25,7 @@ const ConfirmOtp = async (req, res, next) => {
 
     if (!otp) return next({ name: errors[404] });
     if (!otp.is_active) return next({ name: errors['400_EXPIRED_OTP'] });
+
     if (new Date().getTime() > new Date(otp.expired_date).getTime()) {
       await ChangeOtpStatus(req, res, next);
       return next({ name: errors['400_EXPIRED_OTP'] });
@@ -30,7 +34,25 @@ const ConfirmOtp = async (req, res, next) => {
     await ChangeOtpStatus(req, res, next);
     if (type?.toUpperCase() === otpType.register) {
       await User.update({ is_active: true }, { where: { id: otp.User.id } });
+    } else {
+      const user = await User.findOne({ where: { id: otp.User.id } });
+      const minutesToAdd = process.env.TOKEN_TIME_LIMIT;
+      const currentDate = new Date();
+      const expiredDate = new Date(
+        currentDate.getTime() + minutesToAdd * 60000
+      );
+      const dateDisplay = generateDateDisplay(expiredDate);
+      payload = {
+        ...payload,
+        key: generateToken({
+          ...payload,
+          id: user.id,
+          tokenExp: dateDisplay,
+          key: user.password,
+        }),
+      };
     }
+
     return res
       .status(200)
       .json(
@@ -38,7 +60,7 @@ const ConfirmOtp = async (req, res, next) => {
           true,
           200,
           successMessages(successMessageTypes.confirmOtp),
-          { token }
+          payload
         )
       );
   } catch (error) {

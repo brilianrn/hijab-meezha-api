@@ -31,6 +31,8 @@ const errors = {
   '400_EXPIRED_OTP': 'EXPIRED OTP',
   // ---------------- not found fields ------------------
   '400_NOT_FOUND_USER': 'USER NOT FOUND',
+  // ---------------- not found fields ------------------
+  '400_INVALID_TOKEN': 'INVALID TOKEN',
 };
 
 const errMessageTypes = {
@@ -40,6 +42,7 @@ const errMessageTypes = {
   wrongAuth: 'WRONG_AUTH',
   expiredOtp: 'EXPIRED_OTP',
   exist: 'EXIST',
+  invalidToken: 'INVALID_TOKEN',
 };
 
 const successMessageTypes = {
@@ -49,6 +52,7 @@ const successMessageTypes = {
   resendOtp: 'RESEND_OTP',
   confirmOtp: 'CONFIRM_OTP',
   forgotPassword: 'FORGOT_PASSWORD',
+  resetPassword: 'RESET_PASSWORD',
 };
 
 const otpType = {
