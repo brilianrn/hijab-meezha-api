@@ -1,5 +1,6 @@
 const { errors, successMessageTypes } = require('../../constants');
 const { User } = require('../../models');
+const { hashPassword } = require('../../utils/bycript');
 const formatResponse = require('../../utils/format-response');
 const { verifyToken } = require('../../utils/jwt');
 const { successMessages } = require('../../utils/messages-generate');
@@ -22,7 +23,10 @@ const ResetPassword = async (req, res, next) => {
 
     if (user.password !== key) return next({ name: errors['401'] });
 
-    const update = await User.update({ password }, { where: { id } });
+    const update = await User.update(
+      { password: hashPassword(password) },
+      { where: { id } }
+    );
     if (!update) return next(update);
 
     return res
