@@ -1,18 +1,18 @@
 'use strict';
 const { Model } = require('sequelize');
-const { otpStatus } = require('../constants');
 module.exports = (sequelize, DataTypes) => {
-  class OtpCode extends Model {
+  class Promo extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      OtpCode.belongsTo(models.User, { foreignKey: 'user_id' });
+      Promo.belongsTo(models.User, { foreignKey: 'createdBy' });
+      Promo.belongsTo(models.User, { foreignKey: 'updatedBy' });
     }
   }
-  OtpCode.init(
+  Promo.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -25,55 +25,31 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Exist ID!',
         },
       },
-      user_id: {
-        type: DataTypes.UUID,
-        validate: {
-          notEmpty: {
-            args: true,
-            msg: 'User ID is not allowed to be empty',
-          },
-        },
-      },
-      token: {
+      name: {
         type: DataTypes.STRING,
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Token is not allowed to be empty',
+            msg: 'Promo name is not allowed to be empty',
+          },
+        },
+      },
+      description: { type: DataTypes.STRING },
+      code: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: 'Promo code is not allowed to be empty',
           },
         },
         unique: {
           args: true,
-          msg: 'Token already exists',
+          msg: 'Promo code already exists',
         },
       },
-      type: {
-        type: DataTypes.STRING,
-        validate: {
-          notEmpty: {
-            args: true,
-            msg: 'OTP type is not allowed to be empty',
-          },
-          len: {
-            args: [2],
-            msg: 'Your otp type too short',
-          },
-        },
-      },
-      status: {
-        type: DataTypes.STRING,
-        validate: {
-          notEmpty: {
-            args: true,
-            msg: 'OTP status is not allowed to be empty',
-          },
-          len: {
-            args: [2],
-            msg: 'Your otp status too short',
-          },
-        },
-      },
-      expired_date: {
+      photo: { type: DataTypes.STRING },
+      expiredDate: {
         type: DataTypes.DATE,
         validate: {
           notEmpty: {
@@ -82,26 +58,38 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
-      is_active: {
-        type: DataTypes.BOOLEAN,
+      amount: {
+        type: DataTypes.FLOAT,
         validate: {
           notEmpty: {
             args: true,
-            msg: 'OTP status is not allowed to be empty',
+            msg: 'Promo amount is not allowed to be empty',
+          },
+        },
+      },
+      createdBy: {
+        type: DataTypes.UUID,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: 'User ID is not allowed to be empty',
+          },
+        },
+      },
+      updatedBy: {
+        type: DataTypes.UUID,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: 'User ID is not allowed to be empty',
           },
         },
       },
     },
     {
       sequelize,
-      modelName: 'OtpCode',
-      hooks: {
-        beforeCreate: (otpCode, _opt) => {
-          otpCode.is_active = true;
-          otpCode.status = otpStatus.notConfirmed;
-        },
-      },
+      modelName: 'Promo',
     }
   );
-  return OtpCode;
+  return Promo;
 };
