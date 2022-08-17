@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Taxes', {
+    await queryInterface.createTable('Promos', {
       id: {
         allowNull: false,
         primaryKey: true,
@@ -13,14 +13,33 @@ module.exports = {
         type: Sequelize.STRING(50),
         allowNull: false,
       },
-      amount: {
-        type: Sequelize.FLOAT,
+      description: {
+        type: Sequelize.STRING(100),
+      },
+      code: {
+        type: Sequelize.STRING(50),
         allowNull: false,
+        unique: true,
+      },
+      photo: {
+        type: Sequelize.STRING(150),
+      },
+      isActive: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+      },
+      expiredDate: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+      amount: {
+        allowNull: false,
+        type: Sequelize.FLOAT,
       },
       createdBy: {
         type: Sequelize.UUID,
         references: {
-          model: 'Users',
+          model: 'Admins',
           key: 'id',
         },
         allowNull: false,
@@ -30,7 +49,7 @@ module.exports = {
       updatedBy: {
         type: Sequelize.UUID,
         references: {
-          model: 'Users',
+          model: 'Admins',
           key: 'id',
         },
         allowNull: false,
@@ -48,6 +67,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Taxes');
+    await queryInterface.dropTable('Promos');
   },
 };

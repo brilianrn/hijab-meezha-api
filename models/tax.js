@@ -8,8 +8,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Tax.belongsTo(models.User, { foreignKey: 'createdBy' });
-      Tax.belongsTo(models.User, { foreignKey: 'updatedBy' });
+      Tax.belongsTo(models.Admin, { foreignKey: 'createdBy' });
+      Tax.belongsTo(models.Admin, { foreignKey: 'updatedBy' });
     }
   }
   Tax.init(
