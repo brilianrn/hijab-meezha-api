@@ -12,6 +12,7 @@ const errors = {
   401: 'UNAUTHORIZED',
   404: 'NOT_FOUND',
   // ---------------- empty fields ------------------
+  '400_EMPTY_FIELD': 'EMPTY_FIELD', // general
   '400_EMPTY_EMAIL': 'EMAIL',
   '400_EMPTY_PASSWORD': 'PASSWORD',
   '400_EMPTY_FULL_NAME': 'FULL_NAME',
@@ -38,6 +39,7 @@ const errors = {
 const errMessageTypes = {
   notFound: 'NOT_FOUND',
   badRequest: 'BAD_REQUEST',
+  badRequestEmptyField: 'BAD_REQUEST_EMPTY_FIELD',
   unauthorized: 'UNAUTHORIZED',
   wrongAuth: 'WRONG_AUTH',
   expiredOtp: 'EXPIRED_OTP',
@@ -46,12 +48,18 @@ const errMessageTypes = {
 };
 
 const successMessageTypes = {
+  createData: 'CREATE_DATA',
+  updateData: 'UPDATE_DATA',
+  deleteData: 'DELETE_DATA',
+  findAll: 'FIND_ALL',
+  findDetail: 'FIND_DETAIL',
   register: 'REGISTER',
   login: 'LOGIN',
   userInfo: 'USER_INFO',
   resendOtp: 'RESEND_OTP',
   confirmOtp: 'CONFIRM_OTP',
   forgotPassword: 'FORGOT_PASSWORD',
+  resetPassword: 'RESET_PASSWORD',
   resetPassword: 'RESET_PASSWORD',
 };
 

@@ -1,10 +1,10 @@
-const { errors, successMessageTypes, otpType } = require('../../constants');
-const { OtpCode, User } = require('../../models');
-const { ChangeOtpStatus } = require('../../utils/change-fields');
-const formatResponse = require('../../utils/format-response');
-const { generateDateDisplay } = require('../../utils/generate-items');
-const { generateToken } = require('../../utils/jwt');
-const { successMessages } = require('../../utils/messages-generate');
+const { errors, successMessageTypes, otpType } = require('../../../constants');
+const { OtpCode, User } = require('../../../models');
+const { ChangeOtpStatus } = require('../../../utils/change-fields');
+const formatResponse = require('../../../utils/format-response');
+const { generateDateDisplay } = require('../../../utils/generate-items');
+const { generateToken } = require('../../../utils/jwt');
+const { successMessages } = require('../../../utils/messages-generate');
 
 const ConfirmOtp = async (req, res, next) => {
   const { token, type } = req.body;
