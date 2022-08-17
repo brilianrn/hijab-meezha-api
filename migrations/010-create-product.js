@@ -91,7 +91,7 @@ module.exports = {
       createdBy: {
         type: Sequelize.UUID,
         references: {
-          model: 'Users',
+          model: 'Admins',
           key: 'id',
         },
         allowNull: false,
@@ -101,7 +101,7 @@ module.exports = {
       updatedBy: {
         type: Sequelize.UUID,
         references: {
-          model: 'Users',
+          model: 'Admins',
           key: 'id',
         },
         allowNull: false,

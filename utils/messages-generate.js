@@ -7,6 +7,8 @@ const errorMessages = (type, props) => {
     case errMessageTypes.badRequest:
       if (props) return props;
       return `${props} cannot be empty!`;
+    case errMessageTypes.badRequestEmptyField:
+      return `${props} cannot be empty!`;
     case errMessageTypes.wrongAuth:
       return `Invalid email or password!`;
     case errMessageTypes.unauthorized:
@@ -38,6 +40,16 @@ const successMessages = (type, props) => {
       return 'We already sent verification code to Your email!';
     case successMessageTypes.resetPassword:
       return 'Your password has been changed successfully!';
+    case successMessageTypes.findAll:
+      return `All of ${props} successfully obtained`;
+    case successMessageTypes.findDetail:
+      return `${props} successfully obtained`;
+    case successMessageTypes.createData:
+      return `${props} successfully created`;
+    case successMessageTypes.updateData:
+      return `${props} successfully updated`;
+    case successMessageTypes.deleteData:
+      return `${props} successfully deleted`;
     default:
       return props;
   }

@@ -28,4 +28,21 @@ const badRequestError = (err, res) => {
     );
 };
 
-module.exports = { unauthorizedError, notFoundError, badRequestError };
+const badRequestEmptyField = (err, res) => {
+  res
+    .status(400)
+    .json(
+      formatResponse(
+        false,
+        400,
+        errorMessages(errMessageTypes.badRequestEmptyField, err.description)
+      )
+    );
+};
+
+module.exports = {
+  unauthorizedError,
+  notFoundError,
+  badRequestError,
+  badRequestEmptyField,
+};

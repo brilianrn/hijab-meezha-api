@@ -8,8 +8,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Promo.belongsTo(models.User, { foreignKey: 'createdBy' });
-      Promo.belongsTo(models.User, { foreignKey: 'updatedBy' });
+      Promo.belongsTo(models.Admin, { foreignKey: 'createdBy' });
+      Promo.belongsTo(models.Admin, { foreignKey: 'updatedBy' });
     }
   }
   Promo.init(
@@ -49,6 +49,15 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       photo: { type: DataTypes.STRING },
+      isActive: {
+        type: DataTypes.BOOLEAN,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: 'Is active is not allowed to be empty',
+          },
+        },
+      },
       expiredDate: {
         type: DataTypes.DATE,
         validate: {
@@ -89,6 +98,11 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'Promo',
+      hooks: {
+        beforeCreate: (promo, opt) => {
+          promo.isActive = true;
+        },
+      },
     }
   );
   return Promo;

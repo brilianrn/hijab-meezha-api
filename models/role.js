@@ -1,19 +1,15 @@
 'use strict';
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Size extends Model {
+  class Role extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {
-      Size.belongsTo(models.Admin, { foreignKey: 'createdBy' });
-      Size.belongsTo(models.Admin, { foreignKey: 'updatedBy' });
-      Size.belongsTo(models.Category, { foreignKey: 'categoryId' });
-    }
+    static associate(models) {}
   }
-  Size.init(
+  Role.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -31,42 +27,46 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Size name is not allowed to be empty',
+            msg: 'Role name is not allowed to be empty',
           },
         },
+        unique: {
+          args: true,
+          msg: 'Role name already exists',
+        },
       },
-      categoryId: {
-        type: DataTypes.UUID,
+      code: {
+        type: DataTypes.STRING,
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Category ID is not allowed to be empty',
+            msg: 'Role code is not allowed to be empty',
           },
         },
+        unique: {
+          args: true,
+          msg: 'Role code already exists',
+        },
       },
-      createdBy: {
-        type: DataTypes.UUID,
+      isActive: {
+        type: DataTypes.BOOLEAN,
         validate: {
           notEmpty: {
             args: true,
-            msg: 'User ID is not allowed to be empty',
-          },
-        },
-      },
-      updatedBy: {
-        type: DataTypes.UUID,
-        validate: {
-          notEmpty: {
-            args: true,
-            msg: 'User ID is not allowed to be empty',
+            msg: 'Is active is not allowed to be empty',
           },
         },
       },
     },
     {
       sequelize,
-      modelName: 'Size',
+      modelName: 'Role',
+      hooks: {
+        beforeCreate: (role, opt) => {
+          role.isActive = true;
+        },
+      },
     }
   );
-  return Size;
+  return Role;
 };

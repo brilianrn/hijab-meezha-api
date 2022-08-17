@@ -10,6 +10,7 @@ const {
   unauthorizedError,
   notFoundError,
   badRequestError,
+  badRequestEmptyField,
 } = require('./common.error');
 
 const errorHandler = (err, req, res, _next) => {
@@ -31,6 +32,10 @@ const errorHandler = (err, req, res, _next) => {
   } else if (err?.name?.toString().toUpperCase() === errors[404]) {
     notFoundError(req, res);
   } else if (
+    err?.name?.toString().toUpperCase() === errors['400_EMPTY_FIELD']
+  ) {
+    badRequestEmptyField(err, res);
+  } else if (
     err?.name?.toString().toUpperCase() === errors['400_EMPTY_EMAIL'] ||
     err?.name?.toString().toUpperCase() === errors['400_EMPTY_FULL_NAME'] ||
     err?.name?.toString().toUpperCase() === errors['400_EMPTY_GENDER'] ||
@@ -45,7 +50,7 @@ const errorHandler = (err, req, res, _next) => {
     err?.name?.toString().toUpperCase() === errors['400_INVALID_TOKEN'] ||
     err?.name?.toString().toUpperCase() === errors['400_EMPTY_PASSWORD']
   ) {
-    badRequestError(err, res);
+    badRequestError(err, res || err.description);
   } else if (
     err?.name?.toString().toUpperCase() === errors['400_WRONG_TOKEN'] ||
     err?.name?.toString().toUpperCase() === errors['400_WRONG_EMAIL']

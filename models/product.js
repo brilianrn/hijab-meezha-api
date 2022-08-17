@@ -15,8 +15,8 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'productStatusId',
       });
       Product.belongsTo(models.Promo, { foreignKey: 'promoId' });
-      Product.belongsTo(models.User, { foreignKey: 'updatedBy' });
-      Product.belongsTo(models.User, { foreignKey: 'updatedBy' });
+      Product.belongsTo(models.Admin, { foreignKey: 'updatedBy' });
+      Product.belongsTo(models.Admin, { foreignKey: 'updatedBy' });
     }
   }
   Product.init(

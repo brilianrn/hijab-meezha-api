@@ -1,12 +1,12 @@
-const { errors, otpType, successMessageTypes } = require('../../constants');
-const { User, OtpCode } = require('../../models');
-const { emailTransport } = require('../../services/nodemailer');
-const formatResponse = require('../../utils/format-response');
+const { errors, otpType, successMessageTypes } = require('../../../constants');
+const { User, OtpCode } = require('../../../models');
+const { emailTransport } = require('../../../services/nodemailer');
+const formatResponse = require('../../../utils/format-response');
 const {
   generateOtpByPhone,
   generateDateDisplay,
-} = require('../../utils/generate-items');
-const { successMessages } = require('../../utils/messages-generate');
+} = require('../../../utils/generate-items');
+const { successMessages } = require('../../../utils/messages-generate');
 
 const ResendOtp = async (req, res, next) => {
   const { email, phone_number } = req.body;
