@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('OtpCodes', {
+    await queryInterface.createTable('Taxes', {
       id: {
         allowNull: false,
         primaryKey: true,
@@ -9,7 +9,15 @@ module.exports = {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
       },
-      user_id: {
+      name: {
+        type: Sequelize.STRING(50),
+        allowNull: false,
+      },
+      amount: {
+        type: Sequelize.FLOAT,
+        allowNull: false,
+      },
+      createdBy: {
         type: Sequelize.UUID,
         references: {
           model: 'Users',
@@ -19,26 +27,15 @@ module.exports = {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       },
-      token: {
-        type: Sequelize.STRING(6),
+      updatedBy: {
+        type: Sequelize.UUID,
+        references: {
+          model: 'Users',
+          key: 'id',
+        },
         allowNull: false,
-        unique: true,
-      },
-      type: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      status: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      expired_date: {
-        allowNull: false,
-        type: Sequelize.DATE,
-      },
-      is_active: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
       createdAt: {
         allowNull: false,
@@ -51,6 +48,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('OtpCodes');
+    await queryInterface.dropTable('Taxes');
   },
 };

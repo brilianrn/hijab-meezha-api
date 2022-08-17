@@ -20,6 +20,10 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: DataTypes.UUIDV4,
         allowNull: false,
         autoIncrement: false,
+        unique: {
+          args: true,
+          msg: 'Exist ID!',
+        },
       },
       is_active: {
         type: DataTypes.BOOLEAN,

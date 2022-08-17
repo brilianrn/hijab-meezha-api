@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Users', {
+    await queryInterface.createTable('ProductStatuses', {
       id: {
         allowNull: false,
         primaryKey: true,
@@ -9,37 +9,34 @@ module.exports = {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
       },
-      is_active: {
-        type: Sequelize.BOOLEAN,
+      name: {
+        type: Sequelize.STRING(50),
         allowNull: false,
       },
-      email: {
+      code: {
         type: Sequelize.STRING(50),
         allowNull: false,
         unique: true,
       },
-      username: {
-        type: Sequelize.STRING(50),
-        unique: true,
-      },
-      password: {
-        type: Sequelize.STRING,
+      createdBy: {
+        type: Sequelize.UUID,
+        references: {
+          model: 'Users',
+          key: 'id',
+        },
         allowNull: false,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
-      fullname: {
-        type: Sequelize.STRING(100),
+      updatedBy: {
+        type: Sequelize.UUID,
+        references: {
+          model: 'Users',
+          key: 'id',
+        },
         allowNull: false,
-      },
-      photo_profile: {
-        type: Sequelize.STRING,
-      },
-      phone_number: {
-        type: Sequelize.STRING(15),
-        allowNull: false,
-        unique: true,
-      },
-      gender: {
-        type: Sequelize.STRING(10),
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
       createdAt: {
         allowNull: false,
@@ -52,6 +49,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Users');
+    await queryInterface.dropTable('ProductStatuses');
   },
 };
