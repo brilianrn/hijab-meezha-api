@@ -81,7 +81,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'User ID is not allowed to be empty',
+            msg: 'Admin ID is not allowed to be empty',
           },
         },
       },
@@ -90,7 +90,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'User ID is not allowed to be empty',
+            msg: 'Admin ID is not allowed to be empty',
           },
         },
       },
