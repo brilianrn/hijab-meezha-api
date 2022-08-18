@@ -11,6 +11,7 @@ const {
   notFoundError,
   badRequestError,
   badRequestEmptyField,
+  badRequestNotExist,
 } = require('./common.error');
 
 const errorHandler = (err, req, res, _next) => {
@@ -35,6 +36,8 @@ const errorHandler = (err, req, res, _next) => {
     err?.name?.toString().toUpperCase() === errors['400_EMPTY_FIELD']
   ) {
     badRequestEmptyField(err, res);
+  } else if (err?.name?.toString().toUpperCase() === errors['400_NOT_EXIST']) {
+    badRequestNotExist(err, res);
   } else if (
     err?.name?.toString().toUpperCase() === errors['400_EMPTY_EMAIL'] ||
     err?.name?.toString().toUpperCase() === errors['400_EMPTY_FULL_NAME'] ||

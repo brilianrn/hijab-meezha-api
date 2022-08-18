@@ -7,6 +7,7 @@ const {
   FindDetailRole,
   UpdateRole,
   DeleteRole,
+  FindAllForDropDown,
 } = require('../controllers/commons');
 const { authentication } = require('../middlewares/authorization');
 
@@ -16,6 +17,7 @@ route.post('/otp/resend', ResendOtp);
 // route.use(authentication);
 
 route.get('/role', FindAllRole);
+route.get('/role/dropdown', FindAllForDropDown);
 route.get('/role/:id', FindDetailRole);
 route.patch('/role/:id', UpdateRole);
 route.delete('/role/:id', DeleteRole);

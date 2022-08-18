@@ -40,9 +40,22 @@ const badRequestEmptyField = (err, res) => {
     );
 };
 
+const badRequestNotExist = (err, res) => {
+  res
+    .status(400)
+    .json(
+      formatResponse(
+        false,
+        400,
+        errorMessages(errMessageTypes.badRequestEmptyField, err.description)
+      )
+    );
+};
+
 module.exports = {
   unauthorizedError,
   notFoundError,
   badRequestError,
   badRequestEmptyField,
+  badRequestNotExist,
 };
