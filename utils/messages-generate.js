@@ -9,6 +9,8 @@ const errorMessages = (type, props) => {
       return `${props} cannot be empty!`;
     case errMessageTypes.badRequestEmptyField:
       return `${props} cannot be empty!`;
+    case errMessageTypes.badRequestNotExist:
+      return `${props} is not found!`;
     case errMessageTypes.wrongAuth:
       return `Invalid email or password!`;
     case errMessageTypes.unauthorized:

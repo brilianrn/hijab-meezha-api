@@ -13,7 +13,7 @@ const FindAllRole = async (req, res, next) => {
   const sortVal = sortKey ? JSON.parse(sort)[0][sortKey].toUpperCase() : '';
 
   let totalRows = 0;
-  let filterObj = JSON.parse(filter) || {};
+  let filterObj = filter ? JSON.parse(filter) : {};
   let options = {
     order: sortKey && sortVal ? [[sortKey, sortVal]] : [],
     offset: page === 1 ? 0 : (page - 1) * limit,
@@ -21,6 +21,9 @@ const FindAllRole = async (req, res, next) => {
 
   options = {
     where: filterObj,
+    attributes: {
+      exclude: ['createdAt', 'updatedAt'],
+    },
     ...options,
   };
 
@@ -78,4 +81,31 @@ const getPreviousPage = (page) => {
   return page - 1;
 };
 
-module.exports = { FindAllRole };
+const FindAllForDropDown = async (_, res, next) => {
+  try {
+    const opt = {
+      where: { isActive: true },
+      attributes: {
+        exclude: ['createdAt', 'updatedAt'],
+      },
+    };
+    const roles = await Role.findAll(opt);
+
+    if (!roles) return next({ name: errors[404] });
+
+    return res
+      .status(200)
+      .json(
+        formatResponse(
+          true,
+          200,
+          successMessages(successMessageTypes.findAll, 'Role'),
+          roles
+        )
+      );
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { FindAllRole, FindAllForDropDown };

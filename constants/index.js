@@ -23,6 +23,7 @@ const errors = {
   '400_EMPTY_TOKEN': 'TOKEN',
   '400_EMPTY_TYPE': 'TYPE',
   // ---------------- exist fields ------------------
+  '400_NOT_EXIST': 'NOT EXIST', // general
   '400_EXIST_EMAIL': 'EMAIL ALREADY EXIST',
   '400_EXIST_PHONE_NUMBER': 'PHONE NUMBER ALREADY EXIST',
   // ---------------- wrong fields ------------------
@@ -40,6 +41,7 @@ const errMessageTypes = {
   notFound: 'NOT_FOUND',
   badRequest: 'BAD_REQUEST',
   badRequestEmptyField: 'BAD_REQUEST_EMPTY_FIELD',
+  badRequestNotExist: 'BAD_REQUEST_NOT_EXIST',
   unauthorized: 'UNAUTHORIZED',
   wrongAuth: 'WRONG_AUTH',
   expiredOtp: 'EXPIRED_OTP',

@@ -21,6 +21,8 @@ module.exports = (sequelize, DataTypes) => {
       Admin.hasMany(models.ProductStatus, { foreignKey: 'updatedBy' });
       Admin.hasMany(models.Product, { foreignKey: 'createdBy' });
       Admin.hasMany(models.Product, { foreignKey: 'updatedBy' });
+
+      Admin.belongsTo(models.Role, { foreignKey: 'roleId' });
     }
   }
   Admin.init(
@@ -130,7 +132,7 @@ module.exports = (sequelize, DataTypes) => {
       hooks: {
         beforeCreate: (admin, opt) => {
           admin.password = hashPassword(admin.password);
-          admin.is_active = false;
+          admin.isActive = true;
         },
       },
     }
