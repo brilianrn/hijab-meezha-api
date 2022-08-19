@@ -9,7 +9,6 @@ const {
   DeleteRole,
   FindAllForDropDown,
 } = require('../controllers/commons');
-const { authentication } = require('../middlewares/authorization');
 
 route.post('/otp/confirm', ConfirmOtp);
 route.post('/otp/resend', ResendOtp);

@@ -1,6 +1,5 @@
 const route = require('express').Router();
 const { AdminRegister, AdminLogin } = require('../controllers/admins');
-const { authentication } = require('../middlewares/authorization');
 
 // route.use(authentication);
 
