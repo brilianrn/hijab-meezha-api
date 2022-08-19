@@ -6,6 +6,7 @@ const errSequelize = {
 
 const errJwt = {
   tokenError: 'JSONWEBTOKENERROR',
+  tokenExp: 'TOKENEXPIREDERROR',
 };
 
 const errors = {

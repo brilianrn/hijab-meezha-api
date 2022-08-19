@@ -13,7 +13,7 @@ const CustomerRegister = async (req, res, next) => {
     email: req.body.email,
     fullname: req.body.fullname,
     password: req.body.password,
-    phone_number: req.body.phone_number,
+    phoneNumber: req.body.phoneNumber,
   };
 
   if (!newUser.email) {
@@ -22,7 +22,7 @@ const CustomerRegister = async (req, res, next) => {
   if (!newUser.password) {
     return next({ name: errors['400_EMPTY_PASSWORD'] });
   }
-  if (!newUser.phone_number) {
+  if (!newUser.phoneNumber) {
     return next({ name: errors['400_EMPTY_PHONE_NUMBER'] });
   }
   if (!newUser.fullname) {
@@ -33,12 +33,12 @@ const CustomerRegister = async (req, res, next) => {
     let createUser = null;
     const findEmail = await FindUser({ email: newUser.email });
     const findPhoneNumber = await FindUser({
-      phone_number: newUser.phone_number,
+      phoneNumber: newUser.phoneNumber,
     });
     if (findEmail && !findPhoneNumber) {
       await UpdateUser(
         { id: findEmail.id },
-        { phone_number: newUser.phone_number }
+        { phoneNumber: newUser.phoneNumber }
       );
     } else if (!findEmail && findPhoneNumber) {
       return next({ name: errors['400_EXIST_PHONE_NUMBER'] });
@@ -51,7 +51,7 @@ const CustomerRegister = async (req, res, next) => {
       if (!createUser) return next(createUser);
     }
 
-    const otpCode = await generateOtpByPhone(newUser.phone_number);
+    const otpCode = await generateOtpByPhone(newUser.phoneNumber);
     const minutesToAdd = process.env.TIME_LIMIT;
     const currentDate = new Date();
     const expiredDate = new Date(currentDate.getTime() + minutesToAdd * 60000);
@@ -77,7 +77,7 @@ const CustomerRegister = async (req, res, next) => {
         : findPhoneNumber.id,
       token: otpCode,
       type: otpType.register,
-      expired_date: expiredDate,
+      expiredDate: expiredDate,
     };
     const createOtp = await OtpCode.create(newOtp);
     if (!createOtp) return next(createOtp);
@@ -85,7 +85,7 @@ const CustomerRegister = async (req, res, next) => {
       formatResponse(true, 200, successMessages(successMessageTypes.register), {
         email: newUser.email,
         fullname: newUser.fullname,
-        phoneNumber: newUser.phone_number,
+        phoneNumber: newUser.phoneNumber,
         confirmOtpLink: process.env.CONFIRM_OTP_LINK_REGISTER,
       })
     );
@@ -97,7 +97,7 @@ const CustomerRegister = async (req, res, next) => {
 const FindUser = async (payload) => {
   try {
     const user = await User.findOne({
-      where: { ...payload, is_active: false },
+      where: { ...payload, isActive: false },
     });
     return user || null;
   } catch (error) {

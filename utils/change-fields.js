@@ -13,7 +13,7 @@ const ChangeOtpStatus = async (req, _res, next) => {
 
   try {
     return await OtpCode.update(
-      { is_active: false, status: otpStatus.confirmed },
+      { isActive: false, status: otpStatus.confirmed },
       { where: { token, type: type.toUpperCase() } }
     );
   } catch (error) {

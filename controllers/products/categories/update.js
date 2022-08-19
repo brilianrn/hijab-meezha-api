@@ -15,10 +15,13 @@ const UpdateCategory = async (req, res, next) => {
 
   try {
     const opt = { where: { id } };
-    const updateCategory = await Category.update(
-      { name, description, photo },
-      opt
-    );
+    const payload = {
+      name,
+      description,
+      photo,
+      updatedBy: req.currentAdmin.id,
+    };
+    const updateCategory = await Category.update(payload, opt);
     if (!updateCategory) return next(updateCategory);
     return res
       .status(200)

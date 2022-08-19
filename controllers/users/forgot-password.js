@@ -16,12 +16,12 @@ const FogotUseEmail = async (req, res, next) => {
   }
 
   try {
-    const user = await User.findOne({ where: { email, is_active: true } });
+    const user = await User.findOne({ where: { email, isActive: true } });
 
     if (!user) return next({ name: errors['400_NOT_FOUND_USER'] });
 
-    await FindAndUpdateOtp({ user_id: user.id, is_active: true });
-    const otpCode = await generateOtpByPhone(user.phone_number);
+    await FindAndUpdateOtp({ user_id: user.id, isActive: true });
+    const otpCode = await generateOtpByPhone(user.phoneNumber);
     const minutesToAdd = process.env.TIME_LIMIT;
     const currentDate = new Date();
     const expiredDate = new Date(currentDate.getTime() + minutesToAdd * 60000);
@@ -43,7 +43,7 @@ const FogotUseEmail = async (req, res, next) => {
       user_id: user.id,
       token: otpCode,
       type: otpType.resetPassword,
-      expired_date: expiredDate,
+      expiredDate: expiredDate,
     };
     const createOtp = await OtpCode.create(newOtp);
     if (!createOtp) return next(createOtp);
@@ -55,7 +55,7 @@ const FogotUseEmail = async (req, res, next) => {
         {
           email: user.email,
           fullname: user.fullname,
-          phoneNumber: user.phone_number,
+          phoneNumber: user.phoneNumber,
           confirmOtpLink: process.env.CONFIRM_OTP_LINK_REGISTER,
         }
       )
@@ -71,7 +71,7 @@ const FindAndUpdateOtp = async (payload) => {
 
     if (!otp) return false;
     const update = await OtpCode.update(
-      { is_active: false },
+      { isActive: false },
       { where: { id: otp.id } }
     );
     return update;

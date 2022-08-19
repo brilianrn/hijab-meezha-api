@@ -102,10 +102,10 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
-      photo_profile: {
+      photoProfile: {
         type: DataTypes.STRING,
       },
-      phone_number: {
+      phoneNumber: {
         type: DataTypes.STRING,
         validate: {
           notEmpty: {

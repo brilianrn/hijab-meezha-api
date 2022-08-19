@@ -44,6 +44,15 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
+      isActive: {
+        type: DataTypes.BOOLEAN,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: 'OTP status is not allowed to be empty',
+          },
+        },
+      },
       createdBy: {
         type: DataTypes.UUID,
         validate: {
@@ -66,6 +75,11 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'Size',
+      hooks: {
+        beforeCreate: (size, opt) => {
+          size.isActive = true;
+        },
+      },
     }
   );
   return Size;
