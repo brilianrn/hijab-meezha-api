@@ -8,6 +8,14 @@ const {
   UpdateCategory,
 } = require('../../controllers/products/categories');
 const {
+  FindAllProductStatus,
+  FindDetailProductStatus,
+  CreateProductStatus,
+  DeleteProductStatus,
+  UpdateProductStatus,
+  FindAllProductStatusForDropDown,
+} = require('../../controllers/products/product-statuses');
+const {
   FindAllProductSizeForDropDown,
   FindAllProductSize,
   FindDetailProductSize,
@@ -43,6 +51,10 @@ route.get('/tax', FindAllProductTax);
 route.get('/tax/dropdown', FindAllProductTaxForDropDown);
 route.get('/tax/:id', FindDetailProductTax);
 
+route.get('/status', FindAllProductStatus);
+route.get('/status/dropdown', FindAllProductStatusForDropDown);
+route.get('/status/:id', FindDetailProductStatus);
+
 route.use(AdminAuthorization('Super Admin'));
 
 route.post('/category', CreateProductCategory);
@@ -56,5 +68,9 @@ route.put('/size/:id', UpdateProductSize);
 route.post('/tax', CreateProductTax);
 route.delete('/tax/:id', DeleteProductTax);
 route.put('/tax/:id', UpdateProductTax);
+
+route.post('/status', CreateProductStatus);
+route.delete('/status/:id', DeleteProductStatus);
+route.put('/status/:id', UpdateProductStatus);
 
 module.exports = route;
