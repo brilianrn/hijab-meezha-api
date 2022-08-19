@@ -5,8 +5,8 @@ const {
   UserInfo,
   FogotUseEmail,
   ResetPassword,
-} = require('../controllers/users');
-const { UserAuthentication } = require('../middlewares/auth');
+} = require('../../controllers/users');
+const { UserAuthentication } = require('../../middlewares/auth');
 
 route.post('/register', CustomerRegister);
 route.post('/login', CustomerLogin);
