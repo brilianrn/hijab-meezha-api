@@ -9,7 +9,7 @@ module.exports = {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
       },
-      is_active: {
+      isActive: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
       },
@@ -30,10 +30,10 @@ module.exports = {
         type: Sequelize.STRING(100),
         allowNull: false,
       },
-      photo_profile: {
+      photoProfile: {
         type: Sequelize.STRING,
       },
-      phone_number: {
+      phoneNumber: {
         type: Sequelize.STRING(15),
         allowNull: false,
         unique: true,

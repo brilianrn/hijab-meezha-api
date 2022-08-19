@@ -25,7 +25,7 @@
     "db:migrate:sit": "cross-env NODE_ENV=sit npx sequelize db:migrate",
     "db:seed:all:sit": "cross-env NODE_ENV=sit npx sequelize db:seed:all",
     "db:migrate:undo:all:sit": "cross-env NODE_ENV=sit npx sequelize db:migrate:undo:all",
-    "db:migrate:undo:sit": "cross-env NODE_ENV=sit npx sequelize db:migrate:undo --name 1-create-role.js",
+    "db:migrate:undo:sit": "cross-env NODE_ENV=sit npx sequelize db:migrate:undo --name 001-create-role.js",
     "db:create:staging": "cross-env NODE_ENV=staging npx sequelize db:create",
     "db:model:generate:staging": "cross-env NODE_ENV=staging npx sequelize model:generate --name User --attributes id:UUID",
     "db:drop:staging": "cross-env NODE_ENV=staging npx sequelize db:drop",

@@ -43,6 +43,15 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
+      isActive: {
+        type: DataTypes.BOOLEAN,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: 'OTP status is not allowed to be empty',
+          },
+        },
+      },
       createdBy: {
         type: DataTypes.UUID,
         validate: {
@@ -65,6 +74,11 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'Tax',
+      hooks: {
+        beforeCreate: (category, opt) => {
+          category.isActive = true;
+        },
+      },
     }
   );
   return Tax;

@@ -73,7 +73,7 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
-      expired_date: {
+      expiredDate: {
         type: DataTypes.DATE,
         validate: {
           notEmpty: {
@@ -82,7 +82,7 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
-      is_active: {
+      isActive: {
         type: DataTypes.BOOLEAN,
         validate: {
           notEmpty: {
@@ -97,7 +97,7 @@ module.exports = (sequelize, DataTypes) => {
       modelName: 'OtpCode',
       hooks: {
         beforeCreate: (otpCode, _opt) => {
-          otpCode.is_active = true;
+          otpCode.isActive = true;
           otpCode.status = otpStatus.notConfirmed;
         },
       },

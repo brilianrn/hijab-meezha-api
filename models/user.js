@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Exist ID!',
         },
       },
-      is_active: {
+      isActive: {
         type: DataTypes.BOOLEAN,
         validate: {
           notEmpty: {
@@ -80,10 +80,10 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
-      photo_profile: {
+      photoProfile: {
         type: DataTypes.STRING,
       },
-      phone_number: {
+      phoneNumber: {
         type: DataTypes.STRING,
         validate: {
           notEmpty: {
@@ -110,7 +110,7 @@ module.exports = (sequelize, DataTypes) => {
       hooks: {
         beforeCreate: (user, opt) => {
           user.password = hashPassword(user.password);
-          user.is_active = false;
+          user.isActive = false;
         },
       },
     }

@@ -55,7 +55,6 @@ module.exports = {
           model: 'Promos',
           key: 'id',
         },
-        allowNull: false,
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       },

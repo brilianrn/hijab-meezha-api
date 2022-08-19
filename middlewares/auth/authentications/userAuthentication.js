@@ -16,7 +16,7 @@ const UserAuthentication = async (req, _, next) => {
     const opt = { where: { id, email } };
     const data = await User.findOne(opt);
 
-    if (!data && !data?.is_active) return next({ name: errors[401] });
+    if (!data && !data?.isActive) return next({ name: errors[401] });
 
     req.currentUser = { id: data.id, email: data.email };
     next();

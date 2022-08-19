@@ -2,7 +2,7 @@ const { errors, successMessageTypes } = require('../../../constants');
 const { Size, Category } = require('../../../models');
 const formatResponse = require('../../../utils/format-response');
 const { successMessages } = require('../../../utils/messages-generate');
-const { UuidCheck } = require('../../../utils/uuid-check');
+const { UuidCheck } = require('../../../utils/check-fields');
 
 const UpdateProductSize = async (req, res, next) => {
   const { name, categoryId } = req.body;
@@ -43,7 +43,8 @@ const UpdateProductSize = async (req, res, next) => {
       }
     }
     const opt = { where: { id } };
-    const updateSize = await Size.update({ name, categoryId }, opt);
+    const payload = { name, categoryId, updatedBy: req.currentAdmin.id };
+    const updateSize = await Size.update(payload, opt);
     if (!updateSize) return next(updateSize);
     return res
       .status(200)

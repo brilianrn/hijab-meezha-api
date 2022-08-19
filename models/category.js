@@ -45,6 +45,15 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
+      isActive: {
+        type: DataTypes.BOOLEAN,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: 'OTP status is not allowed to be empty',
+          },
+        },
+      },
       updatedBy: {
         type: DataTypes.UUID,
         validate: {
@@ -58,6 +67,11 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'Category',
+      hooks: {
+        beforeCreate: (category, opt) => {
+          category.isActive = true;
+        },
+      },
     }
   );
   return Category;

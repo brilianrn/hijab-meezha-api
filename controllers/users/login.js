@@ -11,7 +11,7 @@ const CustomerLogin = async (req, res, next) => {
       const user = { email: req.body.email, password: req.body.password };
       try {
         const findUser = await User.findOne({ where: { email: user.email } });
-        if (findUser && findUser?.is_active) {
+        if (findUser && findUser?.isActive) {
           const checkPassword = comparePassword(
             user.password,
             findUser.password

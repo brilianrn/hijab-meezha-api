@@ -32,11 +32,11 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      expired_date: {
+      expiredDate: {
         allowNull: false,
         type: Sequelize.DATE,
       },
-      is_active: {
+      isActive: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
       },
