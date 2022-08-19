@@ -6,13 +6,13 @@ const {
   FogotUseEmail,
   ResetPassword,
 } = require('../controllers/users');
-const { authentication } = require('../middlewares/authorization');
+const { UserAuthentication } = require('../middlewares/auth');
 
 route.post('/register', CustomerRegister);
 route.post('/login', CustomerLogin);
 route.post('/reset-password/:access_token', ResetPassword);
 route.post('/forgot-password-use-email', FogotUseEmail);
 
-route.get('/info', authentication, UserInfo);
+route.get('/info', UserAuthentication, UserInfo);
 
 module.exports = route;
