@@ -9,21 +9,21 @@ const {
 const { successMessages } = require('../../../utils/messages-generate');
 
 const ResendOtp = async (req, res, next) => {
-  const { email, phone_number } = req.body;
+  const { email, phoneNumber } = req.body;
 
   if (!email) {
     return next({ name: errors['400_EMPTY_EMAIL'] });
   }
-  if (!phone_number) {
+  if (!phoneNumber) {
     return next({ name: errors['400_EMPTY_PHONE_NUMBER'] });
   }
 
   try {
-    const user = await User.findOne({ where: { email, phone_number } });
+    const user = await User.findOne({ where: { email, phoneNumber } });
     if (!user) return next({ name: errors['400_NOT_FOUND_USER'] });
 
-    await OtpCode.update({ is_active: false }, { where: { user_id: user.id } });
-    const otpCode = await generateOtpByPhone(phone_number);
+    await OtpCode.update({ isActive: false }, { where: { user_id: user.id } });
+    const otpCode = await generateOtpByPhone(phoneNumber);
     const minutesToAdd = process.env.TIME_LIMIT;
     const currentDate = new Date();
     const expiredDate = new Date(currentDate.getTime() + minutesToAdd * 60000);
@@ -45,7 +45,7 @@ const ResendOtp = async (req, res, next) => {
       user_id: user.id,
       token: otpCode,
       type: otpType.register,
-      expired_date: expiredDate,
+      expiredDate: expiredDate,
     };
     const createOtp = await OtpCode.create(newOtp);
     if (!createOtp) return next(createOtp);
@@ -56,7 +56,7 @@ const ResendOtp = async (req, res, next) => {
         successMessages(successMessageTypes.resendOtp),
         {
           email,
-          phone_number,
+          phoneNumber,
           confirmOtpLink: process.env.CONFIRM_OTP_LINK_REGISTER,
         }
       )

@@ -24,16 +24,16 @@ const ConfirmOtp = async (req, res, next) => {
     });
 
     if (!otp) return next({ name: errors[404] });
-    if (!otp.is_active) return next({ name: errors['400_EXPIRED_OTP'] });
+    if (!otp.isActive) return next({ name: errors['400_EXPIRED_OTP'] });
 
-    if (new Date().getTime() > new Date(otp.expired_date).getTime()) {
+    if (new Date().getTime() > new Date(otp.expiredDate).getTime()) {
       await ChangeOtpStatus(req, res, next);
       return next({ name: errors['400_EXPIRED_OTP'] });
     }
 
     await ChangeOtpStatus(req, res, next);
     if (type?.toUpperCase() === otpType.register) {
-      await User.update({ is_active: true }, { where: { id: otp.User.id } });
+      await User.update({ isActive: true }, { where: { id: otp.User.id } });
     } else {
       const user = await User.findOne({ where: { id: otp.User.id } });
       const minutesToAdd = process.env.TOKEN_TIME_LIMIT;

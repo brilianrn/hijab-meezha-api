@@ -8,24 +8,27 @@ const AdminRegister = async (req, res, next) => {
     email: req.body.email,
     fullname: req.body.fullname,
     password: req.body.password,
-    phone_number: req.body.phone_number,
+    phoneNumber: req.body.phoneNumber,
     roleId: req.body.roleId,
   };
 
   if (!newAdmin.email) {
-    return next({ name: errors['400_EMPTY_EMAIL'] });
+    return next({ name: errors['400_EMPTY_FIELD'], description: 'Email' });
   }
   if (!newAdmin.password) {
-    return next({ name: errors['400_EMPTY_PASSWORD'] });
+    return next({ name: errors['400_EMPTY_FIELD'], description: 'Password' });
   }
-  if (!newAdmin.phone_number) {
-    return next({ name: errors['400_EMPTY_PHONE_NUMBER'] });
+  if (!newAdmin.phoneNumber) {
+    return next({
+      name: errors['400_EMPTY_FIELD'],
+      description: 'Phone number',
+    });
   }
   if (!newAdmin.fullname) {
-    return next({ name: errors['400_EMPTY_FULL_NAME'] });
+    return next({ name: errors['400_EMPTY_FIELD'], description: 'Fullname' });
   }
   if (!newAdmin.roleId) {
-    return next({ name: errors['400_EMPTY_FIELD'], description: 'Admin role' });
+    return next({ name: errors['400_EMPTY_FIELD'], description: 'Role' });
   }
 
   try {
@@ -36,12 +39,12 @@ const AdminRegister = async (req, res, next) => {
     let createUser = null;
     const findEmail = await FindAdmin({ email: newAdmin.email });
     const findPhoneNumber = await FindAdmin({
-      phone_number: newAdmin.phone_number,
+      phoneNumber: newAdmin.phoneNumber,
     });
     if (findEmail && !findPhoneNumber) {
       await UpdateAdmin(
         { id: findEmail.id },
-        { phone_number: newAdmin.phone_number }
+        { phoneNumber: newAdmin.phoneNumber }
       );
     } else if (!findEmail && findPhoneNumber) {
       return next({ name: errors['400_EXIST_PHONE_NUMBER'] });
@@ -61,7 +64,7 @@ const AdminRegister = async (req, res, next) => {
         {
           email: newAdmin.email,
           fullname: newAdmin.fullname,
-          phoneNumber: newAdmin.phone_number,
+          phoneNumber: newAdmin.phoneNumber,
         }
       )
     );

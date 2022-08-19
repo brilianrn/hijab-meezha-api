@@ -2,7 +2,7 @@ const { errors, successMessageTypes } = require('../../../constants');
 const { Size, Category } = require('../../../models');
 const formatResponse = require('../../../utils/format-response');
 const { successMessages } = require('../../../utils/messages-generate');
-const { UuidCheck } = require('../../../utils/uuid-check');
+const { UuidCheck } = require('../../../utils/check-fields');
 
 const CreateProductSize = async (req, res, next) => {
   const { name, categoryId } = req.body;

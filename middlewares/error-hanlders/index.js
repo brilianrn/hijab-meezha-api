@@ -29,7 +29,8 @@ const errorHandler = (err, req, res, _next) => {
     res.status(400).json(formatResponse(false, 400, err.errors[0].message));
   } else if (
     err?.name?.toString().toUpperCase() === errors[401] ||
-    err?.name?.toString().toUpperCase() === errJwt.tokenError
+    err?.name?.toString().toUpperCase() === errJwt.tokenError ||
+    err?.name?.toString().toUpperCase() === errJwt.tokenExp
   ) {
     unauthorizedError(req, res);
   } else if (err?.name?.toString().toUpperCase() === errors[404]) {

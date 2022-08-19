@@ -23,6 +23,10 @@ module.exports = {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       },
+      isActive: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+      },
       createdBy: {
         type: Sequelize.UUID,
         references: {

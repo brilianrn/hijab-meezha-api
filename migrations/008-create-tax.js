@@ -17,6 +17,10 @@ module.exports = {
         type: Sequelize.FLOAT,
         allowNull: false,
       },
+      isActive: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+      },
       createdBy: {
         type: Sequelize.UUID,
         references: {

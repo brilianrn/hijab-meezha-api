@@ -68,15 +68,7 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
-      promoId: {
-        type: DataTypes.UUID,
-        validate: {
-          notEmpty: {
-            args: true,
-            msg: 'Promo ID is not allowed to be empty',
-          },
-        },
-      },
+      promoId: { type: DataTypes.UUID },
       name: {
         type: DataTypes.STRING,
         validate: {

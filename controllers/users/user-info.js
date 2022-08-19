@@ -14,7 +14,7 @@ const UserInfo = async (req, res, next) => {
         exclude: [
           'id',
           'username',
-          'phone_number',
+          'phoneNumber',
           'password',
           'createdAt',
           'updatedAt',

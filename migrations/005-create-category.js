@@ -19,6 +19,10 @@ module.exports = {
       photo: {
         type: Sequelize.STRING(150),
       },
+      isActive: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+      },
       createdBy: {
         type: Sequelize.UUID,
         references: {

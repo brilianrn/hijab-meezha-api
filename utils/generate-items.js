@@ -7,7 +7,7 @@ const generateOtpByPhone = async (phone) => {
   }
   try {
     const findOtp = await OtpCode.findOne({
-      where: { token: OTP, is_active: true },
+      where: { token: OTP, isActive: true },
     });
     if (findOtp) generateOtpByPhone(phone);
     else return OTP;
