@@ -47,7 +47,31 @@ const badRequestNotExist = (err, res) => {
       formatResponse(
         false,
         400,
-        errorMessages(errMessageTypes.badRequestEmptyField, err.description)
+        errorMessages(errMessageTypes.badRequestNotExist, err.description)
+      )
+    );
+};
+
+const badRequestWrongField = (err, res) => {
+  res
+    .status(400)
+    .json(
+      formatResponse(
+        false,
+        400,
+        errorMessages(errMessageTypes.badRequestWrongField, err.description)
+      )
+    );
+};
+
+const badRequestExistData = (err, res) => {
+  res
+    .status(400)
+    .json(
+      formatResponse(
+        false,
+        400,
+        errorMessages(errMessageTypes.badRequestExistData, err.description)
       )
     );
 };
@@ -58,4 +82,6 @@ module.exports = {
   badRequestError,
   badRequestEmptyField,
   badRequestNotExist,
+  badRequestWrongField,
+  badRequestExistData,
 };
