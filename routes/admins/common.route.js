@@ -1,19 +1,19 @@
 const route = require('express').Router();
 const {
-  ResendOtp,
-  ConfirmOtp,
   CreateRole,
   FindAllRole,
   FindDetailRole,
   UpdateRole,
   DeleteRole,
   FindAllForDropDown,
-} = require('../controllers/commons');
+} = require('../../controllers/commons');
+const {
+  AdminAuthentication,
+  AdminAuthorization,
+} = require('../../middlewares/auth');
 
-route.post('/otp/confirm', ConfirmOtp);
-route.post('/otp/resend', ResendOtp);
-
-// route.use(authentication);
+route.use(AdminAuthentication);
+route.use(AdminAuthorization('Super Admin'));
 
 route.get('/role', FindAllRole);
 route.get('/role/dropdown', FindAllForDropDown);
