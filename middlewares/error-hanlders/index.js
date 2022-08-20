@@ -12,8 +12,10 @@ const {
   badRequestError,
   badRequestEmptyField,
   badRequestNotExist,
-  badRequestWrongField,
+  badRequestWrongDataType,
   badRequestExistData,
+  badRequestNotNumber,
+  badRequestWrongField,
 } = require('./common.error');
 
 const errorHandler = (err, req, res, _next) => {
@@ -45,8 +47,14 @@ const errorHandler = (err, req, res, _next) => {
     err?.name?.toString().toUpperCase() === errors['400_WRONG_FIELD']
   ) {
     badRequestWrongField(err, res);
+  } else if (
+    err?.name?.toString().toUpperCase() === errors['400_WRONG_DATA_TYPE']
+  ) {
+    badRequestWrongDataType(err, res);
   } else if (err?.name?.toString().toUpperCase() === errors['400_EXIST_DATA']) {
     badRequestExistData(err, res);
+  } else if (err?.name?.toString().toUpperCase() === errors['400_NOT_NUMBER']) {
+    badRequestNotNumber(err, res);
   } else if (
     err?.name?.toString().toUpperCase() === errors['400_EMPTY_EMAIL'] ||
     err?.name?.toString().toUpperCase() === errors['400_EMPTY_FULL_NAME'] ||

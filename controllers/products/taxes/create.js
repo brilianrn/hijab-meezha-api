@@ -17,7 +17,7 @@ const CreateProductTax = async (req, res, next) => {
     });
   if (!NumberCheck(amount))
     return next({
-      name: errors['400_WRONG_FIELD'],
+      name: errors['400_WRONG_DATA_TYPE'],
       description: 'Amount',
     });
 

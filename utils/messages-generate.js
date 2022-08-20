@@ -13,8 +13,13 @@ const errorMessages = (type, props) => {
       return `${props} is not found!`;
     case errMessageTypes.badRequestExistData:
       return `${props} is already exist!`;
+    case errMessageTypes.badRequestWrongDataType:
+      return `${props} is invalid data type!`;
     case errMessageTypes.badRequestWrongField:
-      return `${props} is invalid field!`;
+      return `${props} invalid field!`;
+    case errMessageTypes.badRequestNotNumber:
+      const msg = props.split('-');
+      return `${msg[0]} must be ${msg[1] ? msg[1] + ' ' : ''}number!`;
     case errMessageTypes.wrongAuth:
       return `Invalid email or password!`;
     case errMessageTypes.unauthorized:
