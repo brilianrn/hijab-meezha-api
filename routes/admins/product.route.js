@@ -8,6 +8,10 @@ const {
   UpdateCategory,
 } = require('../../controllers/products/categories');
 const {
+  CreateThumbnailImage,
+  CreateProductImages,
+} = require('../../controllers/products/image');
+const {
   FindAllProductStatus,
   FindDetailProductStatus,
   CreateProductStatus,
@@ -15,6 +19,7 @@ const {
   UpdateProductStatus,
   FindAllProductStatusForDropDown,
 } = require('../../controllers/products/product-statuses');
+const { CreateProduct } = require('../../controllers/products/products');
 const {
   FindAllProductSizeForDropDown,
   FindAllProductSize,
@@ -56,6 +61,11 @@ route.get('/status/dropdown', FindAllProductStatusForDropDown);
 route.get('/status/:id', FindDetailProductStatus);
 
 route.use(AdminAuthorization('Super Admin'));
+
+route.post('/', CreateProduct);
+
+route.post('/image/create', CreateProductImages);
+route.post('/image/create/thumbnail', CreateThumbnailImage);
 
 route.post('/category', CreateProductCategory);
 route.delete('/category/:id', DeleteProductCategory);

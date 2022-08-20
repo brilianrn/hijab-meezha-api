@@ -52,6 +52,18 @@ const badRequestNotExist = (err, res) => {
     );
 };
 
+const badRequestWrongDataType = (err, res) => {
+  res
+    .status(400)
+    .json(
+      formatResponse(
+        false,
+        400,
+        errorMessages(errMessageTypes.badRequestWrongDataType, err.description)
+      )
+    );
+};
+
 const badRequestWrongField = (err, res) => {
   res
     .status(400)
@@ -76,6 +88,18 @@ const badRequestExistData = (err, res) => {
     );
 };
 
+const badRequestNotNumber = (err, res) => {
+  res
+    .status(400)
+    .json(
+      formatResponse(
+        false,
+        400,
+        errorMessages(errMessageTypes.badRequestNotNumber, err.description)
+      )
+    );
+};
+
 module.exports = {
   unauthorizedError,
   notFoundError,
@@ -83,5 +107,7 @@ module.exports = {
   badRequestEmptyField,
   badRequestNotExist,
   badRequestWrongField,
+  badRequestWrongDataType,
   badRequestExistData,
+  badRequestNotNumber,
 };

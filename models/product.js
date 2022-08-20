@@ -169,7 +169,6 @@ module.exports = (sequelize, DataTypes) => {
       modelName: 'Product',
       hooks: {
         beforeCreate: (product, opt) => {
-          product.productStatusId = 'ada';
           product.isActive = true;
         },
       },
