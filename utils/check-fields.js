@@ -11,4 +11,10 @@ const NumberCheck = (num) => {
   return regex.test(num);
 };
 
-module.exports = { UuidCheck, NumberCheck };
+const RoundNumberCheck = (num) => {
+  if (typeof num !== 'number') return false;
+  const regex = new RegExp(/^[1-9]\d{0,2}(\.?\d{3})*(,\d+)?$/);
+  return regex.test(num);
+};
+
+module.exports = { UuidCheck, NumberCheck, RoundNumberCheck };
