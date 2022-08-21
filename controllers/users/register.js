@@ -17,16 +17,19 @@ const CustomerRegister = async (req, res, next) => {
   };
 
   if (!newUser.email) {
-    return next({ name: errors['400_EMPTY_EMAIL'] });
+    return next({ name: errors['400_EMPTY_FIELD'], description: 'Email' });
   }
   if (!newUser.password) {
-    return next({ name: errors['400_EMPTY_PASSWORD'] });
+    return next({ name: errors['400_EMPTY_FIELD'], description: 'Password' });
   }
   if (!newUser.phoneNumber) {
-    return next({ name: errors['400_EMPTY_PHONE_NUMBER'] });
+    return next({
+      name: errors['400_EMPTY_FIELD'],
+      description: 'Phone number',
+    });
   }
   if (!newUser.fullname) {
-    return next({ name: errors['400_EMPTY_FULL_NAME'] });
+    return next({ name: errors['400_EMPTY_FIELD'], description: 'Full name' });
   }
 
   try {

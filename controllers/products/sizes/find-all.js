@@ -1,5 +1,5 @@
 const { errors, successMessageTypes } = require('../../../constants');
-const { Size } = require('../../../models');
+const { Size, Category } = require('../../../models');
 const formatResponse = require('../../../utils/format-response');
 const { successMessages } = require('../../../utils/messages-generate');
 
@@ -87,6 +87,7 @@ const FindAllProductSizeForDropDown = async (_, res, next) => {
       attributes: {
         exclude: ['createdAt', 'updatedAt', 'createdBy', 'updatedBy'],
       },
+      include: [{ model: Category, attributes: ['name'] }],
     };
     const sizes = await Size.findAll(opt);
 
