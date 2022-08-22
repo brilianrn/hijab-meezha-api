@@ -4,8 +4,6 @@ const formatResponse = require('../../../utils/format-response');
 const { successMessages } = require('../../../utils/messages-generate');
 
 const FindAllProduct = async (req, res, next) => {
-  let products = [];
-
   const { pageSize, filter, sort } = req.query;
   const page = req.query.page ? +req.query.page : 1;
 
@@ -58,7 +56,7 @@ const FindAllProduct = async (req, res, next) => {
             prevPage,
             currentPage,
             nextPage,
-            data,
+            products: data,
           }
         )
       );
