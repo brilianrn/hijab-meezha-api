@@ -5,9 +5,10 @@ const { successMessages } = require('../../../utils/messages-generate');
 
 const FindAllProduct = async (req, res, next) => {
   let products = [];
-  const { pageSize, filter, sort } = req.query;
 
+  const { pageSize, filter, sort } = req.query;
   const page = req.query.page ? +req.query.page : 1;
+
   const limit = pageSize ? +pageSize : 10;
   const sortObj = sort ? JSON.parse(sort)[0] : '';
   const sortKey = sortObj ? Object.keys(sortObj)[0] : '';
@@ -18,13 +19,18 @@ const FindAllProduct = async (req, res, next) => {
   let options = {
     order: sortKey && sortVal ? [[sortKey, sortVal]] : [],
     offset: page === 1 ? 0 : (page - 1) * limit,
+    limit,
   };
 
   options = {
     where: filterObj,
     attributes: {
-      exclude: ['createdAt', 'updatedAt', 'createdBy', 'updatedBy'],
+      exclude: ['updatedAt', 'createdBy', 'updatedBy'],
     },
+    include: [
+      { model: ProductThumbnail, attributes: ['url'] },
+      { model: ProductImage, attributes: ['url'] },
+    ],
     ...options,
   };
 
@@ -41,46 +47,21 @@ const FindAllProduct = async (req, res, next) => {
       const currentPage = page;
       const nextPage = getNextPage(currentPage, limit, totalRows);
       const prevPage = getPreviousPage(currentPage);
-
-      if (data.length) {
-        data.forEach(async (item, i) => {
-          let tempItem = item.dataValues;
-          await FindThumbnail(item.id, (dataCb, err) => {
-            if (err) {
-              return next(err);
-            }
-            tempItem = { ...tempItem, thumbnail: dataCb ? dataCb.url : null };
-          });
-
-          await FindImages(item.id, (dataCb, err) => {
-            if (err) {
-              return next(err);
-            }
-            tempItem = { ...tempItem, images: dataCb || null };
-          });
-
-          products.push(tempItem);
-          if (i === data.length - 1) {
-            return res.status(200).json(
-              formatResponse(
-                true,
-                200,
-                successMessages(successMessageTypes.findAll, 'Product'),
-                {
-                  totalRows,
-                  totalPage,
-                  prevPage,
-                  currentPage,
-                  nextPage,
-                  products,
-                }
-              )
-            );
+      return res.status(200).json(
+        formatResponse(
+          true,
+          200,
+          successMessages(successMessageTypes.findAll, 'Product'),
+          {
+            totalRows,
+            totalPage,
+            prevPage,
+            currentPage,
+            nextPage,
+            data,
           }
-        });
-      } else {
-        return next({ name: errors[404] });
-      }
+        )
+      );
     })
     .catch((err) => {
       next({ name: err.message });
