@@ -5,6 +5,6 @@ yarn.lock
 
 config/config.json
 seeders
-/assets/images/upload
+# /assets/images/upload
 
 .vscode

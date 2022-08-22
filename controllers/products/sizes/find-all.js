@@ -87,7 +87,7 @@ const FindAllProductSizeForDropDown = async (_, res, next) => {
       attributes: {
         exclude: ['createdAt', 'updatedAt', 'createdBy', 'updatedBy'],
       },
-      include: [{ model: Category, attributes: ['name'] }],
+      include: [{ model: Category, attributes: ['id', 'name'] }],
     };
     const sizes = await Size.findAll(opt);
 
