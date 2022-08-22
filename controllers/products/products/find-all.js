@@ -33,7 +33,7 @@ const FindAllProduct = async (req, res, next) => {
   };
 
   try {
-    const allData = await Product.findAll();
+    const allData = await Product.findAll(filterObj && { where: filterObj });
     totalRows = allData.length;
   } catch (error) {
     return next({ name: errors['404'] });
@@ -51,6 +51,7 @@ const FindAllProduct = async (req, res, next) => {
           200,
           successMessages(successMessageTypes.findAll, 'Product'),
           {
+            limit,
             totalRows,
             totalPage,
             prevPage,
