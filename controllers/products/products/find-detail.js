@@ -45,7 +45,7 @@ const FindDetailProduct = async (req, res, next) => {
               true,
               200,
               successMessages(successMessageTypes.findDetail, 'Product'),
-              { product: tempProd }
+              tempProd
             )
           );
       });
