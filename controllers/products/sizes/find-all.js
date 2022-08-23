@@ -81,15 +81,19 @@ const getPreviousPage = (page) => {
   return page - 1;
 };
 
-const FindAllProductSizeForDropDown = async (_, res, next) => {
+const FindAllProductSizeForDropDown = async (req, res, next) => {
+  const { filter } = req.query;
+  const filterObj = filter ? JSON.parse(filter) : {};
+  const options = {
+    where: filterObj,
+    attributes: {
+      exclude: ['createdAt', 'updatedAt', 'createdBy', 'updatedBy'],
+    },
+    include: [{ model: Category, attributes: ['id', 'name'] }],
+  };
+
   try {
-    const opt = {
-      attributes: {
-        exclude: ['createdAt', 'updatedAt', 'createdBy', 'updatedBy'],
-      },
-      include: [{ model: Category, attributes: ['id', 'name'] }],
-    };
-    const sizes = await Size.findAll(opt);
+    const sizes = await Size.findAll(options);
 
     if (!sizes) return next({ name: errors[404] });
 
