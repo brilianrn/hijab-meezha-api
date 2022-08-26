@@ -29,6 +29,13 @@ module.exports = {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       },
+      categoryId: {
+        type: Sequelize.UUID,
+        references: {
+          model: 'Categories',
+          key: 'id',
+        },
+      },
       qty: {
         type: Sequelize.FLOAT,
         allowNull: false,
@@ -39,15 +46,15 @@ module.exports = {
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Carts');
-  }
+  },
 };

@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      OtpCode.belongsTo(models.User, { foreignKey: 'user_id' });
+      OtpCode.belongsTo(models.User, { foreignKey: 'userId' });
     }
   }
   OtpCode.init(
@@ -25,12 +25,12 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Exist ID!',
         },
       },
-      user_id: {
+      userId: {
         type: DataTypes.UUID,
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Admin ID is not allowed to be empty',
+            msg: 'User ID is not allowed to be empty',
           },
         },
       },

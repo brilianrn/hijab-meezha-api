@@ -43,10 +43,17 @@ module.exports = {
           key: 'id',
         },
       },
-      addressId: {
+      destinationAddressId: {
         type: Sequelize.UUID,
         references: {
           model: 'Addresses',
+          key: 'id',
+        },
+      },
+      categoryId: {
+        type: Sequelize.UUID,
+        references: {
+          model: 'Categories',
           key: 'id',
         },
       },
@@ -58,6 +65,9 @@ module.exports = {
         type: Sequelize.STRING(300),
         allowNull: false,
         unique: true,
+      },
+      proofOfPaymentUrlImg: {
+        type: Sequelize.STRING(300),
       },
       remarks: {
         type: Sequelize.STRING(300),
@@ -72,6 +82,9 @@ module.exports = {
         type: Sequelize.DATE,
       },
       pickUpDate: {
+        type: Sequelize.DATE,
+      },
+      completedDate: {
         type: Sequelize.DATE,
       },
       receiptNumber: {
@@ -91,6 +104,9 @@ module.exports = {
       },
       deliveryFee: {
         type: Sequelize.FLOAT,
+      },
+      receiverName: {
+        type: Sequelize.STRING(300),
       },
       createdAt: {
         allowNull: false,
