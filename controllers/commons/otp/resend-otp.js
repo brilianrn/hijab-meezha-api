@@ -22,7 +22,7 @@ const ResendOtp = async (req, res, next) => {
     const user = await User.findOne({ where: { email, phoneNumber } });
     if (!user) return next({ name: errors['400_NOT_FOUND_USER'] });
 
-    await OtpCode.update({ isActive: false }, { where: { user_id: user.id } });
+    await OtpCode.update({ isActive: false }, { where: { userId: user.id } });
     const otpCode = await generateOtpByPhone(phoneNumber);
     const minutesToAdd = process.env.TIME_LIMIT;
     const currentDate = new Date();
@@ -42,7 +42,7 @@ const ResendOtp = async (req, res, next) => {
     );
 
     const newOtp = {
-      user_id: user.id,
+      userId: user.id,
       token: otpCode,
       type: otpType.register,
       expiredDate: expiredDate,

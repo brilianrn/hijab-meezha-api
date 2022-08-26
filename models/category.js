@@ -10,6 +10,10 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Category.belongsTo(models.Admin, { foreignKey: 'createdBy' });
       Category.belongsTo(models.Admin, { foreignKey: 'updatedBy' });
+
+      Category.hasMany(models.Product, { foreignKey: 'categoryId' });
+      Category.hasMany(models.Cart, { foreignKey: 'categoryId' });
+      Category.hasMany(models.Order, { foreignKey: 'categoryId' });
     }
   }
   Category.init(
