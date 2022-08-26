@@ -18,8 +18,10 @@ module.exports = {
         type: Sequelize.STRING(250),
         allowNull: false,
       },
-      kode: {
+      code: {
         type: Sequelize.STRING(50),
+        unique: true,
+        allowNull: false,
       },
       isActive: {
         type: Sequelize.BOOLEAN,
@@ -47,15 +49,15 @@ module.exports = {
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('CommonStatuses');
-  }
+  },
 };

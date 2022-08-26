@@ -10,6 +10,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Tax.belongsTo(models.Admin, { foreignKey: 'createdBy' });
       Tax.belongsTo(models.Admin, { foreignKey: 'updatedBy' });
+
+      Tax.hasMany(models.Order, { foreignKey: 'orderTaxId' });
     }
   }
   Tax.init(
