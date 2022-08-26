@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       Order.belongsTo(models.Tax, { foreignKey: 'orderTaxId' });
       Order.belongsTo(models.Address, { foreignKey: 'destinationAddressId' });
       Order.belongsTo(models.Category, { foreignKey: 'categoryId' });
+      Order.belongsTo(models.Promo, { foreignKey: 'promoId' });
     }
   }
   Order.init(
@@ -51,6 +52,7 @@ module.exports = (sequelize, DataTypes) => {
       orderTaxId: DataTypes.UUID,
       destinationAddressId: DataTypes.UUID,
       categoryId: DataTypes.UUID,
+      promoId: DataTypes.UUID,
       qty: {
         type: DataTypes.FLOAT,
         validate: {
