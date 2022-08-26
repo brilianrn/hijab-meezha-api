@@ -43,6 +43,13 @@ module.exports = {
           key: 'id',
         },
       },
+      promoId: {
+        type: Sequelize.UUID,
+        references: {
+          model: 'Promos',
+          key: 'id',
+        },
+      },
       destinationAddressId: {
         type: Sequelize.UUID,
         references: {
