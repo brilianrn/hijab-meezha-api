@@ -182,7 +182,7 @@ const CreateProduct = async (req, res, next) => {
           true,
           201,
           successMessages(successMessageTypes.createData, 'Product'),
-          { product: createProduct }
+          createProduct
         )
       );
   } catch (error) {
