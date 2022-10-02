@@ -19,8 +19,7 @@ const FogotUseEmail = async (req, res, next) => {
     const user = await User.findOne({ where: { email, isActive: true } });
 
     if (!user) return next({ name: errors['400_NOT_FOUND_USER'] });
-
-    await FindAndUpdateOtp({ userId: user.id, isActive: true });
+    await FindAndUpdateOtp({ user_id: user.id, isActive: true });
     const otpCode = await generateOtpByPhone(user.phoneNumber);
     const minutesToAdd = process.env.TIME_LIMIT;
     const currentDate = new Date();
@@ -40,7 +39,7 @@ const FogotUseEmail = async (req, res, next) => {
     );
 
     const newOtp = {
-      userId: user.id,
+      user_id: user.id,
       token: otpCode,
       type: otpType.resetPassword,
       expiredDate: expiredDate,
