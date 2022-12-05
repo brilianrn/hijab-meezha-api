@@ -2,16 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "./bin/http.js",
+      "src": "app.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/"
+      "dest": "index.js"
     }
-  ],
-  "rewrites": [{ "source": "/bin/http/(.*)", "destination": "/*" }],
-  "installCommand": "npm install"
+  ]
 }
