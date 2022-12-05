@@ -14,6 +14,13 @@ route.get('/', (_req, res) => {
 route.use('/admin', adminsRoute);
 route.use('/user', userRoute);
 
+route.use('/*', (_req, res) => {
+  res.status(200).json({
+    message: 'Route is not found',
+    description: '404',
+  });
+});
+
 route.use(unknownEndpoint);
 
 module.exports = route;
