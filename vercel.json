@@ -12,5 +12,6 @@
       "dest": "/"
     }
   ],
-  "rewrites": [{ "source": "/bin/http/(.*)", "destination": "/*" }]
+  "rewrites": [{ "source": "/bin/http/(.*)", "destination": "/*" }],
+  "installCommand": "npm install"
 }
