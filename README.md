@@ -1,6 +1,6 @@
 # hijab-meezha-api
 
-## for running hijab-meezha-api
+## Setup
 
 1. create file .env in accordance example file
 2. run script npm install
