@@ -8,7 +8,6 @@ const cart = require('./cart.route');
 route.use('/', user);
 route.use('/common', common);
 route.use('/product', product);
-route.use('/product', product);
 route.use('/cart', cart);
 
 module.exports = route;

@@ -21,6 +21,10 @@ module.exports = (sequelize, DataTypes) => {
       Admin.hasMany(models.ProductStatus, { foreignKey: 'updatedBy' });
       Admin.hasMany(models.Product, { foreignKey: 'createdBy' });
       Admin.hasMany(models.Product, { foreignKey: 'updatedBy' });
+      Admin.hasMany(models.ArticleCategory, { foreignKey: 'createdBy' });
+      Admin.hasMany(models.ArticleCategory, { foreignKey: 'updatedBy' });
+      Admin.hasMany(models.Article, { foreignKey: 'createdBy' });
+      Admin.hasMany(models.Article, { foreignKey: 'updatedBy' });
 
       Admin.belongsTo(models.Role, { foreignKey: 'roleId' });
     }

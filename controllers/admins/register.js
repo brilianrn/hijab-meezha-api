@@ -33,7 +33,7 @@ const AdminRegister = async (req, res, next) => {
 
   try {
     const role = await FindRole({ id: newAdmin.roleId });
-    if (!role?.data)
+    if (!role.data)
       return next({ name: errors['400_NOT_EXIST'], description: 'Role ID' });
 
     let createUser = null;

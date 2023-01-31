@@ -18,9 +18,9 @@ const AdminAuthentication = async (req, _, next) => {
       include: [{ model: Role, attributes: ['id', 'name', 'code'] }],
     };
     const data = await Admin.findOne(opt);
-    if (!data && !data?.isActive) return next({ name: errors[401] });
+    if (!data || !data.isActive) return next({ name: errors[401] });
     req.currentAdmin = { id: data.id, email: data.email, role: data.Role.name };
-    next();
+    return next();
   } catch (error) {
     return next(error);
   }

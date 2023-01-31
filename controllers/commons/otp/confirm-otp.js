@@ -32,7 +32,7 @@ const ConfirmOtp = async (req, res, next) => {
     }
 
     await ChangeOtpStatus(req, res, next);
-    if (type?.toUpperCase() === otpType.register) {
+    if (type.toUpperCase() === otpType.register) {
       await User.update({ isActive: true }, { where: { id: otp.User.id } });
     } else {
       const user = await User.findOne({ where: { id: otp.User.id } });

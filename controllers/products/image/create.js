@@ -78,8 +78,8 @@ const CreateProductImages = async (req, res, next) => {
       }
     });
 
-    if (req.files?.length > 0) {
-      req.files?.forEach(async (img, i) => {
+    if (req.files.length > 0) {
+      req.files.forEach(async (img, i) => {
         const url = await UploadImage(img);
         const payload = {
           url,
@@ -90,7 +90,7 @@ const CreateProductImages = async (req, res, next) => {
         const thumbnailProduct = await ProductImage.create(payload);
         productImages.push(thumbnailProduct);
 
-        if (i === req.files?.length - 1)
+        if (i === req.files.length - 1)
           return res
             .status(201)
             .json(

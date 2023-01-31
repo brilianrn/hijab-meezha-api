@@ -6,12 +6,12 @@ const { generateToken } = require('../../utils/jwt');
 const { successMessages } = require('../../utils/messages-generate');
 
 const AdminLogin = async (req, res, next) => {
-  if (req?.body?.email) {
-    if (req?.body?.password) {
+  if (req.body.email) {
+    if (req.body.password) {
       const user = { email: req.body.email, password: req.body.password };
       try {
         const findUser = await Admin.findOne({ where: { email: user.email } });
-        if (findUser && findUser?.isActive) {
+        if (findUser && findUser.isActive) {
           const checkPassword = comparePassword(
             user.password,
             findUser.password

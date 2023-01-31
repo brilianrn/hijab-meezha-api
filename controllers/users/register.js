@@ -74,7 +74,7 @@ const CustomerRegister = async (req, res, next) => {
 
     const newOtp = {
       user_id: createUser
-        ? createUser?.id
+        ? createUser.id
         : findEmail
         ? findEmail.id
         : findPhoneNumber.id,

@@ -1,5 +1,9 @@
 const route = require('express').Router();
-const { AdminRegister, AdminLogin } = require('../../controllers/admins');
+const {
+  AdminRegister,
+  AdminLogin,
+  AdminInfo,
+} = require('../../controllers/admins');
 const {
   AdminAuthentication,
   AdminAuthorization,
@@ -8,6 +12,9 @@ const {
 route.post('/login', AdminLogin);
 
 route.use(AdminAuthentication);
+
+route.get('/info', AdminInfo);
+
 route.use(AdminAuthorization('Super Admin'));
 
 route.post('/register', AdminRegister);
