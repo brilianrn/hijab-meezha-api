@@ -38,7 +38,6 @@ const UpdateArticle = async (req, res, next) => {
       ...req.body,
       updatedBy: req.currentAdmin.id,
     };
-    console.log(payload, ' = payload payload payload');
     const updateArticle = await Article.update(payload, opt);
     if (!updateArticle) return next(updateArticle);
     return res

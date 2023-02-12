@@ -5,6 +5,7 @@ const {
   CreateArticle,
   UpdateArticle,
   DeleteArticle,
+  FindDeepAllArticle,
 } = require('../../controllers/articles/articles');
 const {
   CreateArticleCategory,
@@ -29,6 +30,7 @@ route.put('/category/:id', UpdateArticleCategory);
 route.delete('/category/:id', DeleteArticleCategory);
 route.get('/category/lov', FindAllArticleCategoryForDropDown);
 
+route.get('/deep', FindDeepAllArticle);
 route.get('/', FindAllArticle);
 route.get('/:id', FindDetailArticle);
 route.post('/', CreateArticle);

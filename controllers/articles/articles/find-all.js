@@ -1,5 +1,6 @@
 const { errors, successMessageTypes } = require('../../../constants');
-const { Article } = require('../../../models');
+const { Article, ArticleCategory } = require('../../../models');
+const { getNextPage, getPreviousPage } = require('../../../utils');
 const formatResponse = require('../../../utils/format-response');
 const { successMessages } = require('../../../utils/messages-generate');
 
@@ -71,19 +72,38 @@ const FindAllArticle = async (req, res, next) => {
     });
 };
 
-const getNextPage = (page, limit, total) => {
-  if (total / limit > page) {
-    return page + 1;
+const FindDeepAllArticle = async (req, res, next) => {
+  const { filter } = req.query;
+  try {
+    const filterObj = filter ? JSON.parse(filter) : {};
+    const options = {
+      where: filterObj,
+      attributes: {
+        exclude: ['createdAt', 'updatedAt', 'createdBy', 'updatedBy'],
+      },
+      include: [
+        {
+          model: Article,
+          attributes: {
+            exclude: ['createdAt', 'updatedAt', 'createdBy', 'updatedBy'],
+          },
+        },
+      ],
+    };
+    const articleCtgs = await ArticleCategory.findAll(options);
+    return res
+      .status(200)
+      .json(
+        formatResponse(
+          true,
+          200,
+          successMessages(successMessageTypes.findAll, 'Article Deep'),
+          { articleCtgs }
+        )
+      );
+  } catch (error) {
+    next({ name: error.message });
   }
-
-  return null;
 };
 
-const getPreviousPage = (page) => {
-  if (page <= 1) {
-    return null;
-  }
-  return page - 1;
-};
-
-module.exports = { FindAllArticle };
+module.exports = { FindAllArticle, FindDeepAllArticle };
