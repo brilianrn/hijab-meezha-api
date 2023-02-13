@@ -95,7 +95,6 @@ const FindAllArticleCategoryForDropDown = async (_, res, next) => {
       },
     };
     const articleCtg = await ArticleCategory.findAll(opt);
-
     if (!articleCtg) return next({ name: errors[404] });
 
     return res
