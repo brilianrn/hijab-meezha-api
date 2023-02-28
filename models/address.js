@@ -9,6 +9,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Address.belongsTo(models.User, { foreignKey: 'userId' });
+      Address.belongsTo(models.User, { foreignKey: 'updatedBy' });
+      Address.belongsTo(models.User, { foreignKey: 'updatedBy' });
 
       Address.hasMany(models.Order, { foreignKey: 'destinationAddressId' });
     }
@@ -132,6 +134,69 @@ module.exports = (sequelize, DataTypes) => {
           notEmpty: {
             args: true,
             msg: 'Active status is not allowed to be empty',
+          },
+        },
+      },
+      provinceId: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: 'Province ID is not allowed to be empty',
+          },
+        },
+      },
+      cityId: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: 'City ID is not allowed to be empty',
+          },
+        },
+      },
+      districtId: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: 'District ID is not allowed to be empty',
+          },
+        },
+      },
+      villageId: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: 'Village ID is not allowed to be empty',
+          },
+        },
+      },
+      postCodeId: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: 'Postcode ID is not allowed to be empty',
+          },
+        },
+      },
+      createdBy: {
+        type: DataTypes.UUID,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: 'User ID is not allowed to be empty',
+          },
+        },
+      },
+      updatedBy: {
+        type: DataTypes.UUID,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: 'User ID is not allowed to be empty',
           },
         },
       },

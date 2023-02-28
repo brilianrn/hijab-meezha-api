@@ -24,7 +24,6 @@ const CreateArticle = async (req, res, next) => {
     });
 
   try {
-    console.log(articleCategoryId, ' HALO BOSSS');
     const articleCtg = await ArticleCategory.findOne({
       where: { id: articleCategoryId },
     });
