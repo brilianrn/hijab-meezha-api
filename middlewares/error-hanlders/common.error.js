@@ -23,7 +23,7 @@ const badRequestError = (err, res) => {
       formatResponse(
         false,
         400,
-        errorMessages(errMessageTypes.badRequest, err.name)
+        errorMessages(errMessageTypes.badRequest, err.name, err.description)
       )
     );
 };

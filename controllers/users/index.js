@@ -3,6 +3,7 @@ const { CustomerRegister } = require('./register');
 const { ResetPassword } = require('./reset-password');
 const { UserInfo } = require('./user-info');
 const { FogotUseEmail } = require('./forgot-password');
+const { Add, Update, Delete, FindOne, FindAll } = require('./address');
 
 module.exports = {
   CustomerLogin,
@@ -10,4 +11,9 @@ module.exports = {
   FogotUseEmail,
   UserInfo,
   ResetPassword,
+  CreateAddress: Add,
+  UpdateAddress: Update,
+  DeleteAddress: Delete,
+  FindOneAddress: FindOne,
+  FindAllAddress: FindAll,
 };
