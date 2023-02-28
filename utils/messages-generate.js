@@ -1,11 +1,11 @@
 const { errMessageTypes, successMessageTypes } = require('../constants');
 
-const errorMessages = (type, props) => {
+const errorMessages = (type, props, description) => {
   switch (type) {
     case errMessageTypes.notFound:
       return 'Data not found!';
     case errMessageTypes.badRequest:
-      if (props) return props;
+      if (props || description) return description || props;
       return `${props} cannot be empty!`;
     case errMessageTypes.badRequestEmptyField:
       return `${props} cannot be empty!`;

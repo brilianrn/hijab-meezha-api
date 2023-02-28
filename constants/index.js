@@ -13,7 +13,8 @@ const errors = {
   401: 'UNAUTHORIZED',
   404: 'NOT_FOUND',
   // ---------------- empty fields ------------------
-  '400_EMPTY_FIELD': 'EMPTY_FIELD', // general
+  400: 'BAD_REQUEST',
+  '400_EMPTY_FIELD': 'EMPTY_FIELD', // general with description
   '400_EMPTY_EMAIL': 'EMAIL',
   '400_EMPTY_PASSWORD': 'PASSWORD',
   '400_EMPTY_FULL_NAME': 'FULL_NAME',
