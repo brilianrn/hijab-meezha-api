@@ -85,6 +85,8 @@ const otpStatus = {
   notConfirmed: 'NOT_CONFIRMED',
 };
 
+const excludeColumns = ['updatedAt', 'createdAt', 'createdBy', 'updatedBy'];
+
 module.exports = {
   errors,
   errSequelize,
@@ -93,4 +95,5 @@ module.exports = {
   errJwt,
   otpType,
   otpStatus,
+  excludeColumns,
 };
