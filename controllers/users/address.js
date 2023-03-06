@@ -14,11 +14,11 @@ const FindAll = async (req, res, next) => {
       });
     }
     return res
-      .status(201)
+      .status(200)
       .json(
         formatResponse(
           true,
-          201,
+          200,
           successMessages(successMessageTypes.findAll, 'Address'),
           addresses
         )
@@ -64,11 +64,11 @@ const FindOne = async (req, res, next) => {
       });
     }
     return res
-      .status(201)
+      .status(200)
       .json(
         formatResponse(
           true,
-          201,
+          200,
           successMessages(successMessageTypes.findDetail, 'Address'),
           address
         )
@@ -96,11 +96,11 @@ const Update = async (req, res, next) => {
     const [address] = await Address.update(payload, opt);
     if (!address) return next(address);
     return res
-      .status(201)
+      .status(200)
       .json(
         formatResponse(
           true,
-          201,
+          200,
           successMessages(successMessageTypes.updateData, 'Address'),
           existAddress
         )
@@ -123,11 +123,11 @@ const Delete = async (req, res, next) => {
     const address = await Address.destroy(opt);
     if (!address) return next(address);
     return res
-      .status(201)
+      .status(200)
       .json(
         formatResponse(
           true,
-          201,
+          200,
           successMessages(successMessageTypes.deleteData, 'Address'),
           existAddress
         )

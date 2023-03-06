@@ -6,6 +6,7 @@ const product = require('./product.route');
 const cart = require('./cart.route');
 const article = require('./article.route');
 const address = require('./address.route');
+const order = require('./order.route');
 
 route.use('/', user);
 route.use('/common', common);
@@ -13,5 +14,6 @@ route.use('/product', product);
 route.use('/cart', cart);
 route.use('/article', article);
 route.use('/address', address);
+route.use('/order', order);
 
 module.exports = route;

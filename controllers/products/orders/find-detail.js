@@ -1,0 +1,82 @@
+const {
+  errors,
+  successMessageTypes,
+  excludeColumns,
+} = require('../../../constants');
+const {
+  Product,
+  ProductThumbnail,
+  ProductImage,
+  Order,
+  CommonStatus,
+  Tax,
+  Address,
+  Category,
+  Promo,
+} = require('../../../models');
+const formatResponse = require('../../../utils/format-response');
+const { successMessages } = require('../../../utils/messages-generate');
+
+const FindDetailOrder = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const opt = {
+      where: { id },
+      attributes: {
+        exclude: ['updatedAt', 'createdBy', 'updatedBy'],
+      },
+      include: [
+        {
+          model: Product,
+          attributes: { exclude: excludeColumns },
+          include: [
+            { model: ProductThumbnail, attributes: ['url'] },
+            { model: ProductImage, attributes: ['url'] },
+          ],
+        },
+        {
+          model: CommonStatus,
+          attributes: ['name', 'code'],
+        },
+        {
+          model: Tax,
+          attributes: ['name', 'amount'],
+        },
+        {
+          model: Address,
+          attributes: { exclude: excludeColumns },
+        },
+        {
+          model: Category,
+          attributes: { exclude: excludeColumns },
+        },
+        {
+          model: Promo,
+          attributes: { exclude: excludeColumns },
+        },
+      ],
+    };
+    const existStatus = await Order.findOne(opt);
+    if (!existStatus) {
+      return next({
+        name: errors[404],
+        description: 'Order',
+      });
+    }
+
+    return res
+      .status(200)
+      .json(
+        formatResponse(
+          true,
+          200,
+          successMessages(successMessageTypes.findDetail, 'Order'),
+          existStatus
+        )
+      );
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { FindDetailOrder };

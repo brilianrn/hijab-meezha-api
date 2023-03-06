@@ -7,6 +7,12 @@ const { UpdateRole } = require('./role/update');
 const { DeleteRole } = require('./role/delete');
 const { CreateRole } = require('./role/create');
 
+const { CreateStatus } = require('./status/create');
+const { DeleteStatus } = require('./status/delete');
+const { FindAllStatus, FindStatusLOV } = require('./status/find-all');
+const { FindDetailStatus } = require('./status/find-detail');
+const { UpdateStatus } = require('./status/update');
+
 module.exports = {
   ConfirmOtp,
   ResendOtp,
@@ -16,4 +22,10 @@ module.exports = {
   FindAllRole,
   FindAllForDropDown,
   FindDetailRole,
+  CreateStatus,
+  DeleteStatus,
+  FindAllStatus,
+  FindDetailStatus,
+  UpdateStatus,
+  FindStatusLOV,
 };

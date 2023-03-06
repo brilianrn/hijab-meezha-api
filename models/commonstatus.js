@@ -35,10 +35,6 @@ module.exports = (sequelize, DataTypes) => {
             msg: 'Status type is not allowed to be empty',
           },
         },
-        unique: {
-          args: true,
-          msg: 'Status type already exists',
-        },
       },
       name: {
         type: DataTypes.STRING,
