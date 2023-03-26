@@ -1,18 +1,24 @@
-const Joi = require('joi');
-const { isEmpty } = require('lodash');
-const { errors } = require('../../constants');
+const Joi = require("joi");
+const { isEmpty } = require("lodash");
+const { errors } = require("../../constants");
 
 const createOrderChecking = async (req, _, next) => {
   try {
     const schema = Joi.object()
       .keys({
-        productId: Joi.string().guid().required(),
         destinationAddressId: Joi.string().guid().required(),
-        qty: Joi.number().min(1).required(),
         deliveryFee: Joi.number().min(1).required(),
         deliveryPlatformName: Joi.string().required(),
-        deliveryId: Joi.string().required(),
+        deliveryService: Joi.string().required(),
         receiverName: Joi.string().required(),
+        products: Joi.array()
+          .items(
+            Joi.object({
+              productId: Joi.string().guid().required(),
+              qty: Joi.number().min(1).required(),
+            }).required()
+          )
+          .required(),
       })
       .options({ allowUnknown: true });
     const result = schema.validate(req.body);

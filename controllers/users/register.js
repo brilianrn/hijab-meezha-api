@@ -1,12 +1,12 @@
-const { errors, otpType, successMessageTypes } = require('../../constants');
-const { User, OtpCode } = require('../../models');
-const { emailTransport } = require('../../services/nodemailer');
-const formatResponse = require('../../utils/format-response');
+const { errors, otpType, successMessageTypes } = require("../../constants");
+const { User, OtpCode } = require("../../models");
+const { emailTransport } = require("../../services/nodemailer.service");
+const formatResponse = require("../../utils/format-response");
 const {
   generateOtpByPhone,
   generateDateDisplay,
-} = require('../../utils/generate-items');
-const { successMessages } = require('../../utils/messages-generate');
+} = require("../../utils/generate-items");
+const { successMessages } = require("../../utils/messages-generate");
 
 const CustomerRegister = async (req, res, next) => {
   const newUser = {
@@ -17,19 +17,19 @@ const CustomerRegister = async (req, res, next) => {
   };
 
   if (!newUser.email) {
-    return next({ name: errors['400_EMPTY_FIELD'], description: 'Email' });
+    return next({ name: errors["400_EMPTY_FIELD"], description: "Email" });
   }
   if (!newUser.password) {
-    return next({ name: errors['400_EMPTY_FIELD'], description: 'Password' });
+    return next({ name: errors["400_EMPTY_FIELD"], description: "Password" });
   }
   if (!newUser.phoneNumber) {
     return next({
-      name: errors['400_EMPTY_FIELD'],
-      description: 'Phone number',
+      name: errors["400_EMPTY_FIELD"],
+      description: "Phone number",
     });
   }
   if (!newUser.fullname) {
-    return next({ name: errors['400_EMPTY_FIELD'], description: 'Full name' });
+    return next({ name: errors["400_EMPTY_FIELD"], description: "Full name" });
   }
 
   try {
@@ -44,10 +44,10 @@ const CustomerRegister = async (req, res, next) => {
         { phoneNumber: newUser.phoneNumber }
       );
     } else if (!findEmail && findPhoneNumber) {
-      return next({ name: errors['400_EXIST_PHONE_NUMBER'] });
+      return next({ name: errors["400_EXIST_PHONE_NUMBER"] });
     } else if (findEmail && findPhoneNumber) {
       if (findEmail.id !== findPhoneNumber.id) {
-        return next({ name: errors['400_EXIST_EMAIL'] });
+        return next({ name: errors["400_EXIST_EMAIL"] });
       }
     } else if (!findEmail && !findPhoneNumber) {
       createUser = await User.create(newUser);

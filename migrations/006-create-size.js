@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Sizes', {
+    await queryInterface.createTable("Sizes", {
       id: {
         allowNull: false,
         primaryKey: true,
@@ -16,12 +16,12 @@ module.exports = {
       categoryId: {
         type: Sequelize.UUID,
         references: {
-          model: 'Categories',
-          key: 'id',
+          model: "Categories",
+          key: "id",
         },
         allowNull: false,
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
       },
       isActive: {
         type: Sequelize.BOOLEAN,
@@ -30,22 +30,20 @@ module.exports = {
       createdBy: {
         type: Sequelize.UUID,
         references: {
-          model: 'Admins',
-          key: 'id',
+          model: "Admins",
+          key: "id",
         },
         allowNull: false,
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
+        onUpdate: "CASCADE",
       },
       updatedBy: {
         type: Sequelize.UUID,
         references: {
-          model: 'Admins',
-          key: 'id',
+          model: "Admins",
+          key: "id",
         },
         allowNull: false,
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
+        onUpdate: "CASCADE",
       },
       createdAt: {
         allowNull: false,
@@ -58,6 +56,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Sizes');
+    await queryInterface.dropTable("Sizes");
   },
 };

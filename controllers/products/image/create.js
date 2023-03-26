@@ -1,20 +1,20 @@
-const { successMessageTypes, errors } = require('../../../constants');
-const { UploadImage } = require('../../../services/imgur');
-const formatResponse = require('../../../utils/format-response');
-const { successMessages } = require('../../../utils/messages-generate');
-const { ProductThumbnail, Product, ProductImage } = require('../../../models');
-const { UuidCheck } = require('../../../utils/check-fields');
+const { successMessageTypes, errors } = require("../../../constants");
+const { UploadImage } = require("../../../services/imgur.service");
+const formatResponse = require("../../../utils/format-response");
+const { successMessages } = require("../../../utils/messages-generate");
+const { ProductThumbnail, Product, ProductImage } = require("../../../models");
+const { UuidCheck } = require("../../../utils/check-fields");
 
 const CreateThumbnailImage = async (req, res, next) => {
   if (!req.body.productId)
     return next({
-      name: errors['400_EMPTY_FIELD'],
-      description: 'Product ID',
+      name: errors["400_EMPTY_FIELD"],
+      description: "Product ID",
     });
   if (!UuidCheck(req.body.productId))
     return next({
-      name: errors['400_WRONG_DATA_TYPE'],
-      description: 'Product ID',
+      name: errors["400_WRONG_DATA_TYPE"],
+      description: "Product ID",
     });
 
   try {
@@ -23,14 +23,14 @@ const CreateThumbnailImage = async (req, res, next) => {
         return next(
           err
             ? err
-            : { name: errors['400_NOT_EXIST'], description: 'Product ID' }
+            : { name: errors["400_NOT_EXIST"], description: "Product ID" }
         );
       }
     });
     const url = await UploadImage(req.files[0]);
     const payload = {
       url,
-      name: 'Thumbnail from ' + req.body.productId,
+      name: "Thumbnail from " + req.body.productId,
       productId: req.body.productId,
     };
 
@@ -43,7 +43,7 @@ const CreateThumbnailImage = async (req, res, next) => {
           201,
           successMessages(
             successMessageTypes.createData,
-            'Product thumbnail image'
+            "Product thumbnail image"
           ),
           { thumbnailProduct }
         )
@@ -58,13 +58,13 @@ const CreateProductImages = async (req, res, next) => {
 
   if (!req.body.productId)
     return next({
-      name: errors['400_EMPTY_FIELD'],
-      description: 'Product ID',
+      name: errors["400_EMPTY_FIELD"],
+      description: "Product ID",
     });
   if (!UuidCheck(req.body.productId))
     return next({
-      name: errors['400_WRONG_DATA_TYPE'],
-      description: 'Product ID',
+      name: errors["400_WRONG_DATA_TYPE"],
+      description: "Product ID",
     });
 
   try {
@@ -73,7 +73,7 @@ const CreateProductImages = async (req, res, next) => {
         return next(
           err
             ? err
-            : { name: errors['400_NOT_EXIST'], description: 'Product ID' }
+            : { name: errors["400_NOT_EXIST"], description: "Product ID" }
         );
       }
     });
@@ -83,7 +83,7 @@ const CreateProductImages = async (req, res, next) => {
         const url = await UploadImage(img);
         const payload = {
           url,
-          name: 'Image from ' + req.body.productId,
+          name: "Image from " + req.body.productId,
           productId: req.body.productId,
         };
 
@@ -99,7 +99,7 @@ const CreateProductImages = async (req, res, next) => {
                 201,
                 successMessages(
                   successMessageTypes.createData,
-                  'Product images'
+                  "Product images"
                 ),
                 { productImages }
               )
