@@ -1,47 +1,57 @@
-'use strict';
+"use strict";
 
 module.exports = {
   async up(queryInterface, Sequelize) {
     return Promise.all([
-      queryInterface.addColumn('Addresses', 'provinceId', {
+      queryInterface.addColumn("Addresses", "addressNameReceiver", {
         type: Sequelize.STRING(100),
         allowNull: false,
       }),
-      queryInterface.addColumn('Addresses', 'cityId', {
+      queryInterface.addColumn("Addresses", "addressPhoneReceiver", {
         type: Sequelize.STRING(100),
         allowNull: false,
       }),
-      queryInterface.addColumn('Addresses', 'districtId', {
+      queryInterface.addColumn("Addresses", "provinceId", {
         type: Sequelize.STRING(100),
         allowNull: false,
       }),
-      queryInterface.addColumn('Addresses', 'villageId', {
+      queryInterface.addColumn("Addresses", "cityId", {
         type: Sequelize.STRING(100),
         allowNull: false,
       }),
-      queryInterface.addColumn('Addresses', 'postCodeId', {
+      queryInterface.addColumn("Addresses", "districtId", {
         type: Sequelize.STRING(100),
         allowNull: false,
       }),
-      queryInterface.addColumn('Addresses', 'createdBy', {
+      queryInterface.addColumn("Addresses", "villageId", {
+        type: Sequelize.STRING(100),
+        allowNull: false,
+      }),
+      queryInterface.addColumn("Addresses", "postCodeId", {
+        type: Sequelize.STRING(100),
+        allowNull: false,
+      }),
+      queryInterface.addColumn("Addresses", "shippingDestinationId", {
+        type: Sequelize.STRING(100),
+        allowNull: false,
+      }),
+      queryInterface.addColumn("Addresses", "createdBy", {
         type: Sequelize.UUID,
         references: {
-          model: 'Users',
-          key: 'id',
+          model: "Users",
+          key: "id",
         },
         allowNull: false,
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
+        onUpdate: "CASCADE",
       }),
-      queryInterface.addColumn('Addresses', 'updatedBy', {
+      queryInterface.addColumn("Addresses", "updatedBy", {
         type: Sequelize.UUID,
         references: {
-          model: 'Users',
-          key: 'id',
+          model: "Users",
+          key: "id",
         },
         allowNull: false,
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
+        onUpdate: "CASCADE",
       }),
     ]);
   },

@@ -22,6 +22,8 @@ const createAddressChecking = async (req, _, next) => {
         districtId: Joi.string().required(),
         villageId: Joi.string().required(),
         postCodeId: Joi.string().required(),
+        addressNameReceiver: Joi.string().required(),
+        addressPhoneReceiver: Joi.string().required(),
       })
       .options({ allowUnknown: true });
     const result = schema.validate(req.body);

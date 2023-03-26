@@ -1,5 +1,5 @@
-'use strict';
-const { Model } = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Order extends Model {
     /**
@@ -8,13 +8,15 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Order.belongsTo(models.Product, { foreignKey: 'productId' });
-      Order.belongsTo(models.User, { foreignKey: 'userId' });
-      Order.belongsTo(models.CommonStatus, { foreignKey: 'orderStatusId' });
-      Order.belongsTo(models.Tax, { foreignKey: 'orderTaxId' });
-      Order.belongsTo(models.Address, { foreignKey: 'destinationAddressId' });
-      Order.belongsTo(models.Category, { foreignKey: 'categoryId' });
-      Order.belongsTo(models.Promo, { foreignKey: 'promoId' });
+      // Order.belongsTo(models.Product, { foreignKey: "productId" });
+      Order.belongsTo(models.User, { foreignKey: "userId" });
+      Order.belongsTo(models.CommonStatus, { foreignKey: "orderStatusId" });
+      Order.belongsTo(models.Tax, { foreignKey: "orderTaxId" });
+      Order.belongsTo(models.Address, { foreignKey: "destinationAddressId" });
+      Order.belongsTo(models.Category, { foreignKey: "categoryId" });
+      Order.belongsTo(models.Promo, { foreignKey: "promoId" });
+
+      Order.hasMany(models.OrderProduct, { foreignKey: "orderId" });
     }
   }
   Order.init(
@@ -27,24 +29,33 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: false,
         unique: {
           args: true,
-          msg: 'Exist ID!',
+          msg: "Exist ID!",
         },
       },
-      productId: {
-        type: DataTypes.UUID,
-        validate: {
-          notEmpty: {
-            args: true,
-            msg: 'Product ID is not allowed to be empty',
-          },
-        },
-      },
+      // productId: {
+      //   type: DataTypes.UUID,
+      //   validate: {
+      //     notEmpty: {
+      //       args: true,
+      //       msg: "Product ID is not allowed to be empty",
+      //     },
+      //   },
+      // },
+      // qty: {
+      //   type: DataTypes.FLOAT,
+      //   validate: {
+      //     notEmpty: {
+      //       args: true,
+      //       msg: "Quantity is not allowed to be empty",
+      //     },
+      //   },
+      // },
       userId: {
         type: DataTypes.UUID,
         validate: {
           notEmpty: {
             args: true,
-            msg: 'User ID is not allowed to be empty',
+            msg: "User ID is not allowed to be empty",
           },
         },
       },
@@ -53,26 +64,17 @@ module.exports = (sequelize, DataTypes) => {
       destinationAddressId: DataTypes.UUID,
       categoryId: DataTypes.UUID,
       promoId: DataTypes.UUID,
-      qty: {
-        type: DataTypes.FLOAT,
-        validate: {
-          notEmpty: {
-            args: true,
-            msg: 'Quantity is not allowed to be empty',
-          },
-        },
-      },
       orderCode: {
         type: DataTypes.STRING,
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Order code is not allowed to be empty',
+            msg: "Order code is not allowed to be empty",
           },
         },
         unique: {
           args: true,
-          msg: 'Exist ID!',
+          msg: "Exist ID!",
         },
       },
       proofOfPaymentUrlImg: DataTypes.STRING,
@@ -83,8 +85,9 @@ module.exports = (sequelize, DataTypes) => {
       pickUpDate: DataTypes.DATE,
       completedDate: DataTypes.DATE,
       receiptNumber: DataTypes.STRING,
+      weight: DataTypes.NUMBER,
       deliveryPlatformName: DataTypes.STRING,
-      deliveryId: DataTypes.STRING,
+      deliveryService: DataTypes.STRING,
       deliveryDriverName: DataTypes.STRING,
       deliveryDriverPoliceNumber: DataTypes.STRING,
       deliveryFee: DataTypes.FLOAT,
@@ -92,7 +95,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: 'Order',
+      modelName: "Order",
       hooks: {
         beforeCreate: (order, opt) => {
           order.isActive = true;

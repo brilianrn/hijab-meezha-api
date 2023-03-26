@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Orders', {
+    await queryInterface.createTable("Orders", {
       id: {
         allowNull: false,
         primaryKey: true,
@@ -9,64 +9,64 @@ module.exports = {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
       },
-      productId: {
-        type: Sequelize.UUID,
-        references: {
-          model: 'Products',
-          key: 'id',
-        },
-        allowNull: false,
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
-      },
+      // productId: {
+      //   type: Sequelize.UUID,
+      //   references: {
+      //     model: "Products",
+      //     key: "id",
+      //   },
+      //   allowNull: false,
+      //   onDelete: "CASCADE",
+      //   onUpdate: "CASCADE",
+      // },
+      // qty: {
+      //   type: Sequelize.FLOAT,
+      //   allowNull: false,
+      // },
       userId: {
         type: Sequelize.UUID,
         references: {
-          model: 'Users',
-          key: 'id',
+          model: "Users",
+          key: "id",
         },
         allowNull: false,
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
       },
       orderStatusId: {
         type: Sequelize.UUID,
         references: {
-          model: 'CommonStatuses',
-          key: 'id',
+          model: "CommonStatuses",
+          key: "id",
         },
       },
       orderTaxId: {
         type: Sequelize.UUID,
         references: {
-          model: 'Taxes',
-          key: 'id',
+          model: "Taxes",
+          key: "id",
         },
       },
       promoId: {
         type: Sequelize.UUID,
         references: {
-          model: 'Promos',
-          key: 'id',
+          model: "Promos",
+          key: "id",
         },
       },
       destinationAddressId: {
         type: Sequelize.UUID,
         references: {
-          model: 'Addresses',
-          key: 'id',
+          model: "Addresses",
+          key: "id",
         },
       },
       categoryId: {
         type: Sequelize.UUID,
         references: {
-          model: 'Categories',
-          key: 'id',
+          model: "Categories",
+          key: "id",
         },
-      },
-      qty: {
-        type: Sequelize.FLOAT,
-        allowNull: false,
       },
       orderCode: {
         type: Sequelize.STRING(300),
@@ -100,7 +100,7 @@ module.exports = {
       deliveryPlatformName: {
         type: Sequelize.STRING(300),
       },
-      deliveryId: {
+      deliveryService: {
         type: Sequelize.STRING(300),
       },
       deliveryDriverName: {
@@ -110,6 +110,9 @@ module.exports = {
         type: Sequelize.STRING(300),
       },
       deliveryFee: {
+        type: Sequelize.FLOAT,
+      },
+      weight: {
         type: Sequelize.FLOAT,
       },
       receiverName: {
@@ -126,6 +129,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Orders');
+    await queryInterface.dropTable("Orders");
   },
 };

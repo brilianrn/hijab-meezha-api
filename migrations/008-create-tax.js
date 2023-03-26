@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Taxes', {
+    await queryInterface.createTable("Taxes", {
       id: {
         allowNull: false,
         primaryKey: true,
@@ -24,22 +24,20 @@ module.exports = {
       createdBy: {
         type: Sequelize.UUID,
         references: {
-          model: 'Admins',
-          key: 'id',
+          model: "Admins",
+          key: "id",
         },
         allowNull: false,
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
+        onUpdate: "CASCADE",
       },
       updatedBy: {
         type: Sequelize.UUID,
         references: {
-          model: 'Admins',
-          key: 'id',
+          model: "Admins",
+          key: "id",
         },
         allowNull: false,
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
+        onUpdate: "CASCADE",
       },
       createdAt: {
         allowNull: false,
@@ -52,6 +50,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Taxes');
+    await queryInterface.dropTable("Taxes");
   },
 };

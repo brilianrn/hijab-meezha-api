@@ -1,5 +1,5 @@
-'use strict';
-const { Model } = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Address extends Model {
     /**
@@ -8,11 +8,11 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Address.belongsTo(models.User, { foreignKey: 'userId' });
-      Address.belongsTo(models.User, { foreignKey: 'updatedBy' });
-      Address.belongsTo(models.User, { foreignKey: 'updatedBy' });
+      Address.belongsTo(models.User, { foreignKey: "userId" });
+      Address.belongsTo(models.User, { foreignKey: "updatedBy" });
+      Address.belongsTo(models.User, { foreignKey: "updatedBy" });
 
-      Address.hasMany(models.Order, { foreignKey: 'destinationAddressId' });
+      Address.hasMany(models.Order, { foreignKey: "destinationAddressId" });
     }
   }
   Address.init(
@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: false,
         unique: {
           args: true,
-          msg: 'Exist ID!',
+          msg: "Exist ID!",
         },
       },
       userId: {
@@ -33,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'User ID is not allowed to be empty',
+            msg: "User ID is not allowed to be empty",
           },
         },
       },
@@ -43,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Street is not allowed to be empty',
+            msg: "Street is not allowed to be empty",
           },
         },
       },
@@ -52,7 +52,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'RT is not allowed to be empty',
+            msg: "RT is not allowed to be empty",
           },
         },
       },
@@ -61,7 +61,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'RW is not allowed to be empty',
+            msg: "RW is not allowed to be empty",
           },
         },
       },
@@ -70,7 +70,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Village is not allowed to be empty',
+            msg: "Village is not allowed to be empty",
           },
         },
       },
@@ -79,7 +79,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'District is not allowed to be empty',
+            msg: "District is not allowed to be empty",
           },
         },
       },
@@ -88,7 +88,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'City is not allowed to be empty',
+            msg: "City is not allowed to be empty",
           },
         },
       },
@@ -97,7 +97,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Province is not allowed to be empty',
+            msg: "Province is not allowed to be empty",
           },
         },
       },
@@ -106,7 +106,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Country is not allowed to be empty',
+            msg: "Country is not allowed to be empty",
           },
         },
       },
@@ -115,7 +115,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Post code is not allowed to be empty',
+            msg: "Post code is not allowed to be empty",
           },
         },
       },
@@ -124,7 +124,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Is Main Address is not allowed to be empty',
+            msg: "Is Main Address is not allowed to be empty",
           },
         },
       },
@@ -133,7 +133,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Active status is not allowed to be empty',
+            msg: "Active status is not allowed to be empty",
           },
         },
       },
@@ -142,7 +142,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Province ID is not allowed to be empty',
+            msg: "Province ID is not allowed to be empty",
           },
         },
       },
@@ -151,7 +151,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'City ID is not allowed to be empty',
+            msg: "City ID is not allowed to be empty",
           },
         },
       },
@@ -160,7 +160,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'District ID is not allowed to be empty',
+            msg: "District ID is not allowed to be empty",
           },
         },
       },
@@ -169,7 +169,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Village ID is not allowed to be empty',
+            msg: "Village ID is not allowed to be empty",
           },
         },
       },
@@ -178,7 +178,28 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Postcode ID is not allowed to be empty',
+            msg: "Postcode ID is not allowed to be empty",
+          },
+        },
+      },
+      shippingDestinationId: {
+        type: DataTypes.STRING,
+      },
+      addressNameReceiver: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: "Address name receiver is not allowed to be empty",
+          },
+        },
+      },
+      addressPhoneReceiver: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: "Address phone receiver is not allowed to be empty",
           },
         },
       },
@@ -187,7 +208,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'User ID is not allowed to be empty',
+            msg: "User ID is not allowed to be empty",
           },
         },
       },
@@ -196,14 +217,14 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'User ID is not allowed to be empty',
+            msg: "User ID is not allowed to be empty",
           },
         },
       },
     },
     {
       sequelize,
-      modelName: 'Address',
+      modelName: "Address",
       hooks: {
         beforeCreate: (commonStatus, opt) => {
           commonStatus.isActive = true;

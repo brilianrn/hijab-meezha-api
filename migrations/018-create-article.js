@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Articles', {
+    await queryInterface.createTable("Articles", {
       id: {
         allowNull: false,
         primaryKey: true,
@@ -12,12 +12,12 @@ module.exports = {
       articleCategoryId: {
         type: Sequelize.UUID,
         references: {
-          model: 'ArticleCategories',
-          key: 'id',
+          model: "ArticleCategories",
+          key: "id",
         },
         allowNull: false,
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
       },
       name: {
         type: Sequelize.STRING(100),
@@ -57,22 +57,20 @@ module.exports = {
       createdBy: {
         type: Sequelize.UUID,
         references: {
-          model: 'Admins',
-          key: 'id',
+          model: "Admins",
+          key: "id",
         },
         allowNull: false,
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
+        onUpdate: "CASCADE",
       },
       updatedBy: {
         type: Sequelize.UUID,
         references: {
-          model: 'Admins',
-          key: 'id',
+          model: "Admins",
+          key: "id",
         },
         allowNull: false,
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
+        onUpdate: "CASCADE",
       },
       createdAt: {
         allowNull: false,
@@ -85,6 +83,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Articles');
+    await queryInterface.dropTable("Articles");
   },
 };

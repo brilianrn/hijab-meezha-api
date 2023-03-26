@@ -1,31 +1,34 @@
+const moment = require("moment");
+const { Op } = require("sequelize");
 const {
   errors,
   successMessageTypes,
   excludeColumns,
-} = require('../../../constants');
+} = require("../../../constants");
 const {
-  Product,
-  ProductThumbnail,
-  ProductImage,
   Order,
   CommonStatus,
   Tax,
+  OrderProduct,
   Address,
   Category,
   Promo,
-} = require('../../../models');
-const formatResponse = require('../../../utils/format-response');
-const { successMessages } = require('../../../utils/messages-generate');
+  Product,
+  ProductThumbnail,
+  ProductImage,
+} = require("../../../models");
+const formatResponse = require("../../../utils/format-response");
+const { successMessages } = require("../../../utils/messages-generate");
 
 const FindAllUserOrders = async (req, res, next) => {
   const { id } = req.currentUser;
-  const { pageSize, filter, sort } = req.query;
+  const { pageSize, filter, sort, date } = req.query;
   const page = req.query.page ? +req.query.page : 1;
 
   const limit = pageSize ? +pageSize : 10;
-  const sortObj = sort ? JSON.parse(sort)[0] : '';
-  const sortKey = sortObj ? Object.keys(sortObj)[0] : '';
-  const sortVal = sortKey ? JSON.parse(sort)[0][sortKey].toUpperCase() : '';
+  const sortObj = sort ? JSON.parse(sort)[0] : "";
+  const sortKey = sortObj ? Object.keys(sortObj)[0] : "";
+  const sortVal = sortKey ? JSON.parse(sort)[0][sortKey].toUpperCase() : "";
 
   let totalRows = 0;
   let filterObj = filter ? JSON.parse(filter) : {};
@@ -35,28 +38,48 @@ const FindAllUserOrders = async (req, res, next) => {
     limit,
   };
 
-  filterObj = { ...filterObj, userId: id };
+  if (date) {
+    filterObj = {
+      ...filterObj,
+      userId: id,
+      createdAt: {
+        [Op.gte]: moment().subtract(+date, "days").toDate(),
+      },
+    };
+  }
+
+  filterObj = {
+    ...filterObj,
+    userId: id,
+  };
+
   options = {
     where: filterObj,
     attributes: {
-      exclude: ['updatedAt', 'createdBy', 'updatedBy'],
+      exclude: ["updatedAt", "createdBy", "updatedBy"],
     },
     include: [
       {
-        model: Product,
-        attributes: { exclude: excludeColumns },
+        model: OrderProduct,
+        attributes: ["id", "qty"],
         include: [
-          { model: ProductThumbnail, attributes: ['url'] },
-          { model: ProductImage, attributes: ['url'] },
+          {
+            model: Product,
+            attributes: { exclude: excludeColumns },
+            include: [
+              { model: ProductThumbnail, attributes: ["url"] },
+              { model: ProductImage, attributes: ["url"] },
+            ],
+          },
         ],
       },
       {
         model: CommonStatus,
-        attributes: ['name', 'code'],
+        attributes: ["name", "code"],
       },
       {
         model: Tax,
-        attributes: ['name', 'amount'],
+        attributes: ["name", "amount"],
       },
       {
         model: Address,
@@ -78,7 +101,7 @@ const FindAllUserOrders = async (req, res, next) => {
     const allData = await Order.findAll(filterObj && { where: filterObj });
     totalRows = allData.length;
   } catch (error) {
-    return next({ name: errors['404'] });
+    return next({ name: errors["404"] });
   }
 
   Order.findAll(options)
@@ -91,7 +114,7 @@ const FindAllUserOrders = async (req, res, next) => {
         formatResponse(
           true,
           200,
-          successMessages(successMessageTypes.findAll, 'Order'),
+          successMessages(successMessageTypes.findAll, "Order"),
           {
             limit,
             totalRows,

@@ -1,26 +1,26 @@
-const { errors, otpType, successMessageTypes } = require('../../../constants');
-const { User, OtpCode } = require('../../../models');
-const { emailTransport } = require('../../../services/nodemailer');
-const formatResponse = require('../../../utils/format-response');
+const { errors, otpType, successMessageTypes } = require("../../../constants");
+const { User, OtpCode } = require("../../../models");
+const { emailTransport } = require("../../../services/nodemailer.service");
+const formatResponse = require("../../../utils/format-response");
 const {
   generateOtpByPhone,
   generateDateDisplay,
-} = require('../../../utils/generate-items');
-const { successMessages } = require('../../../utils/messages-generate');
+} = require("../../../utils/generate-items");
+const { successMessages } = require("../../../utils/messages-generate");
 
 const ResendOtp = async (req, res, next) => {
   const { email, phoneNumber } = req.body;
 
   if (!email) {
-    return next({ name: errors['400_EMPTY_EMAIL'] });
+    return next({ name: errors["400_EMPTY_EMAIL"] });
   }
   if (!phoneNumber) {
-    return next({ name: errors['400_EMPTY_PHONE_NUMBER'] });
+    return next({ name: errors["400_EMPTY_PHONE_NUMBER"] });
   }
 
   try {
     const user = await User.findOne({ where: { email, phoneNumber } });
-    if (!user) return next({ name: errors['400_NOT_FOUND_USER'] });
+    if (!user) return next({ name: errors["400_NOT_FOUND_USER"] });
 
     await OtpCode.update({ isActive: false }, { where: { user_id: user.id } });
     const otpCode = await generateOtpByPhone(phoneNumber);

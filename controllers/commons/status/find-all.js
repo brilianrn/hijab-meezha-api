@@ -1,16 +1,20 @@
-const { errors, successMessageTypes } = require('../../../constants');
-const { CommonStatus } = require('../../../models');
-const formatResponse = require('../../../utils/format-response');
-const { successMessages } = require('../../../utils/messages-generate');
+const {
+  errors,
+  successMessageTypes,
+  excludeColumns,
+} = require("../../../constants");
+const { CommonStatus } = require("../../../models");
+const formatResponse = require("../../../utils/format-response");
+const { successMessages } = require("../../../utils/messages-generate");
 
 const FindAllStatus = async (req, res, next) => {
   const { pageSize, filter, sort } = req.query;
 
   const page = req.query.page ? +req.query.page : 1;
   const limit = pageSize ? +pageSize : 10;
-  const sortObj = sort ? JSON.parse(sort)[0] : '';
-  const sortKey = sortObj ? Object.keys(sortObj)[0] : '';
-  const sortVal = sortKey ? JSON.parse(sort)[0][sortKey].toUpperCase() : '';
+  const sortObj = sort ? JSON.parse(sort)[0] : "";
+  const sortKey = sortObj ? Object.keys(sortObj)[0] : "";
+  const sortVal = sortKey ? JSON.parse(sort)[0][sortKey].toUpperCase() : "";
 
   let totalRows = 0;
   let filterObj = filter ? JSON.parse(filter) : {};
@@ -22,7 +26,7 @@ const FindAllStatus = async (req, res, next) => {
   options = {
     where: filterObj,
     attributes: {
-      exclude: ['createdAt', 'updatedAt'],
+      exclude: ["createdAt", "updatedAt"],
     },
     ...options,
   };
@@ -31,7 +35,7 @@ const FindAllStatus = async (req, res, next) => {
     const allData = await CommonStatus.findAll();
     totalRows = allData.length;
   } catch (error) {
-    return next({ name: errors['404'] });
+    return next({ name: errors["404"] });
   }
 
   CommonStatus.findAll(options)
@@ -46,7 +50,7 @@ const FindAllStatus = async (req, res, next) => {
           formatResponse(
             true,
             200,
-            successMessages(successMessageTypes.findAll, 'CommonStatus'),
+            successMessages(successMessageTypes.findAll, "CommonStatus"),
             {
               totalRows,
               totalPage,
@@ -81,12 +85,13 @@ const getPreviousPage = (page) => {
   return page - 1;
 };
 
-const FindStatusLOV = async (_, res, next) => {
+const FindStatusLOV = async (req, res, next) => {
   try {
+    const { type } = req.params;
     const opt = {
-      where: { isActive: true },
+      where: { isActive: true, type },
       attributes: {
-        exclude: ['createdAt', 'updatedAt'],
+        exclude: excludeColumns,
       },
     };
     const roles = await CommonStatus.findAll(opt);
@@ -99,7 +104,7 @@ const FindStatusLOV = async (_, res, next) => {
         formatResponse(
           true,
           200,
-          successMessages(successMessageTypes.findAll, 'CommonStatus'),
+          successMessages(successMessageTypes.findAll, "CommonStatus"),
           roles
         )
       );
