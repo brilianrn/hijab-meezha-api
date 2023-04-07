@@ -45,7 +45,7 @@ const CreateThumbnailImage = async (req, res, next) => {
             successMessageTypes.createData,
             "Product thumbnail image"
           ),
-          { thumbnailProduct }
+          thumbnailProduct
         )
       );
   } catch (error) {

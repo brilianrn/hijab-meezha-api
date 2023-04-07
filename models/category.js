@@ -1,5 +1,5 @@
-'use strict';
-const { Model } = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Category extends Model {
     /**
@@ -8,12 +8,12 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Category.belongsTo(models.Admin, { foreignKey: 'createdBy' });
-      Category.belongsTo(models.Admin, { foreignKey: 'updatedBy' });
+      Category.belongsTo(models.Admin, { foreignKey: "createdBy" });
+      Category.belongsTo(models.Admin, { foreignKey: "updatedBy" });
 
-      Category.hasMany(models.Product, { foreignKey: 'categoryId' });
-      Category.hasMany(models.Cart, { foreignKey: 'categoryId' });
-      Category.hasMany(models.Order, { foreignKey: 'categoryId' });
+      Category.hasMany(models.Product, { foreignKey: "categoryId" });
+      Category.hasMany(models.Cart, { foreignKey: "categoryId" });
+      Category.hasMany(models.Order, { foreignKey: "categoryId" });
     }
   }
   Category.init(
@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: false,
         unique: {
           args: true,
-          msg: 'Exist ID!',
+          msg: "Exist ID!",
         },
       },
       name: {
@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Category name is not allowed to be empty',
+            msg: "Category name is not allowed to be empty",
           },
         },
       },
@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Admin ID is not allowed to be empty',
+            msg: "Admin ID is not allowed to be empty",
           },
         },
       },
@@ -54,7 +54,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'OTP status is not allowed to be empty',
+            msg: "Status is not allowed to be empty",
           },
         },
       },
@@ -63,14 +63,14 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Admin ID is not allowed to be empty',
+            msg: "Admin ID is not allowed to be empty",
           },
         },
       },
     },
     {
       sequelize,
-      modelName: 'Category',
+      modelName: "Category",
       hooks: {
         beforeCreate: (category, opt) => {
           category.isActive = true;
