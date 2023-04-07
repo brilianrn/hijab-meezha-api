@@ -1,16 +1,20 @@
-const { errors, successMessageTypes } = require('../../../constants');
-const { ProductStatus } = require('../../../models');
-const formatResponse = require('../../../utils/format-response');
-const { successMessages } = require('../../../utils/messages-generate');
+const {
+  errors,
+  successMessageTypes,
+  excludeColumns,
+} = require("../../../constants");
+const { ProductStatus } = require("../../../models");
+const formatResponse = require("../../../utils/format-response");
+const { successMessages } = require("../../../utils/messages-generate");
 
 const FindAllProductStatus = async (req, res, next) => {
   const { pageSize, filter, sort } = req.query;
 
   const page = req.query.page ? +req.query.page : 1;
   const limit = pageSize ? +pageSize : 10;
-  const sortObj = sort ? JSON.parse(sort)[0] : '';
-  const sortKey = sortObj ? Object.keys(sortObj)[0] : '';
-  const sortVal = sortKey ? JSON.parse(sort)[0][sortKey].toUpperCase() : '';
+  const sortObj = sort ? JSON.parse(sort)[0] : "";
+  const sortKey = sortObj ? Object.keys(sortObj)[0] : "";
+  const sortVal = sortKey ? JSON.parse(sort)[0][sortKey].toUpperCase() : "";
 
   let totalRows = 0;
   let filterObj = filter ? JSON.parse(filter) : {};
@@ -21,9 +25,7 @@ const FindAllProductStatus = async (req, res, next) => {
 
   options = {
     where: filterObj,
-    attributes: {
-      exclude: ['createdAt', 'updatedAt', 'createdBy', 'updatedBy'],
-    },
+    attributes: { exclude: excludeColumns },
     ...options,
   };
 
@@ -31,7 +33,7 @@ const FindAllProductStatus = async (req, res, next) => {
     const allData = await ProductStatus.findAll();
     totalRows = allData.length;
   } catch (error) {
-    return next({ name: errors['404'] });
+    return next({ name: errors["404"] });
   }
 
   ProductStatus.findAll(options)
@@ -46,7 +48,7 @@ const FindAllProductStatus = async (req, res, next) => {
           formatResponse(
             true,
             200,
-            successMessages(successMessageTypes.findAll, 'Product status'),
+            successMessages(successMessageTypes.findAll, "Product status"),
             {
               totalRows,
               totalPage,
@@ -85,9 +87,7 @@ const FindAllProductStatusForDropDown = async (_, res, next) => {
   try {
     const opt = {
       where: { isActive: true },
-      attributes: {
-        exclude: ['createdAt', 'updatedAt', 'createdBy', 'updatedBy'],
-      },
+      attributes: { exclude: excludeColumns },
     };
     const productStatuses = await ProductStatus.findAll(opt);
 
@@ -99,7 +99,7 @@ const FindAllProductStatusForDropDown = async (_, res, next) => {
         formatResponse(
           true,
           200,
-          successMessages(successMessageTypes.findAll, 'Product status'),
+          successMessages(successMessageTypes.findAll, "Product status"),
           productStatuses
         )
       );

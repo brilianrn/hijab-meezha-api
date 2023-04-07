@@ -1,16 +1,16 @@
-const { errors, successMessageTypes } = require('../../../constants');
-const { Category } = require('../../../models');
-const formatResponse = require('../../../utils/format-response');
-const { successMessages } = require('../../../utils/messages-generate');
+const { errors, successMessageTypes } = require("../../../constants");
+const { Category } = require("../../../models");
+const formatResponse = require("../../../utils/format-response");
+const { successMessages } = require("../../../utils/messages-generate");
 
 const FindAllProductCategory = async (req, res, next) => {
   const { pageSize, filter, sort } = req.query;
 
   const page = req.query.page ? +req.query.page : 1;
   const limit = pageSize ? +pageSize : 10;
-  const sortObj = sort ? JSON.parse(sort)[0] : '';
-  const sortKey = sortObj ? Object.keys(sortObj)[0] : '';
-  const sortVal = sortKey ? JSON.parse(sort)[0][sortKey].toUpperCase() : '';
+  const sortObj = sort ? JSON.parse(sort)[0] : "";
+  const sortKey = sortObj ? Object.keys(sortObj)[0] : "";
+  const sortVal = sortKey ? JSON.parse(sort)[0][sortKey].toUpperCase() : "";
 
   let totalRows = 0;
   let filterObj = filter ? JSON.parse(filter) : {};
@@ -22,7 +22,7 @@ const FindAllProductCategory = async (req, res, next) => {
   options = {
     where: filterObj,
     attributes: {
-      exclude: ['createdAt', 'updatedAt', 'createdBy', 'updatedBy'],
+      exclude: ["createdAt", "updatedAt", "createdBy", "updatedBy"],
     },
     ...options,
   };
@@ -31,7 +31,7 @@ const FindAllProductCategory = async (req, res, next) => {
     const allData = await Category.findAll();
     totalRows = allData.length;
   } catch (error) {
-    return next({ name: errors['404'] });
+    return next({ name: errors["404"] });
   }
 
   Category.findAll(options)
@@ -46,7 +46,7 @@ const FindAllProductCategory = async (req, res, next) => {
           formatResponse(
             true,
             200,
-            successMessages(successMessageTypes.findAll, 'Category'),
+            successMessages(successMessageTypes.findAll, "Category"),
             {
               totalRows,
               totalPage,
@@ -81,11 +81,16 @@ const getPreviousPage = (page) => {
   return page - 1;
 };
 
-const FindAllProductCategoryForDropDown = async (_, res, next) => {
+const FindAllProductCategoryForDropDown = async (req, res, next) => {
   try {
+    const { isAll } = req.query;
     const opt = {
+      where: {
+        isActive: isAll ? [true, false] : true,
+      },
+      order: [["createdAt", "ASC"]],
       attributes: {
-        exclude: ['createdAt', 'updatedAt', 'createdBy', 'updatedBy'],
+        exclude: ["updatedAt", "createdBy", "updatedBy"],
       },
     };
     const categories = await Category.findAll(opt);
@@ -98,7 +103,7 @@ const FindAllProductCategoryForDropDown = async (_, res, next) => {
         formatResponse(
           true,
           200,
-          successMessages(successMessageTypes.findAll, 'Category'),
+          successMessages(successMessageTypes.findAll, "Category"),
           categories
         )
       );
