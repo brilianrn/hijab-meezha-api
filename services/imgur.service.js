@@ -5,9 +5,8 @@ const path = require("path");
 
 const UploadImage = async (file) => {
   const url = await imgur.uploadFile(`./assets/images/upload/${file.filename}`);
-  console.log(url, " ----- URL");
   fs.unlinkSync(`./assets/images/upload/${file.filename}`);
-  return url?.data?.link;
+  return url?.data?.link || url?.link;
 };
 
 const Storage = multer.diskStorage({
