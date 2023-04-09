@@ -1,24 +1,24 @@
-const { errors, successMessageTypes } = require('../../../constants');
-const { Tax } = require('../../../models');
-const formatResponse = require('../../../utils/format-response');
-const { successMessages } = require('../../../utils/messages-generate');
-const { NumberCheck } = require('../../../utils/check-fields');
+const { errors, successMessageTypes } = require("../../../constants");
+const { Tax } = require("../../../models");
+const formatResponse = require("../../../utils/format-response");
+const { successMessages } = require("../../../utils/messages-generate");
+const { NumberCheck } = require("../../../utils/check-fields");
 
 const CreateProductTax = async (req, res, next) => {
   const { name, amount } = req.body;
   const { id } = req.currentAdmin;
 
   if (!name)
-    return next({ name: errors['400_EMPTY_FIELD'], description: 'Tax name' });
-  if (!amount)
+    return next({ name: errors["400_EMPTY_FIELD"], description: "Tax name" });
+  if (!amount && amount < 0 && amount !== 0)
     return next({
-      name: errors['400_EMPTY_FIELD'],
-      description: 'Amount',
+      name: errors["400_EMPTY_FIELD"],
+      description: "Amount",
     });
   if (!NumberCheck(amount))
     return next({
-      name: errors['400_WRONG_DATA_TYPE'],
-      description: 'Amount',
+      name: errors["400_WRONG_DATA_TYPE"],
+      description: "Amount",
     });
 
   try {
@@ -26,8 +26,8 @@ const CreateProductTax = async (req, res, next) => {
     if (tax) {
       if (tax.name === name && tax.amount === amount) {
         return next({
-          name: errors['400_EXIST_DATA'],
-          description: 'Tax',
+          name: errors["400_EXIST_DATA"],
+          description: "Tax",
         });
       }
     }
@@ -45,7 +45,7 @@ const CreateProductTax = async (req, res, next) => {
         formatResponse(
           true,
           201,
-          successMessages(successMessageTypes.createData, 'Tax'),
+          successMessages(successMessageTypes.createData, "Tax"),
           { name, amount }
         )
       );
