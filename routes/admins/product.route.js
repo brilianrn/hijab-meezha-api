@@ -22,6 +22,9 @@ const {
 const {
   CreateProduct,
   FindAllProduct,
+  FindDetailProduct,
+  UpdateProduct,
+  DeleteProduct,
 } = require("../../controllers/products/products");
 const {
   FindAllProductSizeForDropDown,
@@ -43,6 +46,10 @@ const {
   AdminAuthentication,
   AdminAuthorization,
 } = require("../../middlewares/auth");
+const {
+  productIdRequired,
+  productForms,
+} = require("../../middlewares/products/product");
 const {
   addProductCategoryTerms,
   updateProductCategoryTerms,
@@ -68,10 +75,13 @@ route.get("/status/dropdown", FindAllProductStatusForDropDown);
 route.get("/status/:id", FindDetailProductStatus);
 
 route.get("/", FindAllProduct);
+route.get("/:id", productIdRequired, FindDetailProduct);
 
 route.use(AdminAuthorization("Super Admin"));
 
 route.post("/", CreateProduct);
+route.put("/:id", productIdRequired, productForms, UpdateProduct);
+route.delete("/:id", productIdRequired, DeleteProduct);
 
 route.post("/image/create", CreateProductImages);
 route.post("/image/create/thumbnail", CreateThumbnailImage);

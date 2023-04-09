@@ -1,4 +1,4 @@
-const { errors, successMessageTypes } = require('../../../constants');
+const { errors, successMessageTypes } = require("../../../constants");
 const {
   Category,
   Size,
@@ -6,10 +6,10 @@ const {
   ProductStatus,
   Promo,
   Product,
-} = require('../../../models');
-const { UuidCheck, RoundNumberCheck } = require('../../../utils/check-fields');
-const formatResponse = require('../../../utils/format-response');
-const { successMessages } = require('../../../utils/messages-generate');
+} = require("../../../models");
+const { UuidCheck, RoundNumberCheck } = require("../../../utils/check-fields");
+const formatResponse = require("../../../utils/format-response");
+const { successMessages } = require("../../../utils/messages-generate");
 
 const CreateProduct = async (req, res, next) => {
   const {
@@ -29,101 +29,101 @@ const CreateProduct = async (req, res, next) => {
 
   if (!name)
     return next({
-      name: errors['400_EMPTY_FIELD'],
-      description: 'Product name',
+      name: errors["400_EMPTY_FIELD"],
+      description: "Product name",
     });
   if (!description)
     return next({
-      name: errors['400_EMPTY_FIELD'],
-      description: 'Product description',
+      name: errors["400_EMPTY_FIELD"],
+      description: "Product description",
     });
   if (!stock)
     return next({
-      name: errors['400_EMPTY_FIELD'],
-      description: 'Product stock',
+      name: errors["400_EMPTY_FIELD"],
+      description: "Product stock",
     });
   if (!RoundNumberCheck(stock))
     return next({
-      name: errors['400_NOT_NUMBER'],
-      description: 'Product stock-round',
+      name: errors["400_NOT_NUMBER"],
+      description: "Product stock-round",
     });
   if (!price)
     return next({
-      name: errors['400_EMPTY_FIELD'],
-      description: 'Product price',
+      name: errors["400_EMPTY_FIELD"],
+      description: "Product price",
     });
   if (!RoundNumberCheck(price))
     return next({
-      name: errors['400_NOT_NUMBER'],
-      description: 'Product price-round',
+      name: errors["400_NOT_NUMBER"],
+      description: "Product price-round",
     });
   if (!priceAfterDiscount)
     return next({
-      name: errors['400_EMPTY_FIELD'],
-      description: 'Product price after discount',
+      name: errors["400_EMPTY_FIELD"],
+      description: "Product price after discount",
     });
   if (!RoundNumberCheck(priceAfterDiscount))
     return next({
-      name: errors['400_NOT_NUMBER'],
-      description: 'Product price after discount-round',
+      name: errors["400_NOT_NUMBER"],
+      description: "Product price after discount-round",
     });
-  if (!promoId) {
+  if (!promoId && !taxId) {
     if (price !== priceAfterDiscount)
       return next({
-        name: errors['400_WRONG_FIELD'],
-        description: 'Price after discount',
+        name: errors["400_WRONG_FIELD"],
+        description: "Price after discount",
       });
-  } else {
+  } else if (promoId) {
     if (!UuidCheck(promoId))
       return next({
-        name: errors['400_WRONG_DATA_TYPE'],
-        description: 'Promo ID',
+        name: errors["400_WRONG_DATA_TYPE"],
+        description: "Promo ID",
       });
   }
   if (!code)
     return next({
-      name: errors['400_EMPTY_FIELD'],
-      description: 'Product code',
+      name: errors["400_EMPTY_FIELD"],
+      description: "Product code",
     });
   if (!categoryId)
     return next({
-      name: errors['400_EMPTY_FIELD'],
-      description: 'Category ID',
+      name: errors["400_EMPTY_FIELD"],
+      description: "Category ID",
     });
   if (!UuidCheck(categoryId))
     return next({
-      name: errors['400_WRONG_DATA_TYPE'],
-      description: 'Category ID',
+      name: errors["400_WRONG_DATA_TYPE"],
+      description: "Category ID",
     });
   if (!sizeId)
     return next({
-      name: errors['400_EMPTY_FIELD'],
-      description: 'Size ID',
+      name: errors["400_EMPTY_FIELD"],
+      description: "Size ID",
     });
   if (!UuidCheck(sizeId))
     return next({
-      name: errors['400_WRONG_DATA_TYPE'],
-      description: 'Size ID',
+      name: errors["400_WRONG_DATA_TYPE"],
+      description: "Size ID",
     });
   if (!taxId)
     return next({
-      name: errors['400_EMPTY_FIELD'],
-      description: 'Tax ID',
+      name: errors["400_EMPTY_FIELD"],
+      description: "Tax ID",
     });
   if (!UuidCheck(taxId))
     return next({
-      name: errors['400_WRONG_DATA_TYPE'],
-      description: 'Tax ID',
+      name: errors["400_WRONG_DATA_TYPE"],
+      description: "Tax ID",
     });
   if (!productStatusId)
     return next({
-      name: errors['400_EMPTY_FIELD'],
-      description: 'Product status ID',
+      name: errors["400_EMPTY_FIELD"],
+      description: "Product status ID",
     });
   if (!UuidCheck(productStatusId))
     return next({
-      name: errors['400_WRONG_DATA_TYPE'],
-      description: 'Product status ID',
+      name: errors["400_WRONG_DATA_TYPE"],
+      description: "Product status ID",
     });
 
   try {
@@ -133,7 +133,7 @@ const CreateProduct = async (req, res, next) => {
           return next(
             err
               ? err
-              : { name: errors['400_NOT_EXIST'], description: 'Promo ID' }
+              : { name: errors["400_NOT_EXIST"], description: "Promo ID" }
           );
         }
       });
@@ -142,19 +142,19 @@ const CreateProduct = async (req, res, next) => {
         return next(
           err
             ? err
-            : { name: errors['400_NOT_EXIST'], description: 'Category ID' }
+            : { name: errors["400_NOT_EXIST"], description: "Category ID" }
         );
     });
     await FindSize(sizeId, (dataCb, err) => {
       if (!dataCb)
         return next(
-          err ? err : { name: errors['400_NOT_EXIST'], description: 'Size ID' }
+          err ? err : { name: errors["400_NOT_EXIST"], description: "Size ID" }
         );
     });
     await FindTax(taxId, (dataCb, err) => {
       if (!dataCb)
         return next(
-          err ? err : { name: errors['400_NOT_EXIST'], description: 'Tax ID' }
+          err ? err : { name: errors["400_NOT_EXIST"], description: "Tax ID" }
         );
     });
     await FindProductStatus(productStatusId, (dataCb, err) => {
@@ -163,8 +163,8 @@ const CreateProduct = async (req, res, next) => {
           err
             ? err
             : {
-                name: errors['400_NOT_EXIST'],
-                description: 'Product status ID',
+                name: errors["400_NOT_EXIST"],
+                description: "Product status ID",
               }
         );
     });
@@ -181,7 +181,7 @@ const CreateProduct = async (req, res, next) => {
         formatResponse(
           true,
           201,
-          successMessages(successMessageTypes.createData, 'Product'),
+          successMessages(successMessageTypes.createData, "Product"),
           createProduct
         )
       );
