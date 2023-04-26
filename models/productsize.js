@@ -1,21 +1,19 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Promo extends Model {
+  class ProductSize extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Promo.belongsTo(models.Admin, { foreignKey: "createdBy" });
-      Promo.belongsTo(models.Admin, { foreignKey: "updatedBy" });
-
-      Promo.hasMany(models.Order, { foreignKey: "promoId" });
-      Promo.hasMany(models.ProductSize, { foreignKey: "promoId" });
+      ProductSize.belongsTo(models.Product, { foreignKey: "productId" });
+      ProductSize.belongsTo(models.Size, { foreignKey: "sizeId" });
+      ProductSize.belongsTo(models.Promo, { foreignKey: "promoId" });
     }
   }
-  Promo.init(
+  ProductSize.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -28,30 +26,52 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Exist ID!",
         },
       },
-      name: {
-        type: DataTypes.STRING,
+      productId: {
+        type: DataTypes.UUID,
         validate: {
           notEmpty: {
             args: true,
-            msg: "Promo name is not allowed to be empty",
+            msg: "Product ID is not allowed to be empty",
           },
         },
       },
-      description: { type: DataTypes.STRING },
-      code: {
-        type: DataTypes.STRING,
+      sizeId: {
+        type: DataTypes.UUID,
         validate: {
           notEmpty: {
             args: true,
-            msg: "Promo code is not allowed to be empty",
+            msg: "Size ID is not allowed to be empty",
           },
         },
-        unique: {
-          args: true,
-          msg: "Promo code already exists",
+      },
+      stock: {
+        type: DataTypes.FLOAT,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: "Quantity is not allowed to be empty",
+          },
         },
       },
-      photo: { type: DataTypes.STRING },
+      price: {
+        type: DataTypes.FLOAT,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: "Price is not allowed to be empty",
+          },
+        },
+      },
+      priceAfterDiscount: {
+        type: DataTypes.FLOAT,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: "Price after discount is not allowed to be empty",
+          },
+        },
+      },
+      promoId: { type: DataTypes.UUID },
       isActive: {
         type: DataTypes.BOOLEAN,
         validate: {
@@ -61,30 +81,12 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
-      expiredDate: {
-        type: DataTypes.DATE,
-        validate: {
-          notEmpty: {
-            args: true,
-            msg: "Expired date is not allowed to be empty",
-          },
-        },
-      },
-      amount: {
-        type: DataTypes.FLOAT,
-        validate: {
-          notEmpty: {
-            args: true,
-            msg: "Promo amount is not allowed to be empty",
-          },
-        },
-      },
       createdBy: {
         type: DataTypes.UUID,
         validate: {
           notEmpty: {
             args: true,
-            msg: "Admin ID is not allowed to be empty",
+            msg: "User ID is not allowed to be empty",
           },
         },
       },
@@ -93,20 +95,20 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: "Admin ID is not allowed to be empty",
+            msg: "User ID is not allowed to be empty",
           },
         },
       },
     },
     {
       sequelize,
-      modelName: "Promo",
+      modelName: "ProductSize",
       hooks: {
-        beforeCreate: (promo, opt) => {
-          promo.isActive = true;
+        beforeCreate: (productSize, opt) => {
+          productSize.isActive = true;
         },
       },
     }
   );
-  return Promo;
+  return ProductSize;
 };

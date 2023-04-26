@@ -1,7 +1,7 @@
 "use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Products", {
+    await queryInterface.createTable("ProductSizes", {
       id: {
         allowNull: false,
         primaryKey: true,
@@ -9,55 +9,43 @@ module.exports = {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
       },
-      categoryId: {
+      productId: {
         type: Sequelize.UUID,
         references: {
-          model: "Categories",
+          model: "Products",
           key: "id",
         },
         allowNull: false,
-        onDelete: "CASCADE",
-        onUpdate: "CASCADE",
       },
-      taxId: {
+      sizeId: {
         type: Sequelize.UUID,
         references: {
-          model: "Taxes",
+          model: "Sizes",
           key: "id",
         },
         allowNull: false,
-        onDelete: "CASCADE",
-        onUpdate: "CASCADE",
       },
-      productStatusId: {
-        type: Sequelize.UUID,
-        references: {
-          model: "ProductStatuses",
-          key: "id",
-        },
-        allowNull: false,
-        onDelete: "CASCADE",
-        onUpdate: "CASCADE",
-      },
-      name: {
-        type: Sequelize.STRING(100),
-        allowNull: false,
-      },
-      description: {
-        type: Sequelize.TEXT,
-        allowNull: false,
-      },
-      totalStock: {
+      stock: {
         type: Sequelize.FLOAT,
         allowNull: false,
       },
-      isActive: {
-        type: Sequelize.BOOLEAN,
+      price: {
+        type: Sequelize.FLOAT,
         allowNull: false,
       },
-      code: {
-        type: Sequelize.STRING(50),
-        unique: true,
+      priceAfterDiscount: {
+        type: Sequelize.FLOAT,
+        allowNull: false,
+      },
+      promoId: {
+        type: Sequelize.UUID,
+        references: {
+          model: "Promos",
+          key: "id",
+        },
+      },
+      isActive: {
+        type: Sequelize.BOOLEAN,
         allowNull: false,
       },
       createdBy: {
@@ -91,6 +79,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Products");
+    await queryInterface.dropTable("ProductSizes");
   },
 };

@@ -1,5 +1,5 @@
 const { successMessageTypes, errors } = require("../../../constants");
-const { Product } = require("../../../models");
+const { Product, ProductSize } = require("../../../models");
 const formatResponse = require("../../../utils/format-response");
 const { successMessages } = require("../../../utils/messages-generate");
 
@@ -10,6 +10,7 @@ const DeleteProduct = async (req, res, next) => {
     const opt = { where: { id } };
     const product = await Product.findOne(opt);
     if (!product) return next({ name: errors[404] });
+    await DeleteProductSizeSelected(product.id);
     const deleteProduct = await Product.destroy(opt);
     if (!deleteProduct) return next(deleteProduct);
     return res
@@ -27,4 +28,13 @@ const DeleteProduct = async (req, res, next) => {
   }
 };
 
-module.exports = { DeleteProduct };
+const DeleteProductSizeSelected = async (productId) => {
+  try {
+    await ProductSize.destroy({ where: { productId } });
+    return { data: "Product size successfully deleted", error: null };
+  } catch (error) {
+    return { error, data: null };
+  }
+};
+
+module.exports = { DeleteProduct, DeleteProductSizeSelected };
