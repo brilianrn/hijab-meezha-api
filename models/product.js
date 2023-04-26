@@ -9,12 +9,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Product.belongsTo(models.Category, { foreignKey: "categoryId" });
-      Product.belongsTo(models.Size, { foreignKey: "sizeId" });
       Product.belongsTo(models.Tax, { foreignKey: "taxId" });
       Product.belongsTo(models.ProductStatus, {
         foreignKey: "productStatusId",
       });
-      Product.belongsTo(models.Promo, { foreignKey: "promoId" });
       Product.belongsTo(models.Admin, { foreignKey: "updatedBy" });
       Product.belongsTo(models.Admin, { foreignKey: "updatedBy" });
 
@@ -22,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       Product.hasMany(models.ProductImage, { foreignKey: "productId" });
       Product.hasMany(models.Cart, { foreignKey: "productId" });
       Product.hasMany(models.OrderProduct, { foreignKey: "productId" });
-      // Product.hasMany(models.Order, { foreignKey: 'productId' });
+      Product.hasMany(models.ProductSize, { foreignKey: "productId" });
     }
   }
   Product.init(
@@ -47,15 +45,6 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
-      sizeId: {
-        type: DataTypes.UUID,
-        validate: {
-          notEmpty: {
-            args: true,
-            msg: "Size ID is not allowed to be empty",
-          },
-        },
-      },
       taxId: {
         type: DataTypes.UUID,
         validate: {
@@ -74,7 +63,6 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
-      promoId: { type: DataTypes.UUID },
       name: {
         type: DataTypes.STRING,
         validate: {
@@ -93,30 +81,12 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
-      stock: {
+      totalStock: {
         type: DataTypes.FLOAT,
         validate: {
           notEmpty: {
             args: true,
             msg: "Stock is not allowed to be empty",
-          },
-        },
-      },
-      price: {
-        type: DataTypes.FLOAT,
-        validate: {
-          notEmpty: {
-            args: true,
-            msg: "Price is not allowed to be empty",
-          },
-        },
-      },
-      priceAfterDiscount: {
-        type: DataTypes.FLOAT,
-        validate: {
-          notEmpty: {
-            args: true,
-            msg: "Price after discount is not allowed to be empty",
           },
         },
       },

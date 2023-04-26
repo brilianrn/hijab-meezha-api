@@ -7,15 +7,23 @@ const productForms = async (req, _, next) => {
     const schema = Joi.object()
       .keys({
         categoryId: Joi.string().guid().required(),
-        sizeId: Joi.string().guid().required(),
         taxId: Joi.string().guid().required(),
         productStatusId: Joi.string().guid().required(),
         name: Joi.string().required(),
         description: Joi.string().required(),
         code: Joi.string().required(),
-        stock: Joi.number().min(1).required(),
-        price: Joi.number().min(1).required(),
-        priceAfterDiscount: Joi.number().min(1).required(),
+        totalStock: Joi.number().min(0).required(),
+        ProductSizes: Joi.array()
+          .items(
+            Joi.object({
+              promoId: Joi.string().guid(),
+              sizeId: Joi.string().guid().required(),
+              stock: Joi.number().min(0).required(),
+              price: Joi.number().min(0).required(),
+              priceAfterDiscount: Joi.number().min(0),
+            }).required()
+          )
+          .required(),
       })
       .options({ allowUnknown: true });
     const result = schema.validate(req.body);

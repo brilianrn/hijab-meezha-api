@@ -1,6 +1,6 @@
-'use strict';
-const { Model } = require('sequelize');
-const { hashPassword } = require('../utils/bycript');
+"use strict";
+const { Model } = require("sequelize");
+const { hashPassword } = require("../utils/bycript");
 module.exports = (sequelize, DataTypes) => {
   class Admin extends Model {
     /**
@@ -9,24 +9,26 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Admin.hasMany(models.Category, { foreignKey: 'createdBy' });
-      Admin.hasMany(models.Category, { foreignKey: 'updatedBy' });
-      Admin.hasMany(models.Size, { foreignKey: 'createdBy' });
-      Admin.hasMany(models.Size, { foreignKey: 'updatedBy' });
-      Admin.hasMany(models.Promo, { foreignKey: 'createdBy' });
-      Admin.hasMany(models.Promo, { foreignKey: 'updatedBy' });
-      Admin.hasMany(models.Tax, { foreignKey: 'createdBy' });
-      Admin.hasMany(models.Tax, { foreignKey: 'updatedBy' });
-      Admin.hasMany(models.ProductStatus, { foreignKey: 'createdBy' });
-      Admin.hasMany(models.ProductStatus, { foreignKey: 'updatedBy' });
-      Admin.hasMany(models.Product, { foreignKey: 'createdBy' });
-      Admin.hasMany(models.Product, { foreignKey: 'updatedBy' });
-      Admin.hasMany(models.ArticleCategory, { foreignKey: 'createdBy' });
-      Admin.hasMany(models.ArticleCategory, { foreignKey: 'updatedBy' });
-      Admin.hasMany(models.Article, { foreignKey: 'createdBy' });
-      Admin.hasMany(models.Article, { foreignKey: 'updatedBy' });
+      Admin.hasMany(models.Category, { foreignKey: "createdBy" });
+      Admin.hasMany(models.Category, { foreignKey: "updatedBy" });
+      Admin.hasMany(models.Size, { foreignKey: "createdBy" });
+      Admin.hasMany(models.Size, { foreignKey: "updatedBy" });
+      Admin.hasMany(models.Promo, { foreignKey: "createdBy" });
+      Admin.hasMany(models.Promo, { foreignKey: "updatedBy" });
+      Admin.hasMany(models.Tax, { foreignKey: "createdBy" });
+      Admin.hasMany(models.Tax, { foreignKey: "updatedBy" });
+      Admin.hasMany(models.ProductStatus, { foreignKey: "createdBy" });
+      Admin.hasMany(models.ProductStatus, { foreignKey: "updatedBy" });
+      Admin.hasMany(models.Product, { foreignKey: "createdBy" });
+      Admin.hasMany(models.Product, { foreignKey: "updatedBy" });
+      Admin.hasMany(models.ArticleCategory, { foreignKey: "createdBy" });
+      Admin.hasMany(models.ArticleCategory, { foreignKey: "updatedBy" });
+      Admin.hasMany(models.Article, { foreignKey: "createdBy" });
+      Admin.hasMany(models.Article, { foreignKey: "updatedBy" });
+      Admin.hasMany(models.ProductSize, { foreignKey: "createdBy" });
+      Admin.hasMany(models.ProductSize, { foreignKey: "updatedBy" });
 
-      Admin.belongsTo(models.Role, { foreignKey: 'roleId' });
+      Admin.belongsTo(models.Role, { foreignKey: "roleId" });
     }
   }
   Admin.init(
@@ -39,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: false,
         unique: {
           args: true,
-          msg: 'Exist ID!',
+          msg: "Exist ID!",
         },
       },
       roleId: {
@@ -47,7 +49,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Role ID is not allowed to be empty',
+            msg: "Role ID is not allowed to be empty",
           },
         },
       },
@@ -56,7 +58,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Status user is not allowed to be empty',
+            msg: "Status user is not allowed to be empty",
           },
         },
       },
@@ -65,23 +67,23 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Email is not allowed to be empty',
+            msg: "Email is not allowed to be empty",
           },
           isEmail: {
             args: true,
-            msg: 'Invalid email',
+            msg: "Invalid email",
           },
         },
         unique: {
           args: true,
-          msg: 'Email already exists',
+          msg: "Email already exists",
         },
       },
       username: {
         type: DataTypes.STRING,
         unique: {
           args: true,
-          msg: 'Username has already exists',
+          msg: "Username has already exists",
         },
       },
       password: {
@@ -89,11 +91,11 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Password is not allowed to be empty',
+            msg: "Password is not allowed to be empty",
           },
           len: {
             args: [5],
-            msg: 'Your password too short',
+            msg: "Your password too short",
           },
         },
       },
@@ -102,7 +104,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Fullname is not allowed to be empty',
+            msg: "Fullname is not allowed to be empty",
           },
         },
       },
@@ -114,16 +116,16 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Phone number is not allowed to be empty',
+            msg: "Phone number is not allowed to be empty",
           },
           len: {
             args: [8, 12],
-            msg: 'Invalid phone number',
+            msg: "Invalid phone number",
           },
         },
         unique: {
           args: true,
-          msg: 'Phone number has already exists',
+          msg: "Phone number has already exists",
         },
       },
       gender: {
@@ -132,7 +134,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: 'Admin',
+      modelName: "Admin",
       hooks: {
         beforeCreate: (admin, opt) => {
           admin.password = hashPassword(admin.password);

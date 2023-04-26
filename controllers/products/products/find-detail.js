@@ -1,24 +1,38 @@
-const { errors, successMessageTypes } = require('../../../constants');
-const { Product } = require('../../../models');
-const formatResponse = require('../../../utils/format-response');
-const { successMessages } = require('../../../utils/messages-generate');
-const { FindThumbnail, FindImages } = require('./find-all');
+const {
+  errors,
+  successMessageTypes,
+  excludeColumns,
+} = require("../../../constants");
+const { Product, ProductSize, Size } = require("../../../models");
+const formatResponse = require("../../../utils/format-response");
+const { successMessages } = require("../../../utils/messages-generate");
+const { FindThumbnail, FindImages } = require("./find-all");
 
 const FindDetailProduct = async (req, res, next) => {
   const { id } = req.params;
 
   if (!id)
     return next({
-      name: errors['400_EMPTY_FIELD'],
-      description: 'Product ID',
+      name: errors["400_EMPTY_FIELD"],
+      description: "Product ID",
     });
 
   try {
     const opt = {
       where: { id },
-      attributes: {
-        exclude: ['createdAt', 'updatedAt', 'createdBy', 'updatedBy'],
-      },
+      attributes: { exclude: excludeColumns },
+      include: [
+        {
+          model: ProductSize,
+          attributes: { exclude: excludeColumns },
+          include: [
+            {
+              model: Size,
+              attributes: { exclude: excludeColumns },
+            },
+          ],
+        },
+      ],
     };
     const product = await Product.findOne(opt);
     if (!product) return next({ name: errors[404] });
@@ -44,7 +58,7 @@ const FindDetailProduct = async (req, res, next) => {
             formatResponse(
               true,
               200,
-              successMessages(successMessageTypes.findDetail, 'Product'),
+              successMessages(successMessageTypes.findDetail, "Product"),
               tempProd
             )
           );

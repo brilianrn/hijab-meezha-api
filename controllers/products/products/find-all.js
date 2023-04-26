@@ -1,16 +1,26 @@
-const { errors, successMessageTypes } = require('../../../constants');
-const { Product, ProductThumbnail, ProductImage } = require('../../../models');
-const formatResponse = require('../../../utils/format-response');
-const { successMessages } = require('../../../utils/messages-generate');
+const {
+  errors,
+  successMessageTypes,
+  excludeColumns,
+} = require("../../../constants");
+const {
+  Product,
+  ProductThumbnail,
+  ProductImage,
+  ProductSize,
+  Size,
+} = require("../../../models");
+const formatResponse = require("../../../utils/format-response");
+const { successMessages } = require("../../../utils/messages-generate");
 
 const FindAllProduct = async (req, res, next) => {
   const { pageSize, filter, sort } = req.query;
   const page = req.query.page ? +req.query.page : 1;
 
   const limit = pageSize ? +pageSize : 10;
-  const sortObj = sort ? JSON.parse(sort)[0] : '';
-  const sortKey = sortObj ? Object.keys(sortObj)[0] : '';
-  const sortVal = sortKey ? JSON.parse(sort)[0][sortKey].toUpperCase() : '';
+  const sortObj = sort ? JSON.parse(sort)[0] : "";
+  const sortKey = sortObj ? Object.keys(sortObj)[0] : "";
+  const sortVal = sortKey ? JSON.parse(sort)[0][sortKey].toUpperCase() : "";
 
   let totalRows = 0;
   let filterObj = filter ? JSON.parse(filter) : {};
@@ -23,11 +33,21 @@ const FindAllProduct = async (req, res, next) => {
   options = {
     where: filterObj,
     attributes: {
-      exclude: ['updatedAt', 'createdBy', 'updatedBy'],
+      exclude: ["updatedAt", "createdBy", "updatedBy"],
     },
     include: [
-      { model: ProductThumbnail, attributes: ['url'] },
-      { model: ProductImage, attributes: ['url'] },
+      {
+        model: ProductSize,
+        attributes: { exclude: excludeColumns },
+        include: [
+          {
+            model: Size,
+            attributes: { exclude: excludeColumns },
+          },
+        ],
+      },
+      { model: ProductThumbnail, attributes: ["url"] },
+      { model: ProductImage, attributes: ["url"] },
     ],
     ...options,
   };
@@ -36,7 +56,7 @@ const FindAllProduct = async (req, res, next) => {
     const allData = await Product.findAll(filterObj && { where: filterObj });
     totalRows = allData.length;
   } catch (error) {
-    return next({ name: errors['404'] });
+    return next({ name: errors["404"] });
   }
 
   Product.findAll(options)
@@ -49,7 +69,7 @@ const FindAllProduct = async (req, res, next) => {
         formatResponse(
           true,
           200,
-          successMessages(successMessageTypes.findAll, 'Product'),
+          successMessages(successMessageTypes.findAll, "Product"),
           {
             limit,
             totalRows,
@@ -86,7 +106,7 @@ const FindThumbnail = async (productId, done) => {
   try {
     const thumbnail = await ProductThumbnail.findOne({
       where: { productId },
-      attributes: ['url'],
+      attributes: ["url"],
     });
     if (!thumbnail) return done(null, false);
     return done(thumbnail, null);
@@ -99,7 +119,7 @@ const FindImages = async (productId, done) => {
   try {
     const images = await ProductImage.findAll({
       where: { productId },
-      attributes: ['url'],
+      attributes: ["url"],
     });
     if (!images) return done(null, false);
     return done(images, null);

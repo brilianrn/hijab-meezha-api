@@ -5,38 +5,27 @@ const {
   Tax,
   ProductStatus,
   Promo,
+  ProductSize,
   Product,
 } = require("../../../models");
 const formatResponse = require("../../../utils/format-response");
 const { successMessages } = require("../../../utils/messages-generate");
+const { FormatProductSize } = require("./create");
+const { DeleteProductSizeSelected } = require("./delete");
 
 const UpdateProduct = async (req, res, next) => {
-  const { categoryId, sizeId, taxId, promoId, productStatusId } = req.body;
+  const { categoryId, taxId, productStatusId, ProductSizes } = req.body;
   const { id } = req.currentAdmin;
 
+  console.log(req.body, " HALOoooo");
+
   try {
-    if (promoId)
-      await FindPromo(promoId, (dataCb, err) => {
-        if (!dataCb) {
-          return next(
-            err
-              ? err
-              : { name: errors["400_NOT_EXIST"], description: "Promo ID" }
-          );
-        }
-      });
     await FindCategory(categoryId, (dataCb, err) => {
       if (!dataCb)
         return next(
           err
             ? err
             : { name: errors["400_NOT_EXIST"], description: "Category ID" }
-        );
-    });
-    await FindSize(sizeId, (dataCb, err) => {
-      if (!dataCb)
-        return next(
-          err ? err : { name: errors["400_NOT_EXIST"], description: "Size ID" }
         );
     });
     await FindTax(taxId, (dataCb, err) => {
@@ -59,9 +48,35 @@ const UpdateProduct = async (req, res, next) => {
 
     const optProduct = { where: { id: req.params.id } };
     const findOne = await Product.findOne(optProduct);
+    const tax = await FindTax(taxId, (dataCb, err) => {
+      if (!dataCb) {
+        return next(
+          err ? err : { name: errors["400_NOT_EXIST"], description: "Tax ID" }
+        );
+      }
+      return dataCb;
+    });
+    const { data, error } = await FormatProductSize(
+      ProductSizes,
+      tax.amount,
+      req.params.id,
+      id
+    );
     if (!findOne) {
       return next({ name: errors[404] });
     }
+    if (error) {
+      return next(
+        err
+          ? err
+          : {
+              name: errors[400],
+              description: "Invalid create product",
+            }
+      );
+    }
+    await DeleteProductSizeSelected(req.params.id);
+    await ProductSize.bulkCreate(data);
     await Product.update(
       {
         ...req.body,
@@ -116,6 +131,7 @@ const FindTax = async (id, done) => {
 };
 
 const FindProductStatus = async (id, done) => {
+  console.log(id, " INI IDdddd");
   try {
     const productStatus = await ProductStatus.findOne({ where: { id } });
     if (!productStatus) return done(null, false);

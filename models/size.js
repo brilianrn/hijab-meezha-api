@@ -1,5 +1,5 @@
-'use strict';
-const { Model } = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Size extends Model {
     /**
@@ -8,9 +8,11 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Size.belongsTo(models.Admin, { foreignKey: 'createdBy' });
-      Size.belongsTo(models.Admin, { foreignKey: 'updatedBy' });
-      Size.belongsTo(models.Category, { foreignKey: 'categoryId' });
+      Size.belongsTo(models.Admin, { foreignKey: "createdBy" });
+      Size.belongsTo(models.Admin, { foreignKey: "updatedBy" });
+      Size.belongsTo(models.Category, { foreignKey: "categoryId" });
+
+      Size.hasMany(models.ProductSize, { foreignKey: "sizeId" });
     }
   }
   Size.init(
@@ -23,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: false,
         unique: {
           args: true,
-          msg: 'Exist ID!',
+          msg: "Exist ID!",
         },
       },
       name: {
@@ -31,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Size name is not allowed to be empty',
+            msg: "Size name is not allowed to be empty",
           },
         },
       },
@@ -40,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Category ID is not allowed to be empty',
+            msg: "Category ID is not allowed to be empty",
           },
         },
       },
@@ -49,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'OTP status is not allowed to be empty',
+            msg: "OTP status is not allowed to be empty",
           },
         },
       },
@@ -58,7 +60,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Admin ID is not allowed to be empty',
+            msg: "Admin ID is not allowed to be empty",
           },
         },
       },
@@ -67,14 +69,14 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Admin ID is not allowed to be empty',
+            msg: "Admin ID is not allowed to be empty",
           },
         },
       },
     },
     {
       sequelize,
-      modelName: 'Size',
+      modelName: "Size",
       hooks: {
         beforeCreate: (size, opt) => {
           size.isActive = true;

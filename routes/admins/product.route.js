@@ -79,7 +79,7 @@ route.get("/:id", productIdRequired, FindDetailProduct);
 
 route.use(AdminAuthorization("Super Admin"));
 
-route.post("/", CreateProduct);
+route.post("/", productForms, CreateProduct);
 route.put("/:id", productIdRequired, productForms, UpdateProduct);
 route.delete("/:id", productIdRequired, DeleteProduct);
 
