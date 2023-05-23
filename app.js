@@ -19,7 +19,7 @@ app.use(helmet());
 app.use(morgan("tiny"));
 app.use(multer({ storage: Storage }).any());
 
-app.use("/api/v1", routes);
+app.use(routes);
 app.use(errorHandler);
 
 module.exports = app;
