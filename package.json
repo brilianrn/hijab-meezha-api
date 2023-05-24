@@ -36,7 +36,8 @@
     "test": "cross-env NODE_ENV=test npx jest --detectOpenHandles --forceExit --coverage",
     "dev": "cross-env NODE_ENV=development nodemon bin/http.js",
     "sit": "cross-env NODE_ENV=sit nodemon bin/http.js",
-    "staging": "cross-env NODE_ENV=staging nodemon bin/http.js"
+    "staging": "cross-env NODE_ENV=staging nodemon bin/http.js",
+    "clear-cache": "npm cache clean --force && npm cache verify"
   },
   "repository": {
     "type": "git",

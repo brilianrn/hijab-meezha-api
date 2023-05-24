@@ -17,8 +17,6 @@ const UpdateProduct = async (req, res, next) => {
   const { categoryId, taxId, productStatusId, ProductSizes } = req.body;
   const { id } = req.currentAdmin;
 
-  console.log(req.body, " HALOoooo");
-
   try {
     await FindCategory(categoryId, (dataCb, err) => {
       if (!dataCb)
