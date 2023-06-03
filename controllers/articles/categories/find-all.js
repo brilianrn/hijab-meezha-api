@@ -1,44 +1,35 @@
-const { errors, successMessageTypes } = require('../../../constants');
-const { ArticleCategory } = require('../../../models');
-const formatResponse = require('../../../utils/format-response');
-const { successMessages } = require('../../../utils/messages-generate');
+const { errors, successMessageTypes } = require("../../../constants");
+const { ArticleCategory } = require("../../../models");
+const formatResponse = require("../../../utils/format-response");
+const { successMessages } = require("../../../utils/messages-generate");
 
 const FindAllArticleCategory = async (req, res, next) => {
-  console.log('first HALOO');
   const { pageSize, filter, sort } = req.query;
 
   const page = req.query.page ? +req.query.page : 1;
   const limit = pageSize ? +pageSize : 10;
-  const sortObj = sort ? JSON.parse(sort)[0] : '';
-  const sortKey = sortObj ? Object.keys(sortObj)[0] : '';
-  const sortVal = sortKey ? JSON.parse(sort)[0][sortKey].toUpperCase() : '';
+  // const sortObj = sort ? JSON.parse(sort)[0] : "";
+  // const sortKey = sortObj ? Object.keys(sortObj)[0] : "";
+  // const sortVal = sortKey ? JSON.parse(sort)[0][sortKey].toUpperCase() : "";
 
   let totalRows = 0;
   let filterObj = filter ? JSON.parse(filter) : {};
-  let options = {
-    order: sortKey && sortVal ? [[sortKey, sortVal]] : [],
-    offset: page === 1 ? 0 : (page - 1) * limit,
-  };
-
-  // options = {
-  //   where: filterObj,
-  //   attributes: {
-  //     exclude: ['createdAt', 'updatedAt', 'createdBy', 'updatedBy'],
-  //   },
-  //   ...options,
+  // let options = {
+  //   order: sortKey && sortVal ? [[sortKey, sortVal]] : [],
+  //   offset: page === 1 ? 0 : (page - 1) * limit,
   // };
 
   try {
     const allData = await ArticleCategory.findAll();
     totalRows = allData.length;
   } catch (error) {
-    return next({ name: errors['404'] });
+    return next({ name: errors["404"] });
   }
 
   ArticleCategory.findAll({
     where: filterObj,
     attributes: {
-      exclude: ['createdAt', 'updatedAt', 'createdBy', 'updatedBy'],
+      exclude: ["createdAt", "updatedAt", "createdBy", "updatedBy"],
     },
   })
     .then((data) => {
@@ -52,7 +43,7 @@ const FindAllArticleCategory = async (req, res, next) => {
           formatResponse(
             true,
             200,
-            successMessages(successMessageTypes.findAll, 'ArticleCategory'),
+            successMessages(successMessageTypes.findAll, "ArticleCategory"),
             {
               totalRows,
               totalPage,
@@ -91,7 +82,7 @@ const FindAllArticleCategoryForDropDown = async (_, res, next) => {
   try {
     const opt = {
       attributes: {
-        exclude: ['createdAt', 'updatedAt', 'createdBy', 'updatedBy'],
+        exclude: ["createdAt", "updatedAt", "createdBy", "updatedBy"],
       },
     };
     const articleCtg = await ArticleCategory.findAll(opt);
@@ -103,7 +94,7 @@ const FindAllArticleCategoryForDropDown = async (_, res, next) => {
         formatResponse(
           true,
           200,
-          successMessages(successMessageTypes.findAll, 'ArticleCategory'),
+          successMessages(successMessageTypes.findAll, "ArticleCategory"),
           articleCtg
         )
       );

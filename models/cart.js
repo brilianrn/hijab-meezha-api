@@ -1,16 +1,11 @@
-'use strict';
-const { Model } = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Cart extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      Cart.belongsTo(models.Product, { foreignKey: 'productId' });
-      Cart.belongsTo(models.User, { foreignKey: 'userId' });
-      Cart.belongsTo(models.Category, { foreignKey: 'categoryId' });
+      Cart.belongsTo(models.ProductSize, { foreignKey: "productSizeId" });
+      Cart.belongsTo(models.User, { foreignKey: "userId" });
+      Cart.belongsTo(models.Category, { foreignKey: "categoryId" });
     }
   }
   Cart.init(
@@ -23,15 +18,15 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: false,
         unique: {
           args: true,
-          msg: 'Exist ID!',
+          msg: "Exist ID!",
         },
       },
-      productId: {
+      productSizeId: {
         type: DataTypes.UUID,
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Product ID is not allowed to be empty',
+            msg: "Product Size ID is not allowed to be empty",
           },
         },
       },
@@ -40,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'User ID is not allowed to be empty',
+            msg: "User ID is not allowed to be empty",
           },
         },
       },
@@ -49,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Category ID is not allowed to be empty',
+            msg: "Category ID is not allowed to be empty",
           },
         },
       },
@@ -58,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Quantity is not allowed to be empty',
+            msg: "Quantity is not allowed to be empty",
           },
         },
       },
@@ -67,14 +62,14 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Status active is not allowed to be empty',
+            msg: "Status active is not allowed to be empty",
           },
         },
       },
     },
     {
       sequelize,
-      modelName: 'Cart',
+      modelName: "Cart",
       hooks: {
         beforeCreate: (cart, opt) => {
           cart.isActive = true;

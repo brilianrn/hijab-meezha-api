@@ -8,8 +8,10 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      OrderProduct.belongsTo(models.Product, { foreignKey: "productId" });
       OrderProduct.belongsTo(models.Order, { foreignKey: "orderId" });
+      OrderProduct.belongsTo(models.ProductSize, {
+        foreignKey: "productSizeId",
+      });
     }
   }
   OrderProduct.init(
@@ -25,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Exist ID!",
         },
       },
-      productId: {
+      productSizeId: {
         type: DataTypes.UUID,
         validate: {
           notEmpty: {

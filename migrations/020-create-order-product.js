@@ -13,10 +13,10 @@ module.exports = {
         type: Sequelize.FLOAT,
         allowNull: false,
       },
-      productId: {
+      productSizeId: {
         type: Sequelize.UUID,
         references: {
-          model: "Products",
+          model: "ProductSizes",
           key: "id",
         },
         allowNull: false,

@@ -1,4 +1,4 @@
-const app = require('../app');
+const app = require("../app");
 const port = process.env.PORT || 4000;
 const env = process.env.NODE_ENV;
 

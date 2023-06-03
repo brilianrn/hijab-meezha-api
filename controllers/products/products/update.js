@@ -129,7 +129,6 @@ const FindTax = async (id, done) => {
 };
 
 const FindProductStatus = async (id, done) => {
-  console.log(id, " INI IDdddd");
   try {
     const productStatus = await ProductStatus.findOne({ where: { id } });
     if (!productStatus) return done(null, false);

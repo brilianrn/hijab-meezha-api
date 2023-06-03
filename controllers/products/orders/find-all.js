@@ -15,6 +15,7 @@ const {
   Promo,
   Product,
   ProductThumbnail,
+  ProductSize,
   ProductImage,
 } = require("../../../models");
 const formatResponse = require("../../../utils/format-response");
@@ -64,12 +65,22 @@ const FindAllUserOrders = async (req, res, next) => {
         attributes: ["id", "qty"],
         include: [
           {
-            model: Product,
+            model: ProductSize,
             attributes: { exclude: excludeColumns },
             include: [
-              { model: ProductThumbnail, attributes: ["url"] },
-              { model: ProductImage, attributes: ["url"] },
+              {
+                model: Product,
+                attributes: { exclude: excludeColumns },
+                include: [
+                  { model: ProductThumbnail, attributes: ["url"] },
+                  { model: ProductImage, attributes: ["url"] },
+                ],
+              },
             ],
+            // include: [
+            //   { model: ProductThumbnail, attributes: ["url"] },
+            //   { model: ProductImage, attributes: ["url"] },
+            // ],
           },
         ],
       },

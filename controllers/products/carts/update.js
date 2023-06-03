@@ -1,62 +1,72 @@
-const { errors, successMessageTypes } = require('../../../constants');
-const { Product, Cart } = require('../../../models');
-const { UuidCheck, RoundNumberCheck } = require('../../../utils/check-fields');
-const formatResponse = require('../../../utils/format-response');
-const { successMessages } = require('../../../utils/messages-generate');
+const {
+  errors,
+  successMessageTypes,
+  excludeColumns,
+} = require("../../../constants");
+const { Product, Cart, ProductSize } = require("../../../models");
+const { UuidCheck, RoundNumberCheck } = require("../../../utils/check-fields");
+const formatResponse = require("../../../utils/format-response");
+const { successMessages } = require("../../../utils/messages-generate");
 
 const UpdateCart = async (req, res, next) => {
-  const { productId, qty } = req.body;
+  const { productSizeId, qty } = req.body;
   const { id } = req.currentUser;
 
-  if (!productId)
+  if (!productSizeId)
     return next({
-      name: errors['400_EMPTY_FIELD'],
-      description: 'Product ID',
+      name: errors["400_EMPTY_FIELD"],
+      description: "Product ID",
     });
-  if (!UuidCheck(productId))
+  if (!UuidCheck(productSizeId))
     return next({
-      name: errors['400_WRONG_DATA_TYPE'],
-      description: 'Product ID',
+      name: errors["400_WRONG_DATA_TYPE"],
+      description: "Product ID",
     });
   if (!qty)
     return next({
-      name: errors['400_EMPTY_FIELD'],
-      description: 'Product QTY',
+      name: errors["400_EMPTY_FIELD"],
+      description: "Product QTY",
     });
   if (!RoundNumberCheck(qty))
     return next({
-      name: errors['400_NOT_NUMBER'],
-      description: 'Product QTY-round',
+      name: errors["400_NOT_NUMBER"],
+      description: "Product QTY-round",
     });
 
   try {
-    const product = await Product.findOne({ where: { id: productId } });
-    if (!product)
+    const productSize = await ProductSize.findOne({
+      where: { id: productSizeId },
+      attributes: { exclude: excludeColumns },
+      include: [{ model: Product, attributes: { exclude: excludeColumns } }],
+    });
+    if (!productSize.Product)
       return next({
-        name: errors['400_NOT_EXIST'],
-        description: 'Product',
+        name: errors["400_NOT_EXIST"],
+        description: "Product",
       });
-    if (product.stock < qty)
+    if (productSize.stock < qty)
       return next({
-        name: errors['400_WRONG_FIELD'],
-        description: 'Quantity',
+        name: errors["400"],
+        description: `Quantity max ${productSize.stock}`,
       });
 
-    const findCart = await Cart.findOne({ where: { userId: id, productId } });
+    const findCart = await Cart.findOne({
+      where: { userId: id, productSizeId },
+    });
     if (!findCart)
       return next({
-        name: errors['400_NOT_EXIST'],
-        description: 'Cart',
+        name: errors["400_NOT_EXIST"],
+        description: "Cart",
       });
 
     await Cart.update({ qty }, { where: { id: findCart.id } });
     return res
-      .status(201)
+      .status(200)
       .json(
         formatResponse(
           true,
-          201,
-          successMessages(successMessageTypes.updateData, 'Cart'),
+          200,
+          successMessages(successMessageTypes.updateData, "Cart"),
           { ...findCart.dataValues, qty }
         )
       );

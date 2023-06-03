@@ -1,12 +1,18 @@
-const { errors, successMessageTypes } = require('../../../constants');
 const {
-  Product,
+  errors,
+  successMessageTypes,
+  excludeColumns,
+} = require("../../../constants");
+const {
+  ProductSize,
   ProductThumbnail,
   ProductImage,
   Cart,
-} = require('../../../models');
-const formatResponse = require('../../../utils/format-response');
-const { successMessages } = require('../../../utils/messages-generate');
+  Size,
+  Product,
+} = require("../../../models");
+const formatResponse = require("../../../utils/format-response");
+const { successMessages } = require("../../../utils/messages-generate");
 
 const FindAllUserCart = async (req, res, next) => {
   const { id } = req.currentUser;
@@ -14,9 +20,9 @@ const FindAllUserCart = async (req, res, next) => {
   const page = req.query.page ? +req.query.page : 1;
 
   const limit = pageSize ? +pageSize : 10;
-  const sortObj = sort ? JSON.parse(sort)[0] : '';
-  const sortKey = sortObj ? Object.keys(sortObj)[0] : '';
-  const sortVal = sortKey ? JSON.parse(sort)[0][sortKey].toUpperCase() : '';
+  const sortObj = sort ? JSON.parse(sort)[0] : "";
+  const sortKey = sortObj ? Object.keys(sortObj)[0] : "";
+  const sortVal = sortKey ? JSON.parse(sort)[0][sortKey].toUpperCase() : "";
 
   let totalRows = 0;
   let filterObj = filter ? JSON.parse(filter) : {};
@@ -30,17 +36,22 @@ const FindAllUserCart = async (req, res, next) => {
   options = {
     where: filterObj,
     attributes: {
-      exclude: ['updatedAt', 'createdBy', 'updatedBy'],
+      exclude: ["updatedAt", "createdBy", "updatedBy"],
     },
     include: [
       {
-        model: Product,
-        attributes: {
-          exclude: ['updatedAt', 'createdAt', 'createdBy', 'updatedBy'],
-        },
+        model: ProductSize,
+        attributes: { exclude: excludeColumns },
         include: [
-          { model: ProductThumbnail, attributes: ['url'] },
-          { model: ProductImage, attributes: ['url'] },
+          { model: Size, attributes: ["name"] },
+          {
+            model: Product,
+            attributes: { exclude: excludeColumns },
+            include: [
+              { model: ProductThumbnail, attributes: ["url"] },
+              { model: ProductImage, attributes: ["url"] },
+            ],
+          },
         ],
       },
     ],
@@ -51,7 +62,7 @@ const FindAllUserCart = async (req, res, next) => {
     const allData = await Cart.findAll(filterObj && { where: filterObj });
     totalRows = allData.length;
   } catch (error) {
-    return next({ name: errors['404'] });
+    return next({ name: errors["404"] });
   }
 
   Cart.findAll(options)
@@ -64,7 +75,7 @@ const FindAllUserCart = async (req, res, next) => {
         formatResponse(
           true,
           200,
-          successMessages(successMessageTypes.findAll, 'Cart'),
+          successMessages(successMessageTypes.findAll, "Cart"),
           {
             limit,
             totalRows,

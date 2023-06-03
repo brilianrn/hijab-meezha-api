@@ -14,6 +14,8 @@ const {
   Address,
   Category,
   Promo,
+  ProductSize,
+  Size,
 } = require("../../../models");
 const formatResponse = require("../../../utils/format-response");
 const { successMessages } = require("../../../utils/messages-generate");
@@ -30,11 +32,18 @@ const FindDetailOrder = async (req, res, next) => {
           attributes: ["id", "qty"],
           include: [
             {
-              model: Product,
+              model: ProductSize,
               attributes: { exclude: excludeColumns },
               include: [
-                { model: ProductThumbnail, attributes: ["url"] },
-                { model: ProductImage, attributes: ["url"] },
+                {
+                  model: Product,
+                  attributes: { exclude: excludeColumns },
+                  include: [
+                    { model: ProductThumbnail, attributes: ["url"] },
+                    { model: ProductImage, attributes: ["url"] },
+                  ],
+                },
+                { model: Size, attributes: ["name"] },
               ],
             },
           ],
