@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Carts', {
+    await queryInterface.createTable("Carts", {
       id: {
         allowNull: false,
         primaryKey: true,
@@ -9,31 +9,29 @@ module.exports = {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
       },
-      productId: {
+      productSizeId: {
         type: Sequelize.UUID,
         references: {
-          model: 'Products',
-          key: 'id',
+          model: "ProductSizes",
+          key: "id",
         },
         allowNull: false,
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
       },
       userId: {
         type: Sequelize.UUID,
         references: {
-          model: 'Users',
-          key: 'id',
+          model: "Users",
+          key: "id",
         },
         allowNull: false,
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
       },
       categoryId: {
         type: Sequelize.UUID,
         references: {
-          model: 'Categories',
-          key: 'id',
+          model: "Categories",
+          key: "id",
         },
       },
       qty: {
@@ -55,6 +53,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Carts');
+    await queryInterface.dropTable("Carts");
   },
 };

@@ -14,7 +14,7 @@ const createOrderChecking = async (req, _, next) => {
         products: Joi.array()
           .items(
             Joi.object({
-              productId: Joi.string().guid().required(),
+              productSizeId: Joi.string().guid().required(),
               qty: Joi.number().min(1).required(),
             }).required()
           )
