@@ -37,7 +37,8 @@
     "dev": "cross-env NODE_ENV=development nodemon bin/http.js",
     "sit": "cross-env NODE_ENV=sit nodemon bin/http.js",
     "staging": "cross-env NODE_ENV=staging nodemon bin/http.js",
-    "clear-cache": "npm cache clean --force && npm cache verify"
+    "clear-cache": "npm cache clean --force && npm cache verify",
+    "pull-sit": "git pull origin sit-v1.0.0 --no-ff"
   },
   "repository": {
     "type": "git",
